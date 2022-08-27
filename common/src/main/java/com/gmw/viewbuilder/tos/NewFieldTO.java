@@ -1,15 +1,14 @@
 package com.gmw.viewbuilder.tos;
 
 import com.gmw.viewbuilder.enums.FieldTypeEnum;
-import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-@Builder
-public class FieldTO {
+public class NewFieldTO {
     private String name;
+    private String description;
     private FieldTypeEnum fieldType;
     private List<String> values;
 }

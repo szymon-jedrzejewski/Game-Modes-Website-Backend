@@ -12,8 +12,8 @@
         <module>api</module>
         <module>core</module>
         <module>environment</module>
-        <module>persistence</module>
         <module>common</module>
+        <module>databaseinteractions</module>
     </modules>
 
     <properties>

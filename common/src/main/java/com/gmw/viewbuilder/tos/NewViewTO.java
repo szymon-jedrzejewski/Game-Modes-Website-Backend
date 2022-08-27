@@ -1,4 +1,4 @@
-package com.gmw.api.rest.tos;
+package com.gmw.viewbuilder.tos;
 
 import lombok.Data;
 
@@ -7,5 +7,5 @@ import java.util.List;
 @Data
 public class NewViewTO {
     Long gameId;
-    List<FieldTO> fields;
+    List<NewFieldTO> fields;
 }

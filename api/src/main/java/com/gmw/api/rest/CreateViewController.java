@@ -1,8 +1,7 @@
 package com.gmw.api.rest;
 
 import com.gmw.api.rest.activity.view.CreateViewActivity;
-import com.gmw.api.rest.tos.NewViewTO;
-import com.gmw.viewbuilder.tos.ViewTO;
+import com.gmw.viewbuilder.tos.NewViewTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

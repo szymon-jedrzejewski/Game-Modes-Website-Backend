@@ -1,7 +1,7 @@
 package com.gmw.api.rest.activity.view;
 
 import com.gmw.api.rest.activity.Activity;
-import com.gmw.api.rest.tos.NewViewTO;
+import com.gmw.viewbuilder.tos.NewViewTO;
 
 public class CreateViewActivity extends Activity<Void> {
 
@@ -13,7 +13,6 @@ public class CreateViewActivity extends Activity<Void> {
 
     @Override
     protected Void realExecute() {
-
         return null;
     }
 }
