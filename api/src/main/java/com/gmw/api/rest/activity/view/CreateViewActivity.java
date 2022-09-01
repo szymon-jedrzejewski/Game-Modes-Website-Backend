@@ -1,6 +1,7 @@
 package com.gmw.api.rest.activity.view;
 
 import com.gmw.api.rest.activity.Activity;
+import com.gmw.viewbuilder.services.DBViewBuilderService;
 import com.gmw.viewbuilder.tos.NewViewTO;
 
 public class CreateViewActivity extends Activity<Void> {
@@ -13,6 +14,9 @@ public class CreateViewActivity extends Activity<Void> {
 
     @Override
     protected Void realExecute() {
+        DBViewBuilderService viewBuilderService = getServiceManager().getViewBuilderService();
+        viewBuilderService.createView(newView);
+
         return null;
     }
 }
