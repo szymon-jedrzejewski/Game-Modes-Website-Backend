@@ -1,8 +1,8 @@
-package com.gmw.viewbuilder.services.impl;
+package com.gmw.viewbuilder.services.viewbuilder.impl;
 
-import com.gmw.viewbuilder.PersistenceManager;
+import com.gmw.PersistenceManager;
 import com.gmw.viewbuilder.services.DBService;
-import com.gmw.viewbuilder.services.DBViewBuilderReadService;
+import com.gmw.viewbuilder.services.viewbuilder.DBViewBuilderReadService;
 import com.gmw.viewbuilder.tos.ExistingViewTO;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.gmw.viewbuilder.services;
+package com.gmw.viewbuilder.services.viewbuilder;
 
 import com.gmw.viewbuilder.tos.ExistingViewTO;
 

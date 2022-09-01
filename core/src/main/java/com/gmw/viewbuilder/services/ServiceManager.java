@@ -1,18 +1,10 @@
 package com.gmw.viewbuilder.services;
 
-import com.gmw.viewbuilder.PersistenceManager;
-import com.gmw.viewbuilder.services.impl.DBViewBuilderReadServiceImpl;
-import com.gmw.viewbuilder.services.impl.DBViewBuilderServiceImpl;
+import com.gmw.viewbuilder.services.viewbuilder.DBViewBuilderReadService;
+import com.gmw.viewbuilder.services.viewbuilder.DBViewBuilderService;
 
-public final class ServiceManager {
+public interface ServiceManager {
 
-    private PersistenceManager persistenceManager;
-
-    public DBViewBuilderService getViewBuilderService() {
-        return new DBViewBuilderServiceImpl(persistenceManager);
-    }
-
-    public DBViewBuilderReadService getViewBuilderReadService() {
-        return new DBViewBuilderReadServiceImpl(persistenceManager);
-    }
+    DBViewBuilderService getDbViewBuilderService();
+    DBViewBuilderReadService getDbViewBuilderReadService();
 }

@@ -1,4 +1,4 @@
-package com.gmw.viewbuilder;
+package com.gmw;
 
 import java.util.List;
 

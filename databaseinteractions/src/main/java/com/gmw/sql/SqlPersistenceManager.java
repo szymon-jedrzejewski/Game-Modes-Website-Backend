@@ -1,14 +1,12 @@
-package com.gmw.viewbuilder;
+package com.gmw.sql;
 
-import java.sql.Connection;
+import com.gmw.PersistenceManager;
+
 import java.util.List;
 
-public class SqlPersistenceManager implements PersistenceManager{
+public class SqlPersistenceManager implements PersistenceManager {
 
-    private final Connection connection;
-
-    public SqlPersistenceManager(Connection connection) {
-        this.connection = connection;
+    public SqlPersistenceManager() {
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.gmw.viewbuilder.services;
 
-import com.gmw.viewbuilder.PersistenceManager;
+import com.gmw.PersistenceManager;
 
 public abstract class DBService {
 
