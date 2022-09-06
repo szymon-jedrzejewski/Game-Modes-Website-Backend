@@ -17,8 +17,16 @@ public class View {
     @OneToMany(mappedBy = "view")
     private List<Field> fields;
 
+    public View() {
+    }
+
     public View(Long id, Long gameId, List<Field> fields) {
         this.id = id;
+        this.gameId = gameId;
+        this.fields = fields;
+    }
+
+    public View(Long gameId, List<Field> fields) {
         this.gameId = gameId;
         this.fields = fields;
     }

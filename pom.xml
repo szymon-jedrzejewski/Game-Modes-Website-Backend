@@ -13,7 +13,7 @@
         <module>core</module>
         <module>environment</module>
         <module>common</module>
-        <module>persistence</module>
+        <module>databaseinteractions</module>
     </modules>
 
     <properties>
