@@ -7,6 +7,6 @@ import java.util.List;
 @Data
 public class ExistingViewTO {
     private Long id;
-    Long gameId;
-    List<ExistingFieldTO> fields;
+    private Long gameId;
+    private List<ExistingFieldTO> fields;
 }

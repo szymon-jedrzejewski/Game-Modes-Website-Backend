@@ -1,7 +1,8 @@
 package com.gmw.api.rest.activity.view;
 
 import com.gmw.api.rest.activity.Activity;
-import com.gmw.viewbuilder.services.ServiceManagerFactory;
+import com.gmw.viewbuilder.services.ServiceManager;
+import com.gmw.viewbuilder.services.SqlServiceManager;
 import com.gmw.viewbuilder.services.viewbuilder.DBViewBuilderService;
 import com.gmw.viewbuilder.tos.NewViewTO;
 import org.springframework.http.HttpStatus;
@@ -16,8 +17,9 @@ public class CreateViewActivity extends Activity<Void> {
 
     @Override
     protected Void realExecute() {
-        DBViewBuilderService viewBuilderService = ServiceManagerFactory.getSqlServiceManager().getDbViewBuilderService();
-        viewBuilderService.createView(newView);
+        ServiceManager serviceManager = new SqlServiceManager();
+        DBViewBuilderService service = serviceManager.getDbViewBuilderService();
+        service.createView(newView);
         status = HttpStatus.OK;
         return null;
     }

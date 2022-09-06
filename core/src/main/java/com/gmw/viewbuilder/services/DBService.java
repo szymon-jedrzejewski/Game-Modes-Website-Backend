@@ -1,16 +1,16 @@
 package com.gmw.viewbuilder.services;
 
-import com.gmw.PersistenceManager;
+import com.gmw.repository.RepositoryManager;
 
 public abstract class DBService {
 
-    private final PersistenceManager persistenceManager;
+    private final RepositoryManager repositoryManager;
 
-    public DBService(PersistenceManager persistenceManager) {
-        this.persistenceManager = persistenceManager;
+    public DBService(RepositoryManager repositoryManager) {
+        this.repositoryManager = repositoryManager;
     }
 
-    protected PersistenceManager getPersistenceManager() {
-        return this.persistenceManager;
+    protected RepositoryManager getRepositoryManager() {
+        return repositoryManager;
     }
 }
