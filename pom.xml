@@ -13,7 +13,7 @@
         <module>core</module>
         <module>environment</module>
         <module>common</module>
-        <module>databaseinteractions</module>
+        <module>jdbc</module>
     </modules>
 
     <properties>
@@ -38,12 +38,6 @@
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
