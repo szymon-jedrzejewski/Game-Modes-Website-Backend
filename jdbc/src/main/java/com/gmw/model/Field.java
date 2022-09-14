@@ -13,16 +13,22 @@ public class Field extends Table implements Persistable {
     private String description;
     private FieldTypeEnum fieldType;
     private String values;
-    private View view;
+    private Long viewId;
 
-    public Field(String tableName, Long id, String name, String description, FieldTypeEnum fieldType, String values, View view) {
+    public Field(String tableName,
+                 Long id,
+                 String name,
+                 String description,
+                 FieldTypeEnum fieldType,
+                 String values,
+                 Long viewId) {
         super(tableName);
         this.id = id;
         this.name = name;
         this.description = description;
         this.fieldType = fieldType;
         this.values = values;
-        this.view = view;
+        this.viewId = viewId;
     }
     public Field(String tableName) {
         super(tableName);

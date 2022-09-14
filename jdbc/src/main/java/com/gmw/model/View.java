@@ -1,9 +1,9 @@
 package com.gmw.model;
 
 import com.gmw.persistence.Persistable;
-import lombok.*;
-
-import java.util.List;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -13,18 +13,15 @@ public class View extends Table implements Persistable {
     @Setter(AccessLevel.NONE)
     private Long id;
     private Long gameId;
-    private List<Field> fields;
 
-    public View(String tableName, Long id, Long gameId, List<Field> fields) {
+    public View(String tableName, Long id, Long gameId) {
         super(tableName);
         this.id = id;
         this.gameId = gameId;
-        this.fields = fields;
     }
 
-    public View(String tableName, Long gameId, List<Field> fields) {
+    public View(String tableName, Long gameId) {
         super(tableName);
         this.gameId = gameId;
-        this.fields = fields;
     }
 }
