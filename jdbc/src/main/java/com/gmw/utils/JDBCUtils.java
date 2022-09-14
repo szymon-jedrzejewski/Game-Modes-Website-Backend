@@ -9,7 +9,7 @@ public class JDBCUtils {
     private JDBCUtils() {
     }
 
-    private static Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:postgresql://localhost:5432/modes", "money", "money");
     }
 }

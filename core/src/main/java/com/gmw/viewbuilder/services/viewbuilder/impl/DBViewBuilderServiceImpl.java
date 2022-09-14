@@ -24,7 +24,7 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
     public void createView(NewViewTO view) {
         Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepositoryManager();
         List<Field> fields = mapFields(view.getFields());
-        View repositoryView = new View(view.getGameId(), fields);
+        View repositoryView = new View("views", view.getGameId(), fields);
 
         viewRepositoryManager.create(repositoryView);
     }
@@ -43,7 +43,7 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
         List<Field> fields = new ArrayList<>();
 
         newFields.forEach(newField -> {
-            Field field = new Field();
+            Field field = new Field("fields");
             field.setFieldType(newField.getFieldType());
             field.setDescription(newField.getDescription());
             field.setName(newField.getName());
