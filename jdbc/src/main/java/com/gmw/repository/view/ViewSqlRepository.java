@@ -9,13 +9,14 @@ import lombok.AllArgsConstructor;
 import java.util.List;
 
 @AllArgsConstructor
-public class ViewRepositorySql implements Repository<View> {
+public class ViewSqlRepository implements Repository<View> {
 
     private final PersistenceManager persistenceManager;
 
     @Override
-    public void create(View view) {
-        View savedView = (View) persistenceManager.create(view);
+    public Long create(View newView) {
+        View view = (View) persistenceManager.create(newView);
+        return view.getId();
     }
 
     @Override

@@ -23,10 +23,17 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
     @Override
     public void createView(NewViewTO view) {
         Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepositoryManager();
-        List<Field> fields = mapFields(view.getFields());
-        View repositoryView = new View("views", view.getGameId());
+        Repository<Field> fieldRepositoryManager = getRepositoryManager().getFieldRepositoryManager();
 
-        viewRepositoryManager.create(repositoryView);
+        View repositoryView = new View("views", view.getGameId());
+        Long viewId = viewRepositoryManager.create(repositoryView);
+
+        List<Field> fields = mapFields(view.getFields());
+
+        for (Field field : fields) {
+            field.setViewId(viewId);
+            fieldRepositoryManager.create(field);
+        }
     }
 
     @Override
