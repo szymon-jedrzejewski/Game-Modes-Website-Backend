@@ -7,7 +7,6 @@ import lombok.*;
 @Getter
 @Setter
 public class Field extends Table implements Persistable {
-    @Setter(AccessLevel.NONE)
     private Long id;
     private String name;
     private String description;

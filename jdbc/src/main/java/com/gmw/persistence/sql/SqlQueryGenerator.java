@@ -2,12 +2,19 @@ package com.gmw.persistence.sql;
 
 import com.gmw.exceptions.SqlQueryGeneratorException;
 import com.gmw.persistence.Persistable;
+import com.gmw.persistence.QuerySpec;
+import com.gmw.persistence.SearchValue;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +23,17 @@ import java.util.List;
 public class SqlQueryGenerator {
 
     private static final Logger logger = LogManager.getLogger();
+
+    public static String generateFindQuery(QuerySpec querySpec) {
+        String tableName = querySpec.getTableName();
+        if (querySpec.getSpecs() == null || querySpec.getSpecs().isEmpty()) {
+            logger.debug("Find query: " + "SELECT * FROM " + tableName + "s;");
+            return "SELECT * FROM " + tableName + "s;";
+        }
+
+        logger.debug("SELECT * FROM " + tableName + "s " + querySpecToSql(querySpec) + ";");
+        return "SELECT * FROM " + tableName + "s " + querySpecToSql(querySpec) + ";";
+    }
 
     public static String generateCreateQuery(Persistable persistable) throws SqlQueryGeneratorException {
         try {
@@ -32,7 +50,78 @@ public class SqlQueryGenerator {
             logger.error("Error during generating create query!");
             throw new SqlQueryGeneratorException("Error during generating create query");
         }
+    }
 
+    public static String generateDeleteQuery(Class<?> table, int id) {
+        String tableName = table.getSimpleName().toLowerCase();
+        logger.debug("Delete Query: DELETE FROM " + tableName + "s WHERE id=" + id);
+        return "DELETE FROM " + tableName + "s WHERE id=" + id + ";";
+    }
+
+    public static String generateUpdateQuery(Persistable persistable) throws SqlQueryGeneratorException {
+        try {
+            Field[] fields = persistable.getClass().getDeclaredFields();
+            List<String> params = new ArrayList<>();
+            String id = "";
+
+            for (Field field : fields) {
+                field.setAccessible(true);
+                String fieldName = field.getName();
+                Object value = field.get(persistable);
+                if (fieldName.equals("id")) {
+                    id = String.valueOf(value);
+                }
+                String fieldTypeName = field.getType().getTypeName();
+
+                if (!fieldName.equals("id") && !fieldName.equals("creator")) {
+                    if (isFieldGivenType(fieldTypeName, "String")) {
+                        params.add(fieldName + "='" + value + "'");
+                    } else if (isFieldGivenType(fieldTypeName, "int")) {
+                        params.add(fieldName + "=" + value);
+                    } else if (isFieldGivenType(fieldTypeName, "boolean")) {
+                        params.add(fieldName + "=" + String.valueOf(value).toUpperCase());
+                    }
+                }
+            }
+
+            logger.debug("Update query: " + "UPDATE " + getTableName(persistable)
+                    + "SET " + String.join(", ", params)
+                    + " WHERE id=" + id + ";");
+
+            return "UPDATE " + getTableName(persistable)
+                    + "SET " + String.join(", ", params)
+                    + " WHERE id=" + id + ";";
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        throw new SqlQueryGeneratorException();
+    }
+
+    public static List<Persistable> resultSetToPersistable(PreparedStatement preparedStatement, QuerySpec querySpec)
+            throws NoSuchMethodException, SQLException, InstantiationException,
+            IllegalAccessException, InvocationTargetException {
+
+        List<Persistable> persistables = new ArrayList<>();
+        Constructor<?> constructor = querySpec.getClazz().getDeclaredConstructor();
+        ResultSet result = preparedStatement.executeQuery();
+
+        while (result.next()) {
+
+            Persistable persistable = (Persistable) constructor.newInstance();
+            logger.debug("Created object: " + persistable);
+            Field[] fields = persistable.getClass().getDeclaredFields();
+
+            for (Field field : fields) {
+
+                field.setAccessible(true);
+                logger.debug("Column name: " + field.getName());
+                logger.debug("Value: " + result.getObject(field.getName()));
+                field.set(persistable, result.getObject(field.getName()));
+            }
+
+            persistables.add(persistable);
+        }
+        return persistables;
     }
 
     private static String extractFieldValues(Persistable persistable) {
@@ -106,5 +195,23 @@ public class SqlQueryGenerator {
             result.append(character);
         }
         return result.toString();
+    }
+
+    private static String querySpecToSql(QuerySpec querySpec) {
+        List<Object> specs = querySpec.getSpecs();
+        List<String> values = new ArrayList<>();
+        for (Object spec : specs) {
+            if (spec instanceof SearchValue) {
+                if (((SearchValue) spec).clazz().equals(String.class)) {
+                    values.add("'" + ((SearchValue) spec).value() + "'");
+                } else {
+                    values.add(((SearchValue) spec).value().toString());
+                }
+            } else {
+                values.add(spec.toString());
+            }
+        }
+        logger.debug("QuerySpecToSql list: " + specs);
+        return String.join(" ", values);
     }
 }

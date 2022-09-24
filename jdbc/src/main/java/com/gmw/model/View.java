@@ -1,7 +1,6 @@
 package com.gmw.model;
 
 import com.gmw.persistence.Persistable;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +9,6 @@ import lombok.Setter;
 public class View extends Table implements Persistable {
 
     private static final String TABLE = "views";
-    @Setter(AccessLevel.NONE)
     private Long id;
     private Long gameId;
 

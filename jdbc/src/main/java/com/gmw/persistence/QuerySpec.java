@@ -14,6 +14,9 @@ public class QuerySpec {
     @Setter
     private String tableName;
     @Getter
+    @Setter
+    private Class<?> clazz;
+    @Getter
     private final List<Object> specs = new ArrayList<>();
 
     public QuerySpec() {
