@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 public class View extends Table implements Persistable {
 
-    private static final String TABLE = "views";
     private Long id;
     private Long gameId;
 

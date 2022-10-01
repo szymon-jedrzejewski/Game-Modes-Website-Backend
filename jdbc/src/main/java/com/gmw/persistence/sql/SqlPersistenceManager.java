@@ -36,8 +36,7 @@ public class SqlPersistenceManager implements PersistenceManager {
                 try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         persistable.setId(generatedKeys.getLong(1));
-                    }
-                    else {
+                    } else {
                         throw new SQLException("Creating user failed, no ID obtained.");
                     }
                 }
@@ -47,8 +46,9 @@ public class SqlPersistenceManager implements PersistenceManager {
 
         } catch (SqlQueryGeneratorException e) {
             logger.error("Error during adding new record to database! " + persistable);
+            throw new SqlPersistenceManagerException();
         }
-        throw new SqlPersistenceManagerException();
+        return persistable;
     }
 
     @Override

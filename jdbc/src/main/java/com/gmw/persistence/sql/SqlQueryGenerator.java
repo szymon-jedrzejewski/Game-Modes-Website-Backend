@@ -147,10 +147,18 @@ public class SqlQueryGenerator {
                     } else if (isFieldGivenType(fieldTypeName, "int")) {
                         query.append(object)
                                 .append(", ");
+                    } else if (isFieldGivenType(fieldTypeName, "long")) {
+                        query.append(object)
+                                .append(", ");
                     } else if (isFieldGivenType(fieldTypeName, "Character[]")) {
                         logger.debug("password: " + Arrays.toString((Character[]) object));
                         query.append("'")
                                 .append(charArrayToString((Character[]) object))
+                                .append("'")
+                                .append(", ");
+                    } else {
+                        query.append("'")
+                                .append(object)
                                 .append("'")
                                 .append(", ");
                     }
@@ -172,7 +180,7 @@ public class SqlQueryGenerator {
         for (Field field : fields) {
             if (!field.getName().equals("id")) {
                 field.setAccessible(true);
-                fieldsNames.add(field.getName());
+                fieldsNames.add("\"" + field.getName() + "\"");
             }
         }
 
