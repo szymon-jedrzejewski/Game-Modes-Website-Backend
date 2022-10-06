@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SqlQueryGenerator {
@@ -37,10 +38,7 @@ public class SqlQueryGenerator {
 
     public static String generateCreateQuery(Persistable persistable) throws SqlQueryGeneratorException {
         try {
-            String query = """
-                    INSERT INTO %s
-                    (%s) VALUES (%s);
-                    """;
+            String query = "INSERT INTO %s (%s) VALUES (%s);";
             String tableName = getTableName(persistable);
             String fieldNames = extractFieldNames(persistable);
             String fieldValues = extractFieldValues(persistable);
@@ -178,13 +176,33 @@ public class SqlQueryGenerator {
         List<String> fieldsNames = new ArrayList<>();
 
         for (Field field : fields) {
-            if (!field.getName().equals("id")) {
+            String fieldName = field.getName();
+            if (!fieldName.equals("id")) {
                 field.setAccessible(true);
-                fieldsNames.add("\"" + field.getName() + "\"");
+                fieldsNames.add("\"" + toSnakeCase(fieldName) + "\"");
             }
         }
 
         return String.join(",", fieldsNames);
+    }
+
+    private static String toSnakeCase(String fieldName) {
+        char[] originalFieldName = fieldName.toCharArray();
+        List<Character> snakeCaseFieldNames = new ArrayList<>();
+
+        for (char ch : originalFieldName) {
+            if (Character.isUpperCase(ch)) {
+                snakeCaseFieldNames.add('_');
+                snakeCaseFieldNames.add(Character.toLowerCase(ch));
+            } else {
+                snakeCaseFieldNames.add(ch);
+            }
+        }
+
+        return snakeCaseFieldNames
+                .stream()
+                .map(Object::toString)
+                .collect(Collectors.joining());
     }
 
     private static String getTableName(Persistable persistable) throws NoSuchFieldException, IllegalAccessException {
