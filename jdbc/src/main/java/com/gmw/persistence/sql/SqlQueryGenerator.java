@@ -28,12 +28,12 @@ public class SqlQueryGenerator {
     public static String generateFindQuery(QuerySpec querySpec) {
         String tableName = querySpec.getTableName();
         if (querySpec.getSpecs() == null || querySpec.getSpecs().isEmpty()) {
-            logger.debug("Find query: " + "SELECT * FROM " + tableName + "s;");
+            logger.debug("Find query: " + "SELECT * FROM " + tableName + ";");
             return "SELECT * FROM " + tableName + "s;";
         }
 
-        logger.debug("SELECT * FROM " + tableName + "s " + querySpecToSql(querySpec) + ";");
-        return "SELECT * FROM " + tableName + "s " + querySpecToSql(querySpec) + ";";
+        logger.debug("SELECT * FROM " + tableName + " " + querySpecToSql(querySpec) + ";");
+        return "SELECT * FROM " + tableName + " " + querySpecToSql(querySpec) + ";";
     }
 
     public static String generateCreateQuery(Persistable persistable) throws SqlQueryGeneratorException {
@@ -50,10 +50,9 @@ public class SqlQueryGenerator {
         }
     }
 
-    public static String generateDeleteQuery(Class<?> table, int id) {
-        String tableName = table.getSimpleName().toLowerCase();
+    public static String generateDeleteQuery(String tableName, int id) {
         logger.debug("Delete Query: DELETE FROM " + tableName + "s WHERE id=" + id);
-        return "DELETE FROM " + tableName + "s WHERE id=" + id + ";";
+        return "DELETE FROM " + tableName + " WHERE id = " + id + ";";
     }
 
     public static String generateUpdateQuery(Persistable persistable) throws SqlQueryGeneratorException {
@@ -64,7 +63,7 @@ public class SqlQueryGenerator {
 
             for (Field field : fields) {
                 field.setAccessible(true);
-                String fieldName = field.getName();
+                String fieldName = toSnakeCase(field.getName());
                 Object value = field.get(persistable);
                 if (fieldName.equals("id")) {
                     id = String.valueOf(value);
@@ -73,11 +72,17 @@ public class SqlQueryGenerator {
 
                 if (!fieldName.equals("id") && !fieldName.equals("creator")) {
                     if (isFieldGivenType(fieldTypeName, "String")) {
-                        params.add(fieldName + "='" + value + "'");
+                        params.add(fieldName + " = '" + value + "'");
                     } else if (isFieldGivenType(fieldTypeName, "int")) {
-                        params.add(fieldName + "=" + value);
+                        params.add(fieldName + " = " + value);
+                    } else if (isFieldGivenType(fieldTypeName, "long")) {
+                        params.add(fieldName + " = " + value);
+                    } else if (isFieldGivenType(fieldTypeName, "double")) {
+                        params.add(fieldName + " = " + value);
                     } else if (isFieldGivenType(fieldTypeName, "boolean")) {
-                        params.add(fieldName + "=" + String.valueOf(value).toUpperCase());
+                        params.add(fieldName + " = " + String.valueOf(value).toUpperCase());
+                    } else {
+                        params.add(fieldName + " = '" + value + "'");
                     }
                 }
             }
@@ -87,8 +92,8 @@ public class SqlQueryGenerator {
                     + " WHERE id=" + id + ";");
 
             return "UPDATE " + getTableName(persistable)
-                    + "SET " + String.join(", ", params)
-                    + " WHERE id=" + id + ";";
+                    + " SET " + String.join(", ", params)
+                    + " WHERE id = " + id + ";";
         } catch (IllegalAccessException | NoSuchFieldException e) {
             e.printStackTrace();
         }
