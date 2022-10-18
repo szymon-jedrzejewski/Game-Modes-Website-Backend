@@ -1,14 +1,10 @@
 package com.gmw.viewbuilder.tos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
 
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Builder
 public class ExistingViewTO {
     private Long id;
     private Long gameId;

@@ -1,14 +1,15 @@
 package com.gmw.viewbuilder.tos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.gmw.viewbuilder.enums.FieldTypeEnum;
+import lombok.Builder;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class ExistingFieldTO extends NewFieldTO {
+import java.util.List;
+
+@Builder
+public class ExistingFieldTO {
     private Long id;
+    private String name;
+    private String description;
+    private FieldTypeEnum fieldType;
+    private List<String> values;
 }
