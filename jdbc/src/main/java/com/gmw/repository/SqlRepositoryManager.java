@@ -4,7 +4,7 @@ package com.gmw.repository;
 import com.gmw.model.Field;
 import com.gmw.model.View;
 import com.gmw.persistence.PersistenceManager;
-import com.gmw.persistence.sql.SqlPersistenceManager;
+import com.gmw.persistence.sql.SqlSafePersistenceManager;
 import com.gmw.repository.field.FieldSqlRepository;
 import com.gmw.repository.view.ViewSqlRepository;
 import com.gmw.utils.JDBCUtils;
@@ -20,7 +20,7 @@ public class SqlRepositoryManager implements RepositoryManager {
 
     public SqlRepositoryManager() {
         try {
-            this.persistenceManager = new SqlPersistenceManager(JDBCUtils.getConnection());
+            this.persistenceManager = new SqlSafePersistenceManager(JDBCUtils.getConnection());
         } catch (SQLException e) {
             logger.error("Error during sql persistence manager creation!");
         }

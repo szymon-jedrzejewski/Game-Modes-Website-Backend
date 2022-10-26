@@ -23,16 +23,16 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SqlQueryGenerator {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public static String generateFindQuery(QuerySpec querySpec) {
         String tableName = querySpec.getTableName();
         if (querySpec.getSpecs() == null || querySpec.getSpecs().isEmpty()) {
-            logger.debug("Find query: " + "SELECT * FROM " + tableName + ";");
+            LOGGER.debug("Find query: " + "SELECT * FROM " + tableName + ";");
             return "SELECT * FROM " + tableName + "s;";
         }
 
-        logger.debug("SELECT * FROM " + tableName + " " + querySpecToSql(querySpec) + ";");
+        LOGGER.debug("SELECT * FROM " + tableName + " " + querySpecToSql(querySpec) + ";");
         return "SELECT * FROM " + tableName + " " + querySpecToSql(querySpec) + ";";
     }
 
@@ -45,13 +45,13 @@ public class SqlQueryGenerator {
 
             return String.format(query, tableName, fieldNames, fieldValues);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            logger.error("Error during generating create query!");
+            LOGGER.error("Error during generating create query!");
             throw new SqlQueryGeneratorException("Error during generating create query");
         }
     }
 
     public static String generateDeleteQuery(String tableName, int id) {
-        logger.debug("Delete Query: DELETE FROM " + tableName + "s WHERE id=" + id);
+        LOGGER.debug("Delete Query: DELETE FROM " + tableName + "s WHERE id=" + id);
         return "DELETE FROM " + tableName + " WHERE id = " + id + ";";
     }
 
@@ -87,7 +87,7 @@ public class SqlQueryGenerator {
                 }
             }
 
-            logger.debug("Update query: " + "UPDATE " + getTableName(persistable)
+            LOGGER.debug("Update query: " + "UPDATE " + getTableName(persistable)
                     + "SET " + String.join(", ", params)
                     + " WHERE id=" + id + ";");
 
@@ -111,14 +111,14 @@ public class SqlQueryGenerator {
         while (result.next()) {
 
             Persistable persistable = (Persistable) constructor.newInstance();
-            logger.debug("Created object: " + persistable);
+            LOGGER.debug("Created object: " + persistable);
             Field[] fields = persistable.getClass().getDeclaredFields();
 
             for (Field field : fields) {
 
                 field.setAccessible(true);
-                logger.debug("Column name: " + field.getName());
-                logger.debug("Value: " + result.getObject(field.getName()));
+                LOGGER.debug("Column name: " + field.getName());
+                LOGGER.debug("Value: " + result.getObject(field.getName()));
                 field.set(persistable, result.getObject(field.getName()));
             }
 
@@ -133,12 +133,12 @@ public class SqlQueryGenerator {
 
         for (Field field : fields) {
             field.setAccessible(true);
-            logger.debug("Field type: " + field.getType());
+            LOGGER.debug("Field type: " + field.getType());
             if (!field.getName().equals("id")) {
                 try {
                     Object object = field.get(persistable);
                     String fieldTypeName = field.getType().getTypeName();
-                    logger.debug("Field value: " + object);
+                    LOGGER.debug("Field value: " + object);
                     if (isFieldGivenType(fieldTypeName, "String")) {
                         query.append("'")
                                 .append(object)
@@ -154,7 +154,7 @@ public class SqlQueryGenerator {
                         query.append(object)
                                 .append(", ");
                     } else if (isFieldGivenType(fieldTypeName, "Character[]")) {
-                        logger.debug("password: " + Arrays.toString((Character[]) object));
+                        LOGGER.debug("password: " + Arrays.toString((Character[]) object));
                         query.append("'")
                                 .append(charArrayToString((Character[]) object))
                                 .append("'")
@@ -167,12 +167,12 @@ public class SqlQueryGenerator {
                     }
 
                 } catch (IllegalAccessException e) {
-                    logger.error("IllegalAccessException: " + e.getMessage());
+                    LOGGER.error("IllegalAccessException: " + e.getMessage());
                 }
             }
         }
 
-        logger.debug("Fields values: " + query);
+        LOGGER.debug("Fields values: " + query);
         return query.deleteCharAt(query.lastIndexOf(",")).toString().trim();
     }
 
@@ -242,7 +242,7 @@ public class SqlQueryGenerator {
                 values.add(spec.toString());
             }
         }
-        logger.debug("QuerySpecToSql list: " + specs);
+        LOGGER.debug("QuerySpecToSql list: " + specs);
         return String.join(" ", values);
     }
 }
