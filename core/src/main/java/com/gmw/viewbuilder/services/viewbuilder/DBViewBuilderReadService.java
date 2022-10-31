@@ -6,6 +6,5 @@ import java.util.List;
 
 public interface DBViewBuilderReadService {
     ExistingViewTO obtainViewById(Long viewId);
-    ExistingViewTO obtainViewByUserId(Long userId);
-    List<ExistingViewTO> obtainViewsByUserId(Long userId);
+    ExistingViewTO obtainViewByGameId(Long gameId);
 }
