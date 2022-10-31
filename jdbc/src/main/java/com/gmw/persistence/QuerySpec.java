@@ -22,10 +22,6 @@ public class QuerySpec {
     public QuerySpec() {
     }
 
-    public QuerySpec(String tableName) {
-        this.tableName = tableName;
-    }
-
     public void append(QueryOperator queryOperator, SearchCondition searchCondition) {
 
         specs.add(queryOperator.toString());
@@ -34,5 +30,14 @@ public class QuerySpec {
         specs.add(new SearchValue(searchCondition.value().getClass(), searchCondition.value()));
 
         logger.debug("Specs: " + specs);
+    }
+
+    @Override
+    public String toString() {
+        return "QuerySpec{" +
+                "tableName='" + tableName + '\'' +
+                ", clazz=" + clazz +
+                ", specs=" + specs +
+                '}';
     }
 }

@@ -1,6 +1,6 @@
 package com.gmw.persistence.sql;
 
-import com.gmw.exceptions.SqlQueryGeneratorException;
+import com.gmw.exceptions.SqlQueryUtilityException;
 import com.gmw.persistence.Persistable;
 import com.gmw.persistence.QuerySpec;
 import com.gmw.persistence.SearchValue;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class SqlQueryGenerator {
+public class SqlQueryUtility {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -36,7 +36,7 @@ public class SqlQueryGenerator {
         return "SELECT * FROM " + tableName + " " + querySpecToSql(querySpec) + ";";
     }
 
-    public static String generateCreateQuery(Persistable persistable) throws SqlQueryGeneratorException {
+    public static String generateCreateQuery(Persistable persistable) throws SqlQueryUtilityException {
         try {
             String query = "INSERT INTO %s (%s) VALUES (%s);";
             String tableName = getTableName(persistable);
@@ -46,16 +46,16 @@ public class SqlQueryGenerator {
             return String.format(query, tableName, fieldNames, fieldValues);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             LOGGER.error("Error during generating create query!");
-            throw new SqlQueryGeneratorException("Error during generating create query");
+            throw new SqlQueryUtilityException("Error during generating create query");
         }
     }
 
-    public static String generateDeleteQuery(String tableName, int id) {
+    public static String generateDeleteQuery(String tableName, long id) {
         LOGGER.debug("Delete Query: DELETE FROM " + tableName + "s WHERE id=" + id);
         return "DELETE FROM " + tableName + " WHERE id = " + id + ";";
     }
 
-    public static String generateUpdateQuery(Persistable persistable) throws SqlQueryGeneratorException {
+    public static String generateUpdateQuery(Persistable persistable) throws SqlQueryUtilityException {
         try {
             Field[] fields = persistable.getClass().getDeclaredFields();
             List<String> params = new ArrayList<>();
@@ -97,7 +97,7 @@ public class SqlQueryGenerator {
         } catch (IllegalAccessException | NoSuchFieldException e) {
             e.printStackTrace();
         }
-        throw new SqlQueryGeneratorException();
+        throw new SqlQueryUtilityException();
     }
 
     public static List<Persistable> resultSetToPersistable(PreparedStatement preparedStatement, QuerySpec querySpec)

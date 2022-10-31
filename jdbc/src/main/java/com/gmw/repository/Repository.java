@@ -10,5 +10,5 @@ public interface Repository<T> {
     Long create(T t) throws SqlRepositoryException;
     void update (T t);
     void delete(Long id);
-    List<T> find(QuerySpec querySpec);
+    List<T> find(QuerySpec querySpec) throws SqlRepositoryException;
 }

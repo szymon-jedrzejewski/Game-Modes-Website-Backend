@@ -1,5 +1,6 @@
 package com.gmw.viewbuilder.services.viewbuilder.impl;
 
+import com.gmw.exceptions.SqlRepositoryException;
 import com.gmw.model.Field;
 import com.gmw.model.View;
 import com.gmw.persistence.Operator;
@@ -12,11 +13,15 @@ import com.gmw.viewbuilder.services.DBService;
 import com.gmw.viewbuilder.services.viewbuilder.DBViewBuilderReadService;
 import com.gmw.viewbuilder.tos.ExistingFieldTO;
 import com.gmw.viewbuilder.tos.ExistingViewTO;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class DBViewBuilderReadServiceImpl extends DBService implements DBViewBuilderReadService {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public DBViewBuilderReadServiceImpl(RepositoryManager repositoryManager) {
         super(repositoryManager);
@@ -24,16 +29,19 @@ public class DBViewBuilderReadServiceImpl extends DBService implements DBViewBui
 
     @Override
     public ExistingViewTO obtainViewById(Long viewId) {
-        Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepositoryManager();
-        QuerySpec querySpec = new QuerySpec();
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, viewId));
-        querySpec.setClazz(View.class);
-        querySpec.setTableName("views");
+        try {
+            Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepositoryManager();
+            QuerySpec querySpec = new QuerySpec();
+            querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, viewId));
+            querySpec.setClazz(View.class);
+            querySpec.setTableName("views");
 
-        List<View> views = viewRepositoryManager.find(querySpec);
-
-        if (!views.isEmpty()) {
-            return mapToExistingView(views.get(0));
+            List<View> views = viewRepositoryManager.find(querySpec);
+            if (!views.isEmpty()) {
+                return mapToExistingView(views.get(0));
+            }
+        } catch (SqlRepositoryException e) {
+            LOGGER.error("Cannot obtain view with id " + viewId);
         }
 
         return null;
@@ -41,39 +49,49 @@ public class DBViewBuilderReadServiceImpl extends DBService implements DBViewBui
 
     @Override
     public ExistingViewTO obtainViewByGameId(Long gameId) {
-        Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepositoryManager();
-        QuerySpec querySpec = new QuerySpec();
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("game_id", Operator.EQUAL_TO, gameId));
-        querySpec.setClazz(View.class);
-        querySpec.setTableName("views");
+        try {
+            Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepositoryManager();
+            QuerySpec querySpec = new QuerySpec();
+            querySpec.append(QueryOperator.WHERE, new SearchCondition("game_id", Operator.EQUAL_TO, gameId));
+            querySpec.setClazz(View.class);
+            querySpec.setTableName("views");
 
-        List<View> views = viewRepositoryManager.find(querySpec);
+            List<View> views = viewRepositoryManager.find(querySpec);
 
-        if (!views.isEmpty()) {
-            return mapToExistingView(views.get(0));
+            if (!views.isEmpty()) {
+                return mapToExistingView(views.get(0));
+            }
+        } catch (SqlRepositoryException e) {
+            LOGGER.error("Cannot obtain view with game id " + gameId);
         }
 
         return null;
     }
 
     private ExistingViewTO mapToExistingView(View view) {
-        QuerySpec querySpec = new QuerySpec();
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("view_id", Operator.EQUAL_TO, view.getId()));
-        querySpec.setTableName("fields");
-        querySpec.setClazz(Field.class);
+        try {
+            QuerySpec querySpec = new QuerySpec();
+            querySpec.append(QueryOperator.WHERE, new SearchCondition("view_id", Operator.EQUAL_TO, view.getId()));
+            querySpec.setTableName("fields");
+            querySpec.setClazz(Field.class);
 
-        List<ExistingFieldTO> existingFieldTOS = getRepositoryManager()
-                .getFieldRepositoryManager()
-                .find(querySpec)
-                .stream()
-                .map(this::mapToExistingField).toList();
+            List<ExistingFieldTO> existingFieldTOS = getRepositoryManager()
+                    .getFieldRepositoryManager()
+                    .find(querySpec)
+                    .stream()
+                    .map(this::mapToExistingField).toList();
 
-        return ExistingViewTO
-                .builder()
-                .id(view.getId())
-                .gameId(view.getGameId())
-                .fields(existingFieldTOS)
-                .build();
+            return ExistingViewTO
+                    .builder()
+                    .id(view.getId())
+                    .gameId(view.getGameId())
+                    .fields(existingFieldTOS)
+                    .build();
+        } catch (SqlRepositoryException e) {
+            LOGGER.error("Cannot obtain fields for view with id " + view.getId());
+        }
+
+        return null;
     }
 
     private ExistingFieldTO mapToExistingField(Field field) {

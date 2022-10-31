@@ -30,23 +30,22 @@ public class SqlSafePersistenceManager extends SqlPersistenceManager{
     }
 
     @Override
-    public Long update(Persistable persistable) {
+    public void update(Persistable persistable) {
         if (!SqlInjectionChecker.check(persistable))
         {
-            return super.update(persistable);
+            super.update(persistable);
         } else {
             LOGGER.warn(MESSAGE);
-            return null;
         }
     }
 
     @Override
-    public void delete(Long id, Class<?> clazz) {
-        super.delete(id, clazz);
+    public void delete(Long id, String tableName) {
+        super.delete(id, tableName);
     }
 
     @Override
-    public List<Persistable> find(QuerySpec querySpec) {
+    public List<Persistable> find(QuerySpec querySpec) throws SqlPersistenceManagerException {
         if (!SqlInjectionChecker.check(querySpec))
         {
             return super.find(querySpec);

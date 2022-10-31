@@ -4,7 +4,6 @@ package com.gmw.repository.view;
 import com.gmw.exceptions.SqlPersistenceManagerException;
 import com.gmw.exceptions.SqlRepositoryException;
 import com.gmw.model.View;
-import com.gmw.persistence.Persistable;
 import com.gmw.persistence.PersistenceManager;
 import com.gmw.persistence.QuerySpec;
 import com.gmw.repository.Repository;
@@ -16,19 +15,19 @@ import java.util.List;
 
 @AllArgsConstructor
 public class ViewSqlRepository implements Repository<View> {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
     private final PersistenceManager persistenceManager;
 
     @Override
     public Long create(View newView) throws SqlRepositoryException {
         try {
-            logger.debug("Creating new view!");
+            LOGGER.debug("Creating new view!");
             View view = (View) persistenceManager.create(newView);
             Long id = view.getId();
-            logger.debug("New view with id " + id + " was created!");
+            LOGGER.debug("New view with id " + id + " was created!");
             return id;
         } catch (SqlPersistenceManagerException e) {
-            logger.error("Can not create new View!");
+            LOGGER.error("Can not create new View!");
         }
 
         throw new SqlRepositoryException();
@@ -36,22 +35,27 @@ public class ViewSqlRepository implements Repository<View> {
 
     @Override
     public void update(View view) {
-        Long id = persistenceManager.update(view);
-        logger.debug("View with id " + id + " was updated!");
+        persistenceManager.update(view);
+        LOGGER.debug("View with id " + view.getId() + " was updated!");
     }
 
     @Override
     public void delete(Long id) {
-        persistenceManager.delete(id, View.class);
-        logger.debug("View with id " + id + " was deleted!");
+        persistenceManager.delete(id, "views");
+        LOGGER.debug("View with id " + id + " was deleted!");
     }
 
     @Override
-    public List<View> find(QuerySpec querySpec) {
-        return persistenceManager
-                .find(querySpec)
-                .stream()
-                .map(persistable -> (View)persistable).
-                toList();
+    public List<View> find(QuerySpec querySpec) throws SqlRepositoryException {
+        try {
+            return persistenceManager
+                    .find(querySpec)
+                    .stream()
+                    .map(persistable -> (View)persistable).
+                    toList();
+        } catch (SqlPersistenceManagerException e) {
+            LOGGER.error("Error during searching values!");
+        }
+        throw new SqlRepositoryException();
     }
 }
