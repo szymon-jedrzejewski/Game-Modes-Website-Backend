@@ -1,7 +1,9 @@
 package com.gmw.api.rest;
 
 import com.gmw.api.rest.activity.view.CreateViewActivity;
+import com.gmw.api.rest.activity.view.DeleteViewActivity;
 import com.gmw.api.rest.activity.view.FindViewActivity;
+import com.gmw.api.rest.activity.view.UpdateViewActivity;
 import com.gmw.viewbuilder.tos.ExistingViewTO;
 import com.gmw.viewbuilder.tos.NewViewTO;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,18 @@ public class ViewController {
     @GetMapping("/getViewByGameId/{gameId}")
     public ResponseEntity<ExistingViewTO> getViewByGameId(@PathVariable Long gameId) {
         FindViewActivity activity = new FindViewActivity(gameId);
+        return activity.execute();
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Void> updateView(@RequestBody ExistingViewTO existingViewTO) {
+        UpdateViewActivity activity = new UpdateViewActivity(existingViewTO);
+        return activity.execute();
+    }
+
+    @DeleteMapping("/delete/{viewId}")
+    public ResponseEntity<Void> deleteView(@PathVariable Long viewId) {
+        DeleteViewActivity activity = new DeleteViewActivity(viewId);
         return activity.execute();
     }
 }
