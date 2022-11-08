@@ -4,6 +4,10 @@ package com.gmw.viewbuilder.services.viewbuilder.impl;
 import com.gmw.exceptions.SqlRepositoryException;
 import com.gmw.model.Field;
 import com.gmw.model.View;
+import com.gmw.persistence.Operator;
+import com.gmw.persistence.QueryOperator;
+import com.gmw.persistence.QuerySpec;
+import com.gmw.persistence.SearchCondition;
 import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
 import com.gmw.viewbuilder.services.viewbuilder.DBViewBuilderService;
@@ -33,7 +37,7 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
         try {
             View repositoryView = new View("views", view.getGameId());
             Long viewId = viewRepositoryManager.create(repositoryView);
-            List<Field> fields = mapFields(view.getFields());
+            List<Field> fields = mapNewFields(view.getFields());
 
             for (Field field : fields) {
                 field.setViewId(viewId);
@@ -47,7 +51,24 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
 
     @Override
     public void deleteView(Long viewId) {
+        Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepositoryManager();
+        viewRepositoryManager.delete(viewId);
 
+        Repository<Field> fieldRepositoryManager = getRepositoryManager().getFieldRepositoryManager();
+
+        QuerySpec querySpec = new QuerySpec();
+        querySpec.setClazz(Field.class);
+        querySpec.setTableName("fields");
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("view_id", Operator.EQUAL_TO, viewId));
+
+        try {
+            List<Field> fields = fieldRepositoryManager.find(querySpec);
+            for (Field field : fields) {
+                fieldRepositoryManager.delete(field.getId());
+            }
+        } catch (SqlRepositoryException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -55,7 +76,7 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
 
     }
 
-    private List<Field> mapFields(List<NewFieldTO> newFields) {
+    private List<Field> mapNewFields(List<NewFieldTO> newFields) {
         List<Field> fields = new ArrayList<>();
 
         newFields.forEach(newField -> {
