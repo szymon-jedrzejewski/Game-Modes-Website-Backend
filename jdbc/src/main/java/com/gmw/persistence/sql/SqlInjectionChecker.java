@@ -28,6 +28,7 @@ public class SqlInjectionChecker {
         for (Field field : fields) {
             if (field.getType().equals(String.class)) {
                 try {
+                    field.setAccessible(true);
                     String value = (String) field.get(persistable);
 
                     for (String separator : FORBIDDEN_WORDS) {
