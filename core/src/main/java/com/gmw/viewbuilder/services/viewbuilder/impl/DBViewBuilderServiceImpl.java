@@ -11,6 +11,7 @@ import com.gmw.persistence.SearchCondition;
 import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
 import com.gmw.viewbuilder.services.viewbuilder.DBViewBuilderService;
+import com.gmw.viewbuilder.tos.ExistingFieldTO;
 import com.gmw.viewbuilder.tos.ExistingViewTO;
 import com.gmw.viewbuilder.tos.NewFieldTO;
 import com.gmw.viewbuilder.tos.NewViewTO;
@@ -22,7 +23,7 @@ import java.util.List;
 
 public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl implements DBViewBuilderService {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public DBViewBuilderServiceImpl(RepositoryManager repositoryManager) {
         super(repositoryManager);
@@ -45,7 +46,7 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
             }
 
         } catch (SqlRepositoryException e) {
-            logger.error("There was a problem with creating new view!", e);
+            LOGGER.error("There was a problem with creating new view!", e);
         }
     }
 
@@ -72,8 +73,32 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
     }
 
     @Override
-    public void updateView(ExistingViewTO view) {
+    public void updateView(ExistingViewTO existingView) {
+        View view = new View("views", existingView.getId(), existingView.getGameId());
+        Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepositoryManager();
+        viewRepositoryManager.update(view);
 
+        List<Field> fields = mapExistingFields(existingView.getFields());
+        Repository<Field> fieldRepositoryManager = getRepositoryManager().getFieldRepositoryManager();
+        for (Field field : fields) {
+            fieldRepositoryManager.update(field);
+        }
+    }
+
+    private List<Field> mapExistingFields(List<ExistingFieldTO> existingFields) {
+        List<Field> fields = new ArrayList<>();
+
+        existingFields.forEach(existingField -> {
+            Field field = new Field("fields");
+            field.setFieldType(existingField.getFieldType());
+            field.setDescription(existingField.getDescription());
+            field.setName(existingField.getName());
+            field.setValues(String.join(",", existingField.getValues()));
+
+            fields.add(field);
+        });
+
+        return fields;
     }
 
     private List<Field> mapNewFields(List<NewFieldTO> newFields) {
