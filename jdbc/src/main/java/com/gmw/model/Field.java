@@ -10,7 +10,7 @@ public class Field extends Table implements Persistable {
     private Long id;
     private String name;
     private String description;
-    private FieldTypeEnum fieldType;
+    private FieldTypeEnum type;
     private String values;
     private Long viewId;
 
@@ -18,14 +18,14 @@ public class Field extends Table implements Persistable {
                  Long id,
                  String name,
                  String description,
-                 FieldTypeEnum fieldType,
+                 FieldTypeEnum type,
                  String values,
                  Long viewId) {
         super(tableName);
         this.id = id;
         this.name = name;
         this.description = description;
-        this.fieldType = fieldType;
+        this.type = type;
         this.values = values;
         this.viewId = viewId;
     }

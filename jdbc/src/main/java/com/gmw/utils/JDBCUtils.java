@@ -10,6 +10,6 @@ public class JDBCUtils {
     }
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/modes", "money", "money");
+        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/mods", "postgres", "password");
     }
 }

@@ -90,7 +90,7 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
 
         existingFields.forEach(existingField -> {
             Field field = new Field("fields");
-            field.setFieldType(existingField.getFieldType());
+            field.setType(existingField.getFieldType());
             field.setDescription(existingField.getDescription());
             field.setName(existingField.getName());
             field.setValues(String.join(",", existingField.getValues()));
@@ -106,7 +106,7 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
 
         newFields.forEach(newField -> {
             Field field = new Field("fields");
-            field.setFieldType(newField.getFieldType());
+            field.setType(newField.getFieldType());
             field.setDescription(newField.getDescription());
             field.setName(newField.getName());
             field.setValues(String.join(",", newField.getValues()));

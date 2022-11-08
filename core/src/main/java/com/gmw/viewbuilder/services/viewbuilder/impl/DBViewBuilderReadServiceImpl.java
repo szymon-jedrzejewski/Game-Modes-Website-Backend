@@ -102,7 +102,7 @@ public class DBViewBuilderReadServiceImpl extends DBService implements DBViewBui
                 .id(field.getId())
                 .values(values)
                 .name(field.getName())
-                .fieldType(field.getFieldType())
+                .fieldType(field.getType())
                 .description(field.getDescription())
                 .build();
     }
