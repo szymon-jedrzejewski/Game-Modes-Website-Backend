@@ -1,7 +1,7 @@
 package com.gmw.model;
 
 import com.gmw.persistence.Persistable;
-import com.gmw.viewbuilder.enums.FieldTypeEnum;
+import com.gmw.view.enums.FieldTypeEnum;
 import lombok.*;
 
 @Getter

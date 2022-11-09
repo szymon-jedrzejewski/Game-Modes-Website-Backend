@@ -2,7 +2,7 @@ package com.gmw.persistence.sql;
 
 import com.gmw.exceptions.SqlQueryUtilityException;
 import com.gmw.model.Field;
-import com.gmw.viewbuilder.enums.FieldTypeEnum;
+import com.gmw.view.enums.FieldTypeEnum;
 import org.junit.Assert;
 import org.junit.Test;
 

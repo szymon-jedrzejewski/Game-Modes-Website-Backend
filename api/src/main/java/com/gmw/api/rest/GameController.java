@@ -1,8 +1,8 @@
 package com.gmw.api.rest;
 
 import com.gmw.api.rest.activity.game.*;
-import com.gmw.viewbuilder.tos.ExistingGameTO;
-import com.gmw.viewbuilder.tos.NewGameTO;
+import com.gmw.game.tos.ExistingGameTO;
+import com.gmw.game.tos.NewGameTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

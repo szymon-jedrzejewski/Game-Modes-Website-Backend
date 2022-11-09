@@ -1,10 +1,10 @@
 package com.gmw.api.rest.activity.view;
 
 import com.gmw.api.rest.activity.Activity;
-import com.gmw.viewbuilder.services.ServiceManager;
-import com.gmw.viewbuilder.services.SqlServiceManager;
-import com.gmw.viewbuilder.services.viewbuilder.DBViewBuilderService;
-import com.gmw.viewbuilder.tos.NewViewTO;
+import com.gmw.services.ServiceManager;
+import com.gmw.services.SqlServiceManager;
+import com.gmw.services.view.DBViewBuilderService;
+import com.gmw.view.tos.NewViewTO;
 import org.springframework.http.HttpStatus;
 
 public class CreateViewActivity extends Activity<Void> {

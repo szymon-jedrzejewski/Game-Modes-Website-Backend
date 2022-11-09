@@ -1,10 +1,10 @@
 package com.gmw.api.rest.activity.game;
 
 import com.gmw.api.rest.activity.Activity;
-import com.gmw.viewbuilder.services.ServiceManager;
-import com.gmw.viewbuilder.services.SqlServiceManager;
-import com.gmw.viewbuilder.services.game.DBGameService;
-import com.gmw.viewbuilder.tos.NewGameTO;
+import com.gmw.services.ServiceManager;
+import com.gmw.services.SqlServiceManager;
+import com.gmw.services.game.DBGameService;
+import com.gmw.game.tos.NewGameTO;
 import org.springframework.http.HttpStatus;
 
 public class CreateGameActivity extends Activity<Void> {

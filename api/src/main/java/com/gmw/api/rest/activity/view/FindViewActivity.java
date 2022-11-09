@@ -1,10 +1,10 @@
 package com.gmw.api.rest.activity.view;
 
 import com.gmw.api.rest.activity.Activity;
-import com.gmw.viewbuilder.services.ServiceManager;
-import com.gmw.viewbuilder.services.SqlServiceManager;
-import com.gmw.viewbuilder.services.viewbuilder.DBViewBuilderReadService;
-import com.gmw.viewbuilder.tos.ExistingViewTO;
+import com.gmw.services.ServiceManager;
+import com.gmw.services.SqlServiceManager;
+import com.gmw.services.view.DBViewBuilderReadService;
+import com.gmw.view.tos.ExistingViewTO;
 import org.springframework.http.HttpStatus;
 
 public class FindViewActivity extends Activity<ExistingViewTO> {

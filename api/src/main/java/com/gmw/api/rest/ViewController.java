@@ -4,8 +4,8 @@ import com.gmw.api.rest.activity.view.CreateViewActivity;
 import com.gmw.api.rest.activity.view.DeleteViewActivity;
 import com.gmw.api.rest.activity.view.FindViewActivity;
 import com.gmw.api.rest.activity.view.UpdateViewActivity;
-import com.gmw.viewbuilder.tos.ExistingViewTO;
-import com.gmw.viewbuilder.tos.NewViewTO;
+import com.gmw.view.tos.ExistingViewTO;
+import com.gmw.view.tos.NewViewTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
