@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 @AllArgsConstructor
-public class GameRepository implements Repository<Game> {
+public class GameSqlRepository implements Repository<Game> {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private final PersistenceManager persistenceManager;
@@ -32,16 +32,23 @@ public class GameRepository implements Repository<Game> {
 
     @Override
     public void update(Game game) {
-
+        LOGGER.debug("Updating the game with id: " + game.getId());
+        persistenceManager.update(game);
     }
 
     @Override
     public void delete(Long id) {
-
+        LOGGER.debug("Deleting game with id: " + id);
+        persistenceManager.delete(id, "games");
     }
 
     @Override
     public List<Game> find(QuerySpec querySpec) throws SqlRepositoryException {
-        return null;
+        try {
+            return persistenceManager.find(querySpec).stream().map(persistable -> (Game)persistable).toList();
+        } catch (SqlPersistenceManagerException e) {
+            LOGGER.error("Error during searching for values with QuerySpec: " + querySpec);
+        }
+        throw new SqlRepositoryException();
     }
 }

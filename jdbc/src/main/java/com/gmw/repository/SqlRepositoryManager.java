@@ -2,10 +2,12 @@ package com.gmw.repository;
 
 
 import com.gmw.model.Field;
+import com.gmw.model.Game;
 import com.gmw.model.View;
 import com.gmw.persistence.PersistenceManager;
 import com.gmw.persistence.sql.SqlSafePersistenceManager;
 import com.gmw.repository.field.FieldSqlRepository;
+import com.gmw.repository.game.GameSqlRepository;
 import com.gmw.repository.view.ViewSqlRepository;
 import com.gmw.utils.JDBCUtils;
 import org.apache.logging.log4j.LogManager;
@@ -34,5 +36,10 @@ public class SqlRepositoryManager implements RepositoryManager {
     @Override
     public Repository<Field> getFieldRepositoryManager() {
         return new FieldSqlRepository(persistenceManager);
+    }
+
+    @Override
+    public Repository<Game> getGameRepositoryManager() {
+        return new GameSqlRepository(persistenceManager);
     }
 }
