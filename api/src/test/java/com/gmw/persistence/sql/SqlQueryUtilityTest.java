@@ -50,7 +50,7 @@ public class SqlQueryUtilityTest {
                 1L,
                 "test",
                 "some description",
-                FieldTypeEnum.TEXT,
+                FieldTypeEnum.TEXT.toString(),
                 "",
                 1L);
     }

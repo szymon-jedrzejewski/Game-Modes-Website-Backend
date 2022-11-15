@@ -111,15 +111,23 @@ public class SqlQueryUtility {
         while (result.next()) {
 
             Persistable persistable = (Persistable) constructor.newInstance();
-            LOGGER.debug("Created object: " + persistable);
+             LOGGER.debug("Created object: " + persistable);
             Field[] fields = persistable.getClass().getDeclaredFields();
 
             for (Field field : fields) {
 
                 field.setAccessible(true);
-                LOGGER.debug("Column name: " + field.getName());
-                LOGGER.debug("Value: " + result.getObject(field.getName()));
-                field.set(persistable, result.getObject(field.getName()));
+                String fieldName = toSnakeCase(field.getName());
+                LOGGER.debug("Column name: " + fieldName);
+                LOGGER.debug("Value: " + result.getObject(fieldName));
+
+                Class<?> type = field.getType();
+                if (isFieldGivenType(type.getTypeName(), "Long"))
+                {
+                    field.set(persistable, Long.valueOf((Integer)result.getObject(fieldName)));
+                } else {
+                    field.set(persistable, result.getObject(fieldName));
+                }
             }
 
             persistables.add(persistable);

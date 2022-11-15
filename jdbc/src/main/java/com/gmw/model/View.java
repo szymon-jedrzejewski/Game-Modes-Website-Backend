@@ -21,4 +21,8 @@ public class View extends Table implements Persistable {
         super(tableName);
         this.gameId = gameId;
     }
+
+    public View() {
+        super(null);
+    }
 }

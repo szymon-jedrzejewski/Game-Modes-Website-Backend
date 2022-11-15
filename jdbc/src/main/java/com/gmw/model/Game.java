@@ -15,4 +15,8 @@ public class Game extends Table implements Persistable {
     public Game(String tableName) {
         super(tableName);
     }
+
+    public Game() {
+        super(null);
+    }
 }

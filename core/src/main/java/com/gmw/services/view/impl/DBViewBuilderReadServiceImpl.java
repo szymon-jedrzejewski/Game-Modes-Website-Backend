@@ -11,6 +11,7 @@ import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
 import com.gmw.services.view.DBViewBuilderReadService;
 import com.gmw.services.DBService;
+import com.gmw.view.enums.FieldTypeEnum;
 import com.gmw.view.tos.ExistingFieldTO;
 import com.gmw.view.tos.ExistingViewTO;
 import org.apache.logging.log4j.LogManager;
@@ -102,7 +103,7 @@ public class DBViewBuilderReadServiceImpl extends DBService implements DBViewBui
                 .id(field.getId())
                 .values(values)
                 .name(field.getName())
-                .fieldType(field.getType())
+                .fieldType(FieldTypeEnum.valueOf(field.getType()))
                 .description(field.getDescription())
                 .build();
     }

@@ -1,8 +1,8 @@
 package com.gmw.model;
 
 import com.gmw.persistence.Persistable;
-import com.gmw.view.enums.FieldTypeEnum;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -10,7 +10,7 @@ public class Field extends Table implements Persistable {
     private Long id;
     private String name;
     private String description;
-    private FieldTypeEnum type;
+    private String type;
     private String values;
     private Long viewId;
 
@@ -18,7 +18,7 @@ public class Field extends Table implements Persistable {
                  Long id,
                  String name,
                  String description,
-                 FieldTypeEnum type,
+                 String type,
                  String values,
                  Long viewId) {
         super(tableName);
@@ -31,5 +31,9 @@ public class Field extends Table implements Persistable {
     }
     public Field(String tableName) {
         super(tableName);
+    }
+
+    public Field() {
+        super(null);
     }
 }
