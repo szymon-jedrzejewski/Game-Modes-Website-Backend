@@ -52,8 +52,6 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
 
     @Override
     public void deleteView(Long viewId) {
-        Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepositoryManager();
-        viewRepositoryManager.delete(viewId);
 
         Repository<Field> fieldRepositoryManager = getRepositoryManager().getFieldRepositoryManager();
 
@@ -70,6 +68,9 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
         } catch (SqlRepositoryException e) {
             throw new RuntimeException(e);
         }
+
+        Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepositoryManager();
+        viewRepositoryManager.delete(viewId);
     }
 
     @Override
