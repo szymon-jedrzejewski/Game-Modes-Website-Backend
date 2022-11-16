@@ -78,18 +78,20 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
         Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepositoryManager();
         viewRepositoryManager.update(view);
 
-        List<Field> fields = mapExistingFields(existingView.getFields());
+        List<Field> fields = mapExistingFields(existingView.getFields(), existingView.getId());
         Repository<Field> fieldRepositoryManager = getRepositoryManager().getFieldRepositoryManager();
         for (Field field : fields) {
             fieldRepositoryManager.update(field);
         }
     }
 
-    private List<Field> mapExistingFields(List<ExistingFieldTO> existingFields) {
+    private List<Field> mapExistingFields(List<ExistingFieldTO> existingFields, Long viewId) {
         List<Field> fields = new ArrayList<>();
 
         existingFields.forEach(existingField -> {
             Field field = new Field("fields");
+            field.setId(existingField.getId());
+            field.setViewId(viewId);
             field.setType(existingField.getFieldType().toString());
             field.setDescription(existingField.getDescription());
             field.setName(existingField.getName());
