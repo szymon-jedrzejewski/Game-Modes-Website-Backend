@@ -29,7 +29,7 @@ public class SqlQueryUtility {
         String tableName = querySpec.getTableName();
         if (querySpec.getSpecs() == null || querySpec.getSpecs().isEmpty()) {
             LOGGER.debug("Find query: " + "SELECT * FROM " + tableName + ";");
-            return "SELECT * FROM " + tableName + "s;";
+            return "SELECT * FROM " + tableName + ";";
         }
 
         LOGGER.debug("SELECT * FROM " + tableName + " " + querySpecToSql(querySpec) + ";");

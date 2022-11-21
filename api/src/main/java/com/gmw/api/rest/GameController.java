@@ -6,9 +6,17 @@ import com.gmw.game.tos.NewGameTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/game")
 public class GameController {
+
+    @GetMapping("/findAll")
+    public ResponseEntity<List<ExistingGameTO>> findAllGames() {
+        FindAllGamesActivity activity = new FindAllGamesActivity();
+        return activity.execute();
+    }
 
     @GetMapping("/findById/{id}")
     public ResponseEntity<ExistingGameTO> findGameById(@PathVariable Long id) {

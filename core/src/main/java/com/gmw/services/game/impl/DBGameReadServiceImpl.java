@@ -62,18 +62,42 @@ public class DBGameReadServiceImpl extends DBService implements DBGameReadServic
         return null;
     }
 
-    private ExistingGameTO mapExistingGames(List<Game> games) {
-        if (games != null && !games.isEmpty()) {
-            Game game = games.get(0);
-            return ExistingGameTO
-                    .builder()
-                    .id(game.getId())
-                    .name(game.getName())
-                    .description(game.getDescription())
-                    .avatar(game.getAvatar())
-                    .build();
+    @Override
+    public List<ExistingGameTO> obtainAllGames() {
+        Repository<Game> gameRepositoryManager = getRepositoryManager().getGameRepositoryManager();
+        QuerySpec querySpec = new QuerySpec();
+        querySpec.setClazz(Game.class);
+        querySpec.setTableName("games");
+
+        try {
+            return gameRepositoryManager
+                    .find(querySpec)
+                    .stream()
+                    .map(this::mapExistingGame)
+                    .toList();
+        } catch (SqlRepositoryException e) {
+            LOGGER.error("Error during obtaining all games");
         }
 
         return null;
+    }
+
+    private ExistingGameTO mapExistingGames(List<Game> games) {
+        if (games != null && !games.isEmpty()) {
+            Game game = games.get(0);
+            return mapExistingGame(game);
+        }
+
+        return null;
+    }
+
+    private ExistingGameTO mapExistingGame(Game game) {
+        return ExistingGameTO
+                .builder()
+                .id(game.getId())
+                .name(game.getName())
+                .description(game.getDescription())
+                .avatar(game.getAvatar())
+                .build();
     }
 }
