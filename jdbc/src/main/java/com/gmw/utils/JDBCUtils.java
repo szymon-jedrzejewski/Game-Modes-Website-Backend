@@ -10,6 +10,6 @@ public class JDBCUtils {
     }
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("postgresql://postgres:f7Ul9jjyTq6u8tdfDsHR@containers-us-west-76.railway.app:5908/railway", "postgres", "f7Ul9jjyTq6u8tdfDsHR ");
+        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/mods", "postgres", "password");
     }
 }
