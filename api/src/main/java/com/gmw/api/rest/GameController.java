@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/game")
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT})
 public class GameController {
 
     @GetMapping("/findAll")
