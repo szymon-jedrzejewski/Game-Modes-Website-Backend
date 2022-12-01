@@ -1,7 +1,8 @@
-package com.gmw.persistence.sql;
+package com.gmw.persistence;
 
 import com.gmw.exceptions.SqlQueryUtilityException;
 import com.gmw.model.Field;
+import com.gmw.persistence.sql.SqlQueryUtility;
 import com.gmw.view.enums.FieldTypeEnum;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,7 +19,7 @@ public class SqlQueryUtilityTest {
         Field field = prepareFieldObject();
         String actualQuery = SqlQueryUtility.generateCreateQuery(field);
         System.out.print(actualQuery);
-        String expectedQuery = "INSERT INTO fields (\"name\",\"description\",\"field_type\",\"values\",\"view_id\") VALUES ('test', 'some description', 'TEXT', '', 1);";
+        String expectedQuery = "INSERT INTO fields (\"name\",\"description\",\"type\",\"values\",\"view_id\") VALUES ('test', 'some description', 'TEXT', '', 1);";
         Assert.assertEquals(expectedQuery, actualQuery);
     }
 
@@ -35,7 +36,7 @@ public class SqlQueryUtilityTest {
         String expected = "UPDATE fields SET " +
                 "name = 'test', " +
                 "description = 'some description', " +
-                "field_type = 'TEXT', " +
+                "type = 'TEXT', " +
                 "values = '', " +
                 "view_id = 1 WHERE id = 1;";
         Assert.assertEquals(expected, actual);

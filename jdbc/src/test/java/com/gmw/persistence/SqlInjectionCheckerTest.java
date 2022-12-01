@@ -1,7 +1,8 @@
-package com.gmw.persistence.sql;
+package com.gmw.persistence;
 
 import com.gmw.model.View;
-import graphql.Assert;
+import com.gmw.persistence.sql.SqlInjectionChecker;
+import org.junit.Assert;
 import org.junit.Test;
 
 
