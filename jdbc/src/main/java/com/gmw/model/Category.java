@@ -10,17 +10,18 @@ import lombok.ToString;
 @Setter
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class Game extends Table implements Persistable {
+public class Category extends Table implements Persistable {
+
     private Long id;
     private String name;
-    private String description;
-    private byte[] avatar;
 
-    public Game(String tableName) {
-        super(tableName);
+    public Category() {
+        super(null);
     }
 
-    public Game() {
-        super(null);
+    public Category(String tableName, Long id, String name) {
+        super(tableName);
+        this.id = id;
+        this.name = name;
     }
 }
