@@ -1,5 +1,9 @@
 package com.gmw.utils;
 
+
+import com.gmw.reader.JsonConfigReader;
+import com.gmw.reader.tos.DatabaseConfig;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -10,6 +14,7 @@ public class JDBCUtils {
     }
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/mods", "postgres", "password");
+        DatabaseConfig databaseConfig = JsonConfigReader.readDatabaseConfig();
+        return DriverManager.getConnection(databaseConfig.url(), databaseConfig.user(), databaseConfig.password());
     }
 }
