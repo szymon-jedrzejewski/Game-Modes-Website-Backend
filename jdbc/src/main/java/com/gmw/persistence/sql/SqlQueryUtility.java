@@ -62,15 +62,23 @@ public class SqlQueryUtility {
             String id = "";
 
             for (Field field : fields) {
+
                 field.setAccessible(true);
                 String fieldName = toSnakeCase(field.getName());
                 Object value = field.get(persistable);
+
                 if (fieldName.equals("id")) {
                     id = String.valueOf(value);
                 }
+
                 String fieldTypeName = field.getType().getTypeName();
 
-                if (!fieldName.equals("id") && !fieldName.equals("creator")) {
+                if (value == null) {
+                    params.add(fieldName + " = " + null);
+                }
+
+                if (!fieldName.equals("id") && value != null) {
+
                     if (isFieldGivenType(fieldTypeName, "String")) {
                         params.add(fieldName + " = '" + value + "'");
                     } else if (isFieldGivenType(fieldTypeName, "int")) {
@@ -111,7 +119,7 @@ public class SqlQueryUtility {
         while (result.next()) {
 
             Persistable persistable = (Persistable) constructor.newInstance();
-             LOGGER.debug("Created object: " + persistable);
+            LOGGER.debug("Created object: " + persistable);
             Field[] fields = persistable.getClass().getDeclaredFields();
 
             for (Field field : fields) {
@@ -122,9 +130,8 @@ public class SqlQueryUtility {
                 LOGGER.debug("Value: " + result.getObject(fieldName));
 
                 Class<?> type = field.getType();
-                if (isFieldGivenType(type.getTypeName(), "Long"))
-                {
-                    field.set(persistable, Long.valueOf((Integer)result.getObject(fieldName)));
+                if (isFieldGivenType(type.getTypeName(), "Long")) {
+                    field.set(persistable, Long.valueOf((Integer) result.getObject(fieldName)));
                 } else {
                     field.set(persistable, result.getObject(fieldName));
                 }
@@ -168,10 +175,15 @@ public class SqlQueryUtility {
                                 .append("'")
                                 .append(", ");
                     } else {
-                        query.append("'")
-                                .append(object)
-                                .append("'")
-                                .append(", ");
+                        if (object == null) {
+                            query.append("null")
+                                    .append(", ");
+                        } else {
+                            query.append("'")
+                                    .append(object)
+                                    .append("'")
+                                    .append(", ");
+                        }
                     }
 
                 } catch (IllegalAccessException e) {
@@ -192,7 +204,7 @@ public class SqlQueryUtility {
             String fieldName = field.getName();
             if (!fieldName.equals("id")) {
                 field.setAccessible(true);
-                fieldsNames.add("\"" + toSnakeCase(fieldName) + "\"");
+                fieldsNames.add(toSnakeCase(fieldName));
             }
         }
 
