@@ -1,4 +1,4 @@
-package com.gmw.view.tos;
+package com.gmw.user.tos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class ExistingFieldTO extends NewFieldTO {
+public class ExistingUser extends NewUser {
     private Long id;
 }
-

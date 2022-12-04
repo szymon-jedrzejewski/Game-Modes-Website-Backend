@@ -14,7 +14,7 @@ public class Rating extends Table implements Persistable {
     private Long id;
     private Long userId;
     private Long modId;
-    private String rating;
+    private Integer rating;
 
 
     public Rating() {
@@ -25,7 +25,7 @@ public class Rating extends Table implements Persistable {
         super(tableName);
     }
 
-    public Rating(String tableName, Long id, Long userId, Long modId, String rating) {
+    public Rating(String tableName, Long id, Long userId, Long modId, Integer rating) {
         super(tableName);
         this.id = id;
         this.userId = userId;

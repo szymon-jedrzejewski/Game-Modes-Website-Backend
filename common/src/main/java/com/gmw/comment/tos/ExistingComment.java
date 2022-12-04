@@ -1,4 +1,4 @@
-package com.gmw.view.tos;
+package com.gmw.comment.tos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class ExistingFieldTO extends NewFieldTO {
+public class ExistingComment extends NewComment {
     private Long id;
 }
-

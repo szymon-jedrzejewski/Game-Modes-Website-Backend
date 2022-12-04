@@ -1,4 +1,5 @@
-CREATE DATABASE mods;
+CREATE
+DATABASE mods;
 
 CREATE TABLE categories
 (
@@ -62,10 +63,10 @@ CREATE TABLE mods
 
 CREATE TABLE ratings
 (
-    id          SERIAL PRIMARY KEY,
-    user_id     INT,
-    mod_id      INT,
-    rating VARCHAR(5),
+    id      SERIAL PRIMARY KEY,
+    user_id INT,
+    mod_id  INT,
+    rating  INT,
     CONSTRAINT FK_users FOREIGN KEY (user_id) REFERENCES users (id),
     CONSTRAINT FK_mods FOREIGN KEY (mod_id) REFERENCES mods (id)
 );
