@@ -21,9 +21,8 @@ public class View extends Table implements Persistable {
         this.gameId = gameId;
     }
 
-    public View(String tableName, Long gameId) {
+    public View(String tableName) {
         super(tableName);
-        this.gameId = gameId;
     }
 
     public View() {

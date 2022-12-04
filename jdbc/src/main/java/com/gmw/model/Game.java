@@ -23,4 +23,12 @@ public class Game extends Table implements Persistable {
     public Game() {
         super(null);
     }
+
+    public Game(String tableName, Long id, String name, String description, byte[] avatar) {
+        super(tableName);
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.avatar = avatar;
+    }
 }
