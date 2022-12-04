@@ -21,7 +21,7 @@ public class DBGameServiceImpl extends DBGameReadServiceImpl implements DBGameSe
     @Override
     public void createGame(NewGameTO newGame) {
         try {
-            Repository<Game> gameRepositoryManager = getRepositoryManager().getGameRepositoryManager();
+            Repository<Game> gameRepositoryManager = getRepositoryManager().getGameRepository();
 
             Game game = new Game("games");
             game.setName(newGame.getName());
@@ -36,7 +36,7 @@ public class DBGameServiceImpl extends DBGameReadServiceImpl implements DBGameSe
 
     @Override
     public void deleteGame(Long gameId) {
-        getRepositoryManager().getGameRepositoryManager().delete(gameId);
+        getRepositoryManager().getGameRepository().delete(gameId);
     }
 
     @Override
@@ -47,6 +47,6 @@ public class DBGameServiceImpl extends DBGameReadServiceImpl implements DBGameSe
         game.setDescription(existingGameTO.getDescription());
         game.setAvatar(existingGameTO.getAvatar());
 
-        getRepositoryManager().getGameRepositoryManager().update(game);
+        getRepositoryManager().getGameRepository().update(game);
     }
 }

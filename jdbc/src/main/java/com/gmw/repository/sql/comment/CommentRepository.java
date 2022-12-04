@@ -1,4 +1,4 @@
-package com.gmw.repository.sql;
+package com.gmw.repository.sql.comment;
 
 import com.gmw.exceptions.SqlPersistenceManagerException;
 import com.gmw.exceptions.SqlRepositoryException;

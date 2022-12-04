@@ -1,13 +1,16 @@
 package com.gmw.repository;
 
 
-import com.gmw.model.Field;
-import com.gmw.model.Game;
-import com.gmw.model.View;
+import com.gmw.model.*;
 
 public interface RepositoryManager {
 
-    Repository<View> getViewRepositoryManager();
-    Repository<Field> getFieldRepositoryManager();
-    Repository<Game> getGameRepositoryManager();
+    Repository<View> getViewRepository();
+    Repository<Field> getFieldRepository();
+    Repository<Game> getGameRepository();
+    Repository<Category> getCategoryRepository();
+    Repository<Comment> getCommentRepository();
+    Repository<Mod> getModRepository();
+    Repository<Rating> getRatingRepository();
+    Repository<User> getUserRepository();
 }

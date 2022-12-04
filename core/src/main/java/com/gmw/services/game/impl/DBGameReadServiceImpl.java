@@ -26,7 +26,7 @@ public class DBGameReadServiceImpl extends DBService implements DBGameReadServic
 
     @Override
     public ExistingGameTO obtainGameById(Long id) {
-        Repository<Game> gameRepositoryManager = getRepositoryManager().getGameRepositoryManager();
+        Repository<Game> gameRepositoryManager = getRepositoryManager().getGameRepository();
 
         QuerySpec querySpec = new QuerySpec();
         querySpec.setTableName("games");
@@ -45,7 +45,7 @@ public class DBGameReadServiceImpl extends DBService implements DBGameReadServic
 
     @Override
     public ExistingGameTO obtainGameByName(String name) {
-        Repository<Game> gameRepositoryManager = getRepositoryManager().getGameRepositoryManager();
+        Repository<Game> gameRepositoryManager = getRepositoryManager().getGameRepository();
 
         QuerySpec querySpec = new QuerySpec();
         querySpec.setTableName("games");
@@ -64,7 +64,7 @@ public class DBGameReadServiceImpl extends DBService implements DBGameReadServic
 
     @Override
     public List<ExistingGameTO> obtainAllGames() {
-        Repository<Game> gameRepositoryManager = getRepositoryManager().getGameRepositoryManager();
+        Repository<Game> gameRepositoryManager = getRepositoryManager().getGameRepository();
         QuerySpec querySpec = new QuerySpec();
         querySpec.setClazz(Game.class);
         querySpec.setTableName("games");

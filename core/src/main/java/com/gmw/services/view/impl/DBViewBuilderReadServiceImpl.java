@@ -31,7 +31,7 @@ public class DBViewBuilderReadServiceImpl extends DBService implements DBViewBui
     @Override
     public ExistingViewTO obtainViewById(Long viewId) {
         try {
-            Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepositoryManager();
+            Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepository();
             QuerySpec querySpec = new QuerySpec();
             querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, viewId));
             querySpec.setClazz(View.class);
@@ -51,7 +51,7 @@ public class DBViewBuilderReadServiceImpl extends DBService implements DBViewBui
     @Override
     public ExistingViewTO obtainViewByGameId(Long gameId) {
         try {
-            Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepositoryManager();
+            Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepository();
             QuerySpec querySpec = new QuerySpec();
             querySpec.append(QueryOperator.WHERE, new SearchCondition("game_id", Operator.EQUAL_TO, gameId));
             querySpec.setClazz(View.class);
@@ -77,7 +77,7 @@ public class DBViewBuilderReadServiceImpl extends DBService implements DBViewBui
             querySpec.setClazz(Field.class);
 
             List<ExistingFieldTO> existingFieldTOS = getRepositoryManager()
-                    .getFieldRepositoryManager()
+                    .getFieldRepository()
                     .find(querySpec)
                     .stream()
                     .map(this::mapToExistingField).toList();

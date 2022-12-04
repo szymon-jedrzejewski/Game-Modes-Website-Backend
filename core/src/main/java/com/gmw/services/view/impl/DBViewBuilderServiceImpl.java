@@ -32,8 +32,8 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
     @Override
     public void createView(NewViewTO view) {
 
-        Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepositoryManager();
-        Repository<Field> fieldRepositoryManager = getRepositoryManager().getFieldRepositoryManager();
+        Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepository();
+        Repository<Field> fieldRepositoryManager = getRepositoryManager().getFieldRepository();
 
         try {
             View repositoryView = new View("views");
@@ -55,7 +55,7 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
     @Override
     public void deleteView(Long viewId) {
 
-        Repository<Field> fieldRepositoryManager = getRepositoryManager().getFieldRepositoryManager();
+        Repository<Field> fieldRepositoryManager = getRepositoryManager().getFieldRepository();
 
         QuerySpec querySpec = new QuerySpec();
         querySpec.setClazz(Field.class);
@@ -71,18 +71,18 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
             throw new RuntimeException(e);
         }
 
-        Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepositoryManager();
+        Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepository();
         viewRepositoryManager.delete(viewId);
     }
 
     @Override
     public void updateView(ExistingViewTO existingView) {
         View view = new View("views", existingView.getId(), existingView.getGameId());
-        Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepositoryManager();
+        Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepository();
         viewRepositoryManager.update(view);
 
         List<Field> fields = mapExistingFields(existingView.getFields(), existingView.getId());
-        Repository<Field> fieldRepositoryManager = getRepositoryManager().getFieldRepositoryManager();
+        Repository<Field> fieldRepositoryManager = getRepositoryManager().getFieldRepository();
         for (Field field : fields) {
             fieldRepositoryManager.update(field);
         }
