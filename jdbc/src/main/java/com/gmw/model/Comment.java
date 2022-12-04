@@ -5,7 +5,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class Comment extends Table{
     private Long id;
     private Long userId;
