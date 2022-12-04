@@ -1,15 +1,20 @@
 package com.gmw.game.tos;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
 public class ExistingGameTO extends NewGameTO {
 
     private Long id;
+
+    @Builder
+    public ExistingGameTO(String name, byte[] avatar, String description, Long id) {
+        super(name, avatar, description);
+        this.id = id;
+    }
 }
