@@ -1,6 +1,7 @@
 package com.gmw.services.game.impl;
 
 import com.gmw.exceptions.SqlRepositoryException;
+import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.services.game.DBGameReadService;
 import com.gmw.model.Game;
 import com.gmw.persistence.Operator;
@@ -25,7 +26,7 @@ public class DBGameReadServiceImpl extends DBService implements DBGameReadServic
     }
 
     @Override
-    public ExistingGameTO obtainGameById(Long id) {
+    public ExistingGameTO obtainGameById(Long id) throws ResourceNotFoundException {
         Repository<Game> gameRepositoryManager = getRepositoryManager().getGameRepository();
 
         QuerySpec querySpec = new QuerySpec();
@@ -37,14 +38,13 @@ public class DBGameReadServiceImpl extends DBService implements DBGameReadServic
             List<Game> games = gameRepositoryManager.find(querySpec);
             return mapExistingGames(games);
         } catch (SqlRepositoryException e) {
-            LOGGER.error("Error during obtaining game with id: " + id);
+            LOGGER.error("Error during obtaining game with id: " + id, e);
         }
-
-        return null;
+        throw new ResourceNotFoundException();
     }
 
     @Override
-    public ExistingGameTO obtainGameByName(String name) {
+    public ExistingGameTO obtainGameByName(String name) throws ResourceNotFoundException {
         Repository<Game> gameRepositoryManager = getRepositoryManager().getGameRepository();
 
         QuerySpec querySpec = new QuerySpec();
@@ -59,11 +59,11 @@ public class DBGameReadServiceImpl extends DBService implements DBGameReadServic
             LOGGER.error("Error during obtaining game with name: " + name);
         }
 
-        return null;
+        throw new ResourceNotFoundException();
     }
 
     @Override
-    public List<ExistingGameTO> obtainAllGames() {
+    public List<ExistingGameTO> obtainAllGames() throws ResourceNotFoundException {
         Repository<Game> gameRepositoryManager = getRepositoryManager().getGameRepository();
         QuerySpec querySpec = new QuerySpec();
         querySpec.setClazz(Game.class);
@@ -76,10 +76,10 @@ public class DBGameReadServiceImpl extends DBService implements DBGameReadServic
                     .map(this::mapExistingGame)
                     .toList();
         } catch (SqlRepositoryException e) {
-            LOGGER.error("Error during obtaining all games");
+            LOGGER.error("Error during obtaining all games", e);
         }
 
-        return null;
+        throw new ResourceNotFoundException();
     }
 
     private ExistingGameTO mapExistingGames(List<Game> games) {

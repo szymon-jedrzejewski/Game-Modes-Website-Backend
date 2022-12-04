@@ -53,25 +53,26 @@ public class SqlPersistenceManager implements PersistenceManager {
     }
 
     @Override
-    public void update(Persistable persistable) {
+    public void update(Persistable persistable) throws SqlPersistenceManagerException {
         try {
             String query = SqlQueryUtility.generateUpdateQuery(persistable);
             PreparedStatement statement = connection.prepareStatement(query);
             statement.executeUpdate();
         } catch (SQLException | SqlQueryUtilityException e) {
             logger.error("SQLException: " + e.getMessage());
+            throw new SqlPersistenceManagerException();
         }
     }
 
     @Override
-    public void delete(Long id, String tableName) {
+    public void delete(Long id, String tableName) throws SqlPersistenceManagerException {
         try {
             String query = SqlQueryUtility.generateDeleteQuery(tableName, id);
             PreparedStatement statement = connection.prepareStatement(query);
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage());
-            e.printStackTrace();
+            throw new SqlPersistenceManagerException();
         }
     }
 

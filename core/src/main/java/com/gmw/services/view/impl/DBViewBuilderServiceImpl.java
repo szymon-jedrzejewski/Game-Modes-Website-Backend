@@ -10,6 +10,8 @@ import com.gmw.persistence.QuerySpec;
 import com.gmw.persistence.SearchCondition;
 import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
+import com.gmw.services.exceptions.ResourceNotDeletedException;
+import com.gmw.services.exceptions.ResourceNotUpdatedException;
 import com.gmw.services.view.DBViewBuilderService;
 import com.gmw.view.tos.ExistingFieldTO;
 import com.gmw.view.tos.ExistingViewTO;
@@ -30,7 +32,7 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
     }
 
     @Override
-    public void createView(NewViewTO view) {
+    public void createView(NewViewTO view) throws ResourceNotDeletedException {
 
         Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepository();
         Repository<Field> fieldRepositoryManager = getRepositoryManager().getFieldRepository();
@@ -49,11 +51,12 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
 
         } catch (SqlRepositoryException e) {
             LOGGER.error("There was a problem with creating new view!", e);
+            throw new ResourceNotDeletedException();
         }
     }
 
     @Override
-    public void deleteView(Long viewId) {
+    public void deleteView(Long viewId) throws ResourceNotDeletedException {
 
         Repository<Field> fieldRepositoryManager = getRepositoryManager().getFieldRepository();
 
@@ -68,23 +71,39 @@ public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl imple
                 fieldRepositoryManager.delete(field.getId());
             }
         } catch (SqlRepositoryException e) {
-            throw new RuntimeException(e);
+            LOGGER.error("There was a problem with deleting fields from the view with id: " + viewId + "!", e);
+            throw new ResourceNotDeletedException();
         }
 
         Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepository();
-        viewRepositoryManager.delete(viewId);
+        try {
+            viewRepositoryManager.delete(viewId);
+        } catch (SqlRepositoryException e) {
+            LOGGER.error("There was a problem with deleting view with id: " + viewId + "!", e);
+            throw new ResourceNotDeletedException();
+        }
     }
 
     @Override
-    public void updateView(ExistingViewTO existingView) {
+    public void updateView(ExistingViewTO existingView) throws ResourceNotUpdatedException {
         View view = new View("views", existingView.getId(), existingView.getGameId());
         Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepository();
-        viewRepositoryManager.update(view);
+        try {
+            viewRepositoryManager.update(view);
+        } catch (SqlRepositoryException e) {
+            LOGGER.error("There was a problem with updating view with id: " + view.getId() + "!", e);
+            throw new ResourceNotUpdatedException();
+        }
 
         List<Field> fields = mapExistingFields(existingView.getFields(), existingView.getId());
         Repository<Field> fieldRepositoryManager = getRepositoryManager().getFieldRepository();
         for (Field field : fields) {
-            fieldRepositoryManager.update(field);
+            try {
+                fieldRepositoryManager.update(field);
+            } catch (SqlRepositoryException e) {
+                LOGGER.error("There was a problem with updating field with id: " + field.getId() + "!", e);
+                throw new ResourceNotUpdatedException();
+            }
         }
     }
 

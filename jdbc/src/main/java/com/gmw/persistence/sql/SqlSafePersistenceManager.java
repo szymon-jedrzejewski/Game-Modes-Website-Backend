@@ -30,7 +30,7 @@ public class SqlSafePersistenceManager extends SqlPersistenceManager{
     }
 
     @Override
-    public void update(Persistable persistable) {
+    public void update(Persistable persistable) throws SqlPersistenceManagerException {
         if (!SqlInjectionChecker.check(persistable))
         {
             super.update(persistable);
@@ -40,7 +40,7 @@ public class SqlSafePersistenceManager extends SqlPersistenceManager{
     }
 
     @Override
-    public void delete(Long id, String tableName) {
+    public void delete(Long id, String tableName) throws SqlPersistenceManagerException {
         super.delete(id, tableName);
     }
 

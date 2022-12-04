@@ -7,7 +7,7 @@ import java.util.List;
 public interface PersistenceManager {
 
     Persistable create(Persistable persistable) throws SqlPersistenceManagerException;
-    void update(Persistable persistable);
-    void delete(Long id, String tableName);
+    void update(Persistable persistable) throws SqlPersistenceManagerException;
+    void delete(Long id, String tableName) throws SqlPersistenceManagerException;
     List<Persistable> find(QuerySpec querySpec) throws SqlPersistenceManagerException;
 }

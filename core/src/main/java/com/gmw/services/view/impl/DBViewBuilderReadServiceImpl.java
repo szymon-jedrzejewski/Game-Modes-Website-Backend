@@ -9,6 +9,7 @@ import com.gmw.persistence.QuerySpec;
 import com.gmw.persistence.SearchCondition;
 import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
+import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.services.view.DBViewBuilderReadService;
 import com.gmw.services.DBService;
 import com.gmw.view.enums.FieldTypeEnum;
@@ -29,7 +30,7 @@ public class DBViewBuilderReadServiceImpl extends DBService implements DBViewBui
     }
 
     @Override
-    public ExistingViewTO obtainViewById(Long viewId) {
+    public ExistingViewTO obtainViewById(Long viewId) throws ResourceNotFoundException {
         try {
             Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepository();
             QuerySpec querySpec = new QuerySpec();
@@ -42,14 +43,14 @@ public class DBViewBuilderReadServiceImpl extends DBService implements DBViewBui
                 return mapToExistingView(views.get(0));
             }
         } catch (SqlRepositoryException e) {
-            LOGGER.error("Cannot obtain view with id " + viewId);
+            LOGGER.error("Cannot obtain view with id " + viewId, e);
         }
 
-        return null;
+        throw new ResourceNotFoundException();
     }
 
     @Override
-    public ExistingViewTO obtainViewByGameId(Long gameId) {
+    public ExistingViewTO obtainViewByGameId(Long gameId) throws ResourceNotFoundException {
         try {
             Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepository();
             QuerySpec querySpec = new QuerySpec();
@@ -63,10 +64,10 @@ public class DBViewBuilderReadServiceImpl extends DBService implements DBViewBui
                 return mapToExistingView(views.get(0));
             }
         } catch (SqlRepositoryException e) {
-            LOGGER.error("Cannot obtain view with game id " + gameId);
+            LOGGER.error("Cannot obtain view with game id " + gameId, e);
         }
 
-        return null;
+        throw new ResourceNotFoundException();
     }
 
     private ExistingViewTO mapToExistingView(View view) {
@@ -89,7 +90,7 @@ public class DBViewBuilderReadServiceImpl extends DBService implements DBViewBui
                     .fields(existingFieldTOS)
                     .build();
         } catch (SqlRepositoryException e) {
-            LOGGER.error("Cannot obtain fields for view with id " + view.getId());
+            LOGGER.error("Cannot obtain fields for view with id " + view.getId(), e);
         }
 
         return null;

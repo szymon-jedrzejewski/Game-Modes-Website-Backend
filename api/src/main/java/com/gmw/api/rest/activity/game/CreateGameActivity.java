@@ -1,6 +1,7 @@
 package com.gmw.api.rest.activity.game;
 
 import com.gmw.api.rest.activity.Activity;
+import com.gmw.services.exceptions.ResourceNotCreatedException;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.SqlServiceManager;
 import com.gmw.services.game.DBGameService;
@@ -16,11 +17,12 @@ public class CreateGameActivity extends Activity<Void> {
     }
 
     @Override
-    protected Void realExecute() {
+    protected Void realExecute() throws ResourceNotCreatedException {
         ServiceManager serviceManager = new SqlServiceManager();
         DBGameService service = serviceManager.getDbGameService();
+
+        status = HttpStatus.CREATED;
         service.createGame(newGameTO);
-        status = HttpStatus.OK;
         return null;
     }
 }

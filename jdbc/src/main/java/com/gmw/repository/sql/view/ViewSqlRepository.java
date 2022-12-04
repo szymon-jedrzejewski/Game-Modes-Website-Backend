@@ -28,21 +28,30 @@ public class ViewSqlRepository implements Repository<View> {
             return id;
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Can not create new View!", e);
+            throw new SqlRepositoryException();
         }
-
-        throw new SqlRepositoryException();
     }
 
     @Override
-    public void update(View view) {
-        persistenceManager.update(view);
-        LOGGER.debug("View with id " + view.getId() + " was updated!");
+    public void update(View view) throws SqlRepositoryException {
+        try {
+            persistenceManager.update(view);
+            LOGGER.debug("View with id " + view.getId() + " was updated!");
+        } catch (SqlPersistenceManagerException e) {
+            LOGGER.error("Can not update the view!", e);
+            throw new SqlRepositoryException();
+        }
     }
 
     @Override
-    public void delete(Long id) {
-        persistenceManager.delete(id, "views");
-        LOGGER.debug("View with id " + id + " was deleted!");
+    public void delete(Long id) throws SqlRepositoryException {
+        try {
+            persistenceManager.delete(id, "views");
+            LOGGER.debug("View with id " + id + " was deleted!");
+        } catch (SqlPersistenceManagerException e) {
+            LOGGER.error("Can not delete the view!", e);
+            throw new SqlRepositoryException();
+        }
     }
 
     @Override
@@ -55,7 +64,7 @@ public class ViewSqlRepository implements Repository<View> {
                     toList();
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during searching values!", e);
+            throw new SqlRepositoryException();
         }
-        throw new SqlRepositoryException();
     }
 }

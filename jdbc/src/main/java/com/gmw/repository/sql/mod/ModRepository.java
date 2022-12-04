@@ -29,20 +29,30 @@ public class ModRepository implements Repository<Mod> {
             return id;
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during creating mod! " + newMod, e);
+            throw new SqlRepositoryException();
         }
-        throw new SqlRepositoryException();
     }
 
     @Override
-    public void update(Mod mod) {
-        persistenceManager.update(mod);
-        LOGGER.debug("Mod with id " + mod.getId() + " was updated!");
+    public void update(Mod mod) throws SqlRepositoryException {
+        try {
+            persistenceManager.update(mod);
+            LOGGER.debug("Mod with id " + mod.getId() + " was updated!");
+        } catch (SqlPersistenceManagerException e) {
+            LOGGER.error("Error during updating mod!", e);
+            throw new SqlRepositoryException();
+        }
     }
 
     @Override
-    public void delete(Long id) {
-        persistenceManager.delete(id, "mods");
-        LOGGER.debug("Mod with id " + id + " was deleted!");
+    public void delete(Long id) throws SqlRepositoryException {
+        try {
+            persistenceManager.delete(id, "mods");
+            LOGGER.debug("Mod with id " + id + " was deleted!");
+        } catch (SqlPersistenceManagerException e) {
+            LOGGER.error("Error during deleting mod!", e);
+            throw new SqlRepositoryException();
+        }
     }
 
     @Override
@@ -55,7 +65,7 @@ public class ModRepository implements Repository<Mod> {
                     .toList();
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during searching values!", e);
+            throw new SqlRepositoryException();
         }
-        throw new SqlRepositoryException();
     }
 }

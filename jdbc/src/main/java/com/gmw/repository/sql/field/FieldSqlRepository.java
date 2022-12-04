@@ -28,20 +28,30 @@ public class FieldSqlRepository implements Repository<Field> {
             return id;
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during creating field! " + newField, e);
+            throw new SqlRepositoryException();
         }
-        throw new SqlRepositoryException();
     }
 
     @Override
-    public void update(Field field) {
-        persistenceManager.update(field);
-        LOGGER.debug("Field with id " + field.getId() + " was updated!");
+    public void update(Field field) throws SqlRepositoryException {
+        try {
+            persistenceManager.update(field);
+            LOGGER.debug("Field with id " + field.getId() + " was updated!");
+        } catch (SqlPersistenceManagerException e) {
+            LOGGER.error("Error during updating the field! ", e);
+            throw new SqlRepositoryException();
+        }
     }
 
     @Override
-    public void delete(Long id) {
-        persistenceManager.delete(id, "fields");
-        LOGGER.debug("Field with id " + id + " was deleted!");
+    public void delete(Long id) throws SqlRepositoryException {
+        try {
+            persistenceManager.delete(id, "fields");
+            LOGGER.debug("Field with id " + id + " was deleted!");
+        } catch (SqlPersistenceManagerException e) {
+            LOGGER.error("Error during deleting the field! ", e);
+            throw new SqlRepositoryException();
+        }
     }
 
     @Override
@@ -54,7 +64,7 @@ public class FieldSqlRepository implements Repository<Field> {
                     .toList();
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during searching values!", e);
+            throw new SqlRepositoryException();
         }
-        throw new SqlRepositoryException();
     }
 }

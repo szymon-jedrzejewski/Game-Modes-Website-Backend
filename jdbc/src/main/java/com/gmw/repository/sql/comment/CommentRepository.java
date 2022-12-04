@@ -30,20 +30,30 @@ public class CommentRepository implements Repository<Comment> {
             return id;
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during creating comment! " + newComment, e);
+            throw new SqlRepositoryException();
         }
-        throw new SqlRepositoryException();
     }
 
     @Override
-    public void update(Comment comment) {
-        persistenceManager.update(comment);
-        LOGGER.debug("Comment with id " + comment.getId() + " was updated!");
+    public void update(Comment comment) throws SqlRepositoryException {
+        try {
+            persistenceManager.update(comment);
+            LOGGER.debug("Comment with id " + comment.getId() + " was updated!");
+        } catch (SqlPersistenceManagerException e) {
+            LOGGER.error("Error during updating comment!", e);
+            throw new SqlRepositoryException();
+        }
     }
 
     @Override
-    public void delete(Long id) {
-        persistenceManager.delete(id, "comments");
-        LOGGER.debug("Comment with id " + id + " was deleted!");
+    public void delete(Long id) throws SqlRepositoryException {
+        try {
+            persistenceManager.delete(id, "comments");
+            LOGGER.debug("Comment with id " + id + " was deleted!");
+        } catch (SqlPersistenceManagerException e) {
+            LOGGER.error("Error during deleting comment!", e);
+            throw new SqlRepositoryException();
+        }
     }
 
     @Override
@@ -56,7 +66,7 @@ public class CommentRepository implements Repository<Comment> {
                     .toList();
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during searching values!", e);
+            throw new SqlRepositoryException();
         }
-        throw new SqlRepositoryException();
     }
 }

@@ -30,20 +30,30 @@ public class UserRepository implements Repository<User> {
             return id;
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during creating user! " + newUser, e);
+            throw new SqlRepositoryException();
         }
-        throw new SqlRepositoryException();
     }
 
     @Override
-    public void update(User user) {
-        persistenceManager.update(user);
-        LOGGER.debug("User with id " + user.getId() + " was updated!");
+    public void update(User user) throws SqlRepositoryException {
+        try {
+            persistenceManager.update(user);
+            LOGGER.debug("User with id " + user.getId() + " was updated!");
+        } catch (SqlPersistenceManagerException e) {
+            LOGGER.error("Error during updating the user!", e);
+            throw new SqlRepositoryException();
+        }
     }
 
     @Override
-    public void delete(Long id) {
-        persistenceManager.delete(id, "users");
-        LOGGER.debug("User with id " + id + " was deleted!");
+    public void delete(Long id) throws SqlRepositoryException {
+        try {
+            persistenceManager.delete(id, "users");
+            LOGGER.debug("User with id " + id + " was deleted!");
+        } catch (SqlPersistenceManagerException e) {
+            LOGGER.error("Error during deleting the user!", e);
+            throw new SqlRepositoryException();
+        }
     }
 
     @Override
@@ -56,7 +66,7 @@ public class UserRepository implements Repository<User> {
                     .toList();
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during searching values!", e);
+            throw new SqlRepositoryException();
         }
-        throw new SqlRepositoryException();
     }
 }

@@ -30,20 +30,30 @@ public class CategoryRepository implements Repository<Category> {
             return id;
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during creating category! " + newCategory, e);
+            throw new SqlRepositoryException();
         }
-        throw new SqlRepositoryException();
     }
 
     @Override
-    public void update(Category category) {
-        persistenceManager.update(category);
-        LOGGER.debug("Category with id " + category.getId() + " was updated!");
+    public void update(Category category) throws SqlRepositoryException {
+        try {
+            persistenceManager.update(category);
+            LOGGER.debug("Category with id " + category.getId() + " was updated!");
+        } catch (SqlPersistenceManagerException e) {
+            LOGGER.error("Error during updating category!", e);
+            throw new SqlRepositoryException();
+        }
     }
 
     @Override
-    public void delete(Long id) {
-        persistenceManager.delete(id, "categories");
-        LOGGER.debug("Category with id " + id + " was deleted!");
+    public void delete(Long id) throws SqlRepositoryException {
+        try {
+            persistenceManager.delete(id, "categories");
+            LOGGER.debug("Category with id " + id + " was deleted!");
+        } catch (SqlPersistenceManagerException e) {
+            LOGGER.error("Error during deleting category!", e);
+            throw new SqlRepositoryException();
+        }
     }
 
     @Override
@@ -56,7 +66,7 @@ public class CategoryRepository implements Repository<Category> {
                     .toList();
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during searching values!", e);
+            throw new SqlRepositoryException();
         }
-        throw new SqlRepositoryException();
     }
 }

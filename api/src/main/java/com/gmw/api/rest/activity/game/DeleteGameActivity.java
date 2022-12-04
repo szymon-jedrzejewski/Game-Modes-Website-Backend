@@ -1,6 +1,7 @@
 package com.gmw.api.rest.activity.game;
 
 import com.gmw.api.rest.activity.Activity;
+import com.gmw.services.exceptions.ResourceNotDeletedException;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.SqlServiceManager;
 import com.gmw.services.game.DBGameService;
@@ -15,7 +16,7 @@ public class DeleteGameActivity extends Activity<Void> {
     }
 
     @Override
-    protected Void realExecute() {
+    protected Void realExecute() throws ResourceNotDeletedException {
         ServiceManager serviceManager = new SqlServiceManager();
         DBGameService service = serviceManager.getDbGameService();
         service.deleteGame(id);

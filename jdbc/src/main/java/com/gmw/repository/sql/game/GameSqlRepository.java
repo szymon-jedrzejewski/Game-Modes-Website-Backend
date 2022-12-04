@@ -26,20 +26,30 @@ public class GameSqlRepository implements Repository<Game> {
             return game.getId();
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Can not create new game!", e);
+            throw new SqlRepositoryException();
         }
-        throw new SqlRepositoryException();
     }
 
     @Override
-    public void update(Game game) {
+    public void update(Game game) throws SqlRepositoryException {
         LOGGER.debug("Updating the game with id: " + game.getId());
-        persistenceManager.update(game);
+        try {
+            persistenceManager.update(game);
+        } catch (SqlPersistenceManagerException e) {
+            LOGGER.error("Can not update the game!", e);
+            throw new SqlRepositoryException();
+        }
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws SqlRepositoryException {
         LOGGER.debug("Deleting game with id: " + id);
-        persistenceManager.delete(id, "games");
+        try {
+            persistenceManager.delete(id, "games");
+        } catch (SqlPersistenceManagerException e) {
+            LOGGER.error("Can not delete the game game!", e);
+            throw new SqlRepositoryException();
+        }
     }
 
     @Override
@@ -52,7 +62,7 @@ public class GameSqlRepository implements Repository<Game> {
                     .toList();
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during searching for values with QuerySpec: " + querySpec, e);
+            throw new SqlRepositoryException();
         }
-        throw new SqlRepositoryException();
     }
 }

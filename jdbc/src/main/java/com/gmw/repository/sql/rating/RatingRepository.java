@@ -30,20 +30,30 @@ public class RatingRepository implements Repository<Rating> {
             return id;
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during creating rating! " + newRating, e);
+            throw new SqlRepositoryException();
         }
-        throw new SqlRepositoryException();
     }
 
     @Override
-    public void update(Rating rating) {
-        persistenceManager.update(rating);
-        LOGGER.debug("Rating with id " + rating.getId() + " was updated!");
+    public void update(Rating rating) throws SqlRepositoryException {
+        try {
+            persistenceManager.update(rating);
+            LOGGER.debug("Rating with id " + rating.getId() + " was updated!");
+        } catch (SqlPersistenceManagerException e) {
+            LOGGER.error("Error during updating the rating!", e);
+            throw new SqlRepositoryException();
+        }
     }
 
     @Override
-    public void delete(Long id) {
-        persistenceManager.delete(id, "ratings");
-        LOGGER.debug("Rating with id " + id + " was deleted!");
+    public void delete(Long id) throws SqlRepositoryException {
+        try {
+            persistenceManager.delete(id, "ratings");
+            LOGGER.debug("Rating with id " + id + " was deleted!");
+        } catch (SqlPersistenceManagerException e) {
+            LOGGER.error("Error during deleting the rating!", e);
+            throw new SqlRepositoryException();
+        }
     }
 
     @Override
@@ -56,7 +66,7 @@ public class RatingRepository implements Repository<Rating> {
                     .toList();
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during searching values!", e);
+            throw new SqlRepositoryException();
         }
-        throw new SqlRepositoryException();
     }
 }
