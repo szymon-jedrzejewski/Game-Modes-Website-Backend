@@ -27,7 +27,7 @@ public class ViewSqlRepository implements Repository<View> {
             LOGGER.debug("New view with id " + id + " was created!");
             return id;
         } catch (SqlPersistenceManagerException e) {
-            LOGGER.error("Can not create new View!");
+            LOGGER.error("Can not create new View!", e);
         }
 
         throw new SqlRepositoryException();
@@ -51,10 +51,10 @@ public class ViewSqlRepository implements Repository<View> {
             return persistenceManager
                     .find(querySpec)
                     .stream()
-                    .map(persistable -> (View)persistable).
+                    .map(View.class::cast).
                     toList();
         } catch (SqlPersistenceManagerException e) {
-            LOGGER.error("Error during searching values!");
+            LOGGER.error("Error during searching values!", e);
         }
         throw new SqlRepositoryException();
     }

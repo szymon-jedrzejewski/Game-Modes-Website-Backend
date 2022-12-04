@@ -1,8 +1,8 @@
-package com.gmw.repository.sql.field;
+package com.gmw.repository.sql.user;
 
 import com.gmw.exceptions.SqlPersistenceManagerException;
 import com.gmw.exceptions.SqlRepositoryException;
-import com.gmw.model.Field;
+import com.gmw.model.User;
 import com.gmw.persistence.PersistenceManager;
 import com.gmw.persistence.QuerySpec;
 import com.gmw.repository.Repository;
@@ -11,46 +11,48 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class FieldSqlRepository implements Repository<Field> {
+public class UserRepository implements Repository<User> {
+
     private static final Logger LOGGER = LogManager.getLogger();
     private final PersistenceManager persistenceManager;
-    public FieldSqlRepository(PersistenceManager persistenceManager) {
+
+    public UserRepository(PersistenceManager persistenceManager) {
         this.persistenceManager = persistenceManager;
     }
 
     @Override
-    public Long create(Field newField) throws SqlRepositoryException {
+    public Long create(User newUser) throws SqlRepositoryException {
         try {
-            LOGGER.debug("Creating new field!");
-            Field field = (Field) persistenceManager.create(newField);
-            Long id = field.getId();
-            LOGGER.debug("New field with id " + id + " was created!");
+            LOGGER.debug("Creating new user!");
+            User user = (User) persistenceManager.create(newUser);
+            Long id = user.getId();
+            LOGGER.debug("New user with id " + id + " was created!");
             return id;
         } catch (SqlPersistenceManagerException e) {
-            LOGGER.error("Error during creating field! " + newField, e);
+            LOGGER.error("Error during creating user! " + newUser, e);
         }
         throw new SqlRepositoryException();
     }
 
     @Override
-    public void update(Field field) {
-        persistenceManager.update(field);
-        LOGGER.debug("Field with id " + field.getId() + " was updated!");
+    public void update(User user) {
+        persistenceManager.update(user);
+        LOGGER.debug("User with id " + user.getId() + " was updated!");
     }
 
     @Override
     public void delete(Long id) {
-        persistenceManager.delete(id, "fields");
-        LOGGER.debug("Field with id " + id + " was deleted!");
+        persistenceManager.delete(id, "users");
+        LOGGER.debug("User with id " + id + " was deleted!");
     }
 
     @Override
-    public List<Field> find(QuerySpec querySpec) throws SqlRepositoryException {
+    public List<User> find(QuerySpec querySpec) throws SqlRepositoryException {
         try {
             return persistenceManager
                     .find(querySpec)
                     .stream()
-                    .map(Field.class::cast)
+                    .map(User.class::cast)
                     .toList();
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during searching values!", e);

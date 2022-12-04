@@ -1,5 +1,6 @@
 package com.gmw.model;
 
+import com.gmw.persistence.Persistable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import java.util.Date;
 @Setter
 @ToString
 @EqualsAndHashCode(callSuper = false)
-public class Mod extends Table{
+public class Mod extends Table implements Persistable {
     private Long id;
     private String name;
     private Long userId;

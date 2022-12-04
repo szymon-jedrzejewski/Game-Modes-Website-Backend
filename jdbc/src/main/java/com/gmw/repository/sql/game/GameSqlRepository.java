@@ -25,9 +25,9 @@ public class GameSqlRepository implements Repository<Game> {
             Game game = (Game) persistenceManager.create(newGame);
             return game.getId();
         } catch (SqlPersistenceManagerException e) {
-            LOGGER.error("Can not create new game!");
-            throw new SqlRepositoryException();
+            LOGGER.error("Can not create new game!", e);
         }
+        throw new SqlRepositoryException();
     }
 
     @Override
@@ -45,9 +45,13 @@ public class GameSqlRepository implements Repository<Game> {
     @Override
     public List<Game> find(QuerySpec querySpec) throws SqlRepositoryException {
         try {
-            return persistenceManager.find(querySpec).stream().map(persistable -> (Game)persistable).toList();
+            return persistenceManager
+                    .find(querySpec)
+                    .stream()
+                    .map(Game.class::cast)
+                    .toList();
         } catch (SqlPersistenceManagerException e) {
-            LOGGER.error("Error during searching for values with QuerySpec: " + querySpec);
+            LOGGER.error("Error during searching for values with QuerySpec: " + querySpec, e);
         }
         throw new SqlRepositoryException();
     }
