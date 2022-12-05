@@ -40,6 +40,7 @@ public class DBGameServiceImpl extends DBGameReadServiceImpl implements DBGameSe
 
         } catch (SqlRepositoryException e) {
             LOGGER.error("Error during creating new game!");
+            throw new ResourceNotCreatedException();
         }
     }
 

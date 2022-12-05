@@ -1,9 +1,6 @@
 package com.gmw.category.tos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
@@ -11,4 +8,10 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 public class ExistingCategory extends NewCategory {
     private Long id;
+
+    @Builder
+    public ExistingCategory(String name, Long id) {
+        super(name);
+        this.id = id;
+    }
 }
