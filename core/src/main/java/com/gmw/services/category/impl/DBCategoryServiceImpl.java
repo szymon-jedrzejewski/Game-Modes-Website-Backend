@@ -6,6 +6,7 @@ import com.gmw.exceptions.SqlRepositoryException;
 import com.gmw.model.Category;
 import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
+import com.gmw.services.ServiceUtils;
 import com.gmw.services.category.DBCategoryService;
 import com.gmw.services.exceptions.ResourceNotCreatedException;
 import com.gmw.services.exceptions.ResourceNotDeletedException;
@@ -23,21 +24,13 @@ public class DBCategoryServiceImpl extends DBCategoryReadServiceImpl implements 
 
     @Override
     public void createCategory(NewCategory newCategory) throws ResourceNotCreatedException {
-        try {
-            Repository<Category> repository = getRepositoryManager().getCategoryRepository();
 
-            Category category = new Category("categories");
-            category.setName(newCategory.getName());
+        Repository<Category> repository = getRepositoryManager().getCategoryRepository();
 
-            Long categoryId = repository.create(category);
+        Category category = new Category("categories");
+        category.setName(newCategory.getName());
 
-            if (categoryId == null) {
-                throw new ResourceNotCreatedException();
-            }
-        } catch (SqlRepositoryException e) {
-            LOGGER.error("Cannot create new game!");
-            throw new ResourceNotCreatedException();
-        }
+        ServiceUtils.create(repository, category);
     }
 
     @Override

@@ -1,14 +1,14 @@
 package com.gmw.services.game.impl;
 
-import com.gmw.services.exceptions.ResourceNotCreatedException;
-import com.gmw.services.exceptions.ResourceNotDeletedException;
-import com.gmw.services.exceptions.ResourceNotUpdatedException;
-import com.gmw.exceptions.SqlRepositoryException;
 import com.gmw.game.tos.ExistingGameTO;
 import com.gmw.game.tos.NewGameTO;
 import com.gmw.model.Game;
 import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
+import com.gmw.services.ServiceUtils;
+import com.gmw.services.exceptions.ResourceNotCreatedException;
+import com.gmw.services.exceptions.ResourceNotDeletedException;
+import com.gmw.services.exceptions.ResourceNotUpdatedException;
 import com.gmw.services.game.DBGameService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,35 +23,21 @@ public class DBGameServiceImpl extends DBGameReadServiceImpl implements DBGameSe
 
     @Override
     public void createGame(NewGameTO newGame) throws ResourceNotCreatedException {
-        try {
-            Repository<Game> gameRepositoryManager = getRepositoryManager().getGameRepository();
 
-            Game game = new Game("games");
-            game.setName(newGame.getName());
-            game.setDescription(newGame.getDescription());
-            game.setAvatar(newGame.getAvatar());
+        Repository<Game> repository = getRepositoryManager().getGameRepository();
 
-            Long gameId = gameRepositoryManager.create(game);
+        Game game = new Game("games");
+        game.setName(newGame.getName());
+        game.setDescription(newGame.getDescription());
+        game.setAvatar(newGame.getAvatar());
 
-            if (gameId == null)
-            {
-                throw new ResourceNotCreatedException();
-            }
-
-        } catch (SqlRepositoryException e) {
-            LOGGER.error("Error during creating new game!");
-            throw new ResourceNotCreatedException();
-        }
+        ServiceUtils.create(repository, game);
     }
 
     @Override
     public void deleteGame(Long gameId) throws ResourceNotDeletedException {
         Repository<Game> repository = getRepositoryManager().getGameRepository();
-        try {
-            repository.delete(gameId);
-        } catch (SqlRepositoryException e) {
-            throw new ResourceNotDeletedException(e);
-        }
+        ServiceUtils.delete(repository, gameId);
     }
 
     @Override
@@ -62,10 +48,8 @@ public class DBGameServiceImpl extends DBGameReadServiceImpl implements DBGameSe
         game.setDescription(existingGameTO.getDescription());
         game.setAvatar(existingGameTO.getAvatar());
 
-        try {
-            getRepositoryManager().getGameRepository().update(game);
-        } catch (SqlRepositoryException e) {
-            throw new ResourceNotUpdatedException(e);
-        }
+        Repository<Game> repository = getRepositoryManager().getGameRepository();
+
+        ServiceUtils.update(repository, game);
     }
 }

@@ -9,6 +9,8 @@ import com.gmw.persistence.QuerySpec;
 import com.gmw.persistence.SearchCondition;
 import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
+import com.gmw.services.DTOConverter;
+import com.gmw.services.ServiceUtils;
 import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.services.view.DBViewBuilderReadService;
 import com.gmw.services.DBService;
@@ -21,7 +23,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.Arrays;
 import java.util.List;
 
-public class DBViewBuilderReadServiceImpl extends DBService implements DBViewBuilderReadService {
+public class DBViewBuilderReadServiceImpl extends DBService implements DBViewBuilderReadService, DTOConverter<ExistingViewTO, View> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -31,46 +33,28 @@ public class DBViewBuilderReadServiceImpl extends DBService implements DBViewBui
 
     @Override
     public ExistingViewTO obtainViewById(Long viewId) throws ResourceNotFoundException {
-        try {
-            Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepository();
-            QuerySpec querySpec = new QuerySpec();
-            querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, viewId));
-            querySpec.setClazz(View.class);
-            querySpec.setTableName("views");
+        Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepository();
+        QuerySpec querySpec = new QuerySpec();
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, viewId));
+        querySpec.setClazz(View.class);
+        querySpec.setTableName("views");
 
-            List<View> views = viewRepositoryManager.find(querySpec);
-            if (!views.isEmpty()) {
-                return mapToExistingView(views.get(0));
-            }
-        } catch (SqlRepositoryException e) {
-            LOGGER.error("Cannot obtain view with id " + viewId, e);
-        }
-
-        throw new ResourceNotFoundException();
+        return ServiceUtils.find(viewRepositoryManager, this, querySpec).get(0);
     }
 
     @Override
     public ExistingViewTO obtainViewByGameId(Long gameId) throws ResourceNotFoundException {
-        try {
-            Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepository();
-            QuerySpec querySpec = new QuerySpec();
-            querySpec.append(QueryOperator.WHERE, new SearchCondition("game_id", Operator.EQUAL_TO, gameId));
-            querySpec.setClazz(View.class);
-            querySpec.setTableName("views");
+        Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepository();
+        QuerySpec querySpec = new QuerySpec();
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("game_id", Operator.EQUAL_TO, gameId));
+        querySpec.setClazz(View.class);
+        querySpec.setTableName("views");
 
-            List<View> views = viewRepositoryManager.find(querySpec);
-
-            if (!views.isEmpty()) {
-                return mapToExistingView(views.get(0));
-            }
-        } catch (SqlRepositoryException e) {
-            LOGGER.error("Cannot obtain view with game id " + gameId, e);
-        }
-
-        throw new ResourceNotFoundException();
+        return ServiceUtils.find(viewRepositoryManager, this, querySpec).get(0);
     }
 
-    private ExistingViewTO mapToExistingView(View view) {
+    @Override
+    public ExistingViewTO convert(View view) {
         try {
             QuerySpec querySpec = new QuerySpec();
             querySpec.append(QueryOperator.WHERE, new SearchCondition("view_id", Operator.EQUAL_TO, view.getId()));
