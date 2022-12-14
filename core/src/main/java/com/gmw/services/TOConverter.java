@@ -1,6 +1,6 @@
 package com.gmw.services;
 
-public interface DTOConverter<T,U> {
+public interface TOConverter<T,U> {
 
     T convert(U u);
 }

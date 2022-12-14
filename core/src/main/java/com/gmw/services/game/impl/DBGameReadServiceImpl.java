@@ -9,14 +9,14 @@ import com.gmw.persistence.SearchCondition;
 import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
 import com.gmw.services.DBService;
-import com.gmw.services.DTOConverter;
+import com.gmw.services.TOConverter;
 import com.gmw.services.ServiceUtils;
 import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.services.game.DBGameReadService;
 
 import java.util.List;
 
-public class DBGameReadServiceImpl extends DBService implements DBGameReadService, DTOConverter<ExistingGameTO, Game> {
+public class DBGameReadServiceImpl extends DBService implements DBGameReadService, TOConverter<ExistingGameTO, Game> {
     
     public DBGameReadServiceImpl(RepositoryManager repositoryManager) {
         super(repositoryManager);

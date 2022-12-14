@@ -9,7 +9,7 @@ import com.gmw.persistence.QuerySpec;
 import com.gmw.persistence.SearchCondition;
 import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
-import com.gmw.services.DTOConverter;
+import com.gmw.services.TOConverter;
 import com.gmw.services.ServiceUtils;
 import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.services.view.DBViewBuilderReadService;
@@ -23,7 +23,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.Arrays;
 import java.util.List;
 
-public class DBViewBuilderReadServiceImpl extends DBService implements DBViewBuilderReadService, DTOConverter<ExistingViewTO, View> {
+public class DBViewBuilderReadServiceImpl extends DBService implements DBViewBuilderReadService, TOConverter<ExistingViewTO, View> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

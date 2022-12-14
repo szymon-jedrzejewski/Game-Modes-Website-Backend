@@ -50,7 +50,7 @@ public final class ServiceUtils {
         }
     }
 
-    public static <T, U> List<U> find(Repository<T> repository, DTOConverter<U, T> converter, QuerySpec querySpec) throws ResourceNotFoundException {
+    public static <T, U> List<U> find(Repository<T> repository, TOConverter<U, T> converter, QuerySpec querySpec) throws ResourceNotFoundException {
         try {
             List<U> list = repository.find(querySpec).stream().map(converter::convert).toList();
 

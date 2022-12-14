@@ -9,14 +9,14 @@ import com.gmw.persistence.SearchCondition;
 import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
 import com.gmw.services.DBService;
-import com.gmw.services.DTOConverter;
+import com.gmw.services.TOConverter;
 import com.gmw.services.ServiceUtils;
 import com.gmw.services.category.DBCategoryReadService;
 import com.gmw.services.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 
-public class DBCategoryReadServiceImpl extends DBService implements DBCategoryReadService, DTOConverter<ExistingCategory, Category> {
+public class DBCategoryReadServiceImpl extends DBService implements DBCategoryReadService, TOConverter<ExistingCategory, Category> {
 
     public DBCategoryReadServiceImpl(RepositoryManager repositoryManager) {
         super(repositoryManager);
