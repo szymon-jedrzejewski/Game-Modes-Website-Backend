@@ -1,6 +1,6 @@
 package com.gmw.services.category.impl;
 
-import com.gmw.category.tos.ExistingCategory;
+import com.gmw.category.tos.ExistingCategoryTO;
 import com.gmw.model.Category;
 import com.gmw.persistence.Operator;
 import com.gmw.persistence.QueryOperator;
@@ -16,14 +16,14 @@ import com.gmw.services.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 
-public class DBCategoryReadServiceImpl extends DBService implements DBCategoryReadService, TOConverter<ExistingCategory, Category> {
+public class DBCategoryReadServiceImpl extends DBService implements DBCategoryReadService, TOConverter<ExistingCategoryTO, Category> {
 
     public DBCategoryReadServiceImpl(RepositoryManager repositoryManager) {
         super(repositoryManager);
     }
 
     @Override
-    public ExistingCategory obtainCategoryByName(String name) throws ResourceNotFoundException {
+    public ExistingCategoryTO obtainCategoryByName(String name) throws ResourceNotFoundException {
         QuerySpec querySpec = new QuerySpec();
         querySpec.setTableName("categories");
         querySpec.setClazz(Category.class);
@@ -35,7 +35,7 @@ public class DBCategoryReadServiceImpl extends DBService implements DBCategoryRe
     }
 
     @Override
-    public ExistingCategory obtainCategoryById(Long id) throws ResourceNotFoundException {
+    public ExistingCategoryTO obtainCategoryById(Long id) throws ResourceNotFoundException {
         QuerySpec querySpec = new QuerySpec();
         querySpec.setTableName("categories");
         querySpec.setClazz(Category.class);
@@ -47,7 +47,7 @@ public class DBCategoryReadServiceImpl extends DBService implements DBCategoryRe
     }
 
     @Override
-    public List<ExistingCategory> obtainCategories() throws ResourceNotFoundException {
+    public List<ExistingCategoryTO> obtainCategories() throws ResourceNotFoundException {
         QuerySpec querySpec = new QuerySpec();
         querySpec.setTableName("categories");
         querySpec.setClazz(Category.class);
@@ -58,8 +58,8 @@ public class DBCategoryReadServiceImpl extends DBService implements DBCategoryRe
     }
 
     @Override
-    public ExistingCategory convert(Category category) {
-        return ExistingCategory
+    public ExistingCategoryTO convert(Category category) {
+        return ExistingCategoryTO
                 .builder()
                 .id(category.getId())
                 .name(category.getName())

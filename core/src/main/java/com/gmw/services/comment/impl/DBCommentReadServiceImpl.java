@@ -1,6 +1,6 @@
 package com.gmw.services.comment.impl;
 
-import com.gmw.comment.tos.ExistingComment;
+import com.gmw.comment.tos.ExistingCommentTO;
 import com.gmw.model.Comment;
 import com.gmw.persistence.Operator;
 import com.gmw.persistence.QueryOperator;
@@ -16,13 +16,13 @@ import com.gmw.services.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 
-public class DBCommentReadServiceImpl extends DBService implements DBCommentReadService, TOConverter<ExistingComment, Comment> {
+public class DBCommentReadServiceImpl extends DBService implements DBCommentReadService, TOConverter<ExistingCommentTO, Comment> {
     public DBCommentReadServiceImpl(RepositoryManager repositoryManager) {
         super(repositoryManager);
     }
 
     @Override
-    public List<ExistingComment> findCommentsByModId(Long modId) throws ResourceNotFoundException {
+    public List<ExistingCommentTO> findCommentsByModId(Long modId) throws ResourceNotFoundException {
         Repository<Comment> repository = getRepositoryManager().getCommentRepository();
 
         QuerySpec querySpec = new QuerySpec();
@@ -34,8 +34,8 @@ public class DBCommentReadServiceImpl extends DBService implements DBCommentRead
     }
 
     @Override
-    public ExistingComment convert(Comment comment) {
-        return ExistingComment
+    public ExistingCommentTO convert(Comment comment) {
+        return ExistingCommentTO
                 .builder()
                 .id(comment.getId())
                 .modId(comment.getModId())

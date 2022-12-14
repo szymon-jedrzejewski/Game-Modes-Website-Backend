@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class NewMod {
+public class NewModTO {
     private String name;
     private Long userId;
     private Long gameId;

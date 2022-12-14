@@ -6,11 +6,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class ExistingCategory extends NewCategory {
+public class ExistingCategoryTO extends NewCategoryTO {
     private Long id;
 
     @Builder
-    public ExistingCategory(String name, Long id) {
+    public ExistingCategoryTO(String name, Long id) {
         super(name);
         this.id = id;
     }

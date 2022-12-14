@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class NewRating {
+public class NewRatingTO {
     private Long userId;
     private Long modId;
     private Integer rating;

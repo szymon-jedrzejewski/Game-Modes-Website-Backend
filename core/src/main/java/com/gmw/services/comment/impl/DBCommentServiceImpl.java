@@ -1,7 +1,7 @@
 package com.gmw.services.comment.impl;
 
-import com.gmw.comment.tos.ExistingComment;
-import com.gmw.comment.tos.NewComment;
+import com.gmw.comment.tos.ExistingCommentTO;
+import com.gmw.comment.tos.NewCommentTO;
 import com.gmw.model.Comment;
 import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
@@ -17,7 +17,7 @@ public class DBCommentServiceImpl extends DBCommentReadServiceImpl implements DB
     }
 
     @Override
-    public void createComment(NewComment newCategory) throws ResourceNotCreatedException {
+    public void createComment(NewCommentTO newCategory) throws ResourceNotCreatedException {
         Repository<Comment> repository = getRepositoryManager().getCommentRepository();
 
         Comment comment = new Comment();
@@ -29,14 +29,14 @@ public class DBCommentServiceImpl extends DBCommentReadServiceImpl implements DB
     }
 
     @Override
-    public void updateComment(ExistingComment existingComment) throws ResourceNotUpdatedException {
+    public void updateComment(ExistingCommentTO existingCommentTO) throws ResourceNotUpdatedException {
         Repository<Comment> repository = getRepositoryManager().getCommentRepository();
 
         Comment comment = new Comment();
-        comment.setId(existingComment.getId());
-        comment.setComment(existingComment.getComment());
-        comment.setModId(existingComment.getModId());
-        comment.setUserId(existingComment.getUserId());
+        comment.setId(existingCommentTO.getId());
+        comment.setComment(existingCommentTO.getComment());
+        comment.setModId(existingCommentTO.getModId());
+        comment.setUserId(existingCommentTO.getUserId());
 
         ServiceUtils.update(repository, comment);
     }

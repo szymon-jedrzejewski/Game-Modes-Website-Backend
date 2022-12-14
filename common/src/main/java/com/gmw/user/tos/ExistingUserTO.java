@@ -6,11 +6,11 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExistingUser extends NewUser {
+public class ExistingUserTO extends NewUserTO {
     private Long id;
 
     @Builder
-    public ExistingUser(String name, String password, String email, RoleEnum role, byte[] avatar, Long id) {
+    public ExistingUserTO(String name, String password, String email, RoleEnum role, byte[] avatar, Long id) {
         super(name, password, email, role, avatar);
         this.id = id;
     }
