@@ -4,7 +4,7 @@ import com.gmw.api.rest.activity.Activity;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.SqlServiceManager;
 import com.gmw.services.exceptions.ResourceNotDeletedException;
-import com.gmw.services.view.DBViewBuilderService;
+import com.gmw.services.view.DBViewService;
 import com.gmw.view.tos.NewViewTO;
 import org.springframework.http.HttpStatus;
 
@@ -19,7 +19,7 @@ public class CreateViewActivity extends Activity<Void> {
     @Override
     protected Void realExecute() throws ResourceNotDeletedException {
         ServiceManager serviceManager = new SqlServiceManager();
-        DBViewBuilderService service = serviceManager.getDbViewBuilderService();
+        DBViewService service = serviceManager.getDbViewBuilderService();
         service.createView(newView);
         status = HttpStatus.CREATED;
         return null;

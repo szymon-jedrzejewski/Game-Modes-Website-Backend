@@ -12,7 +12,7 @@ import com.gmw.repository.RepositoryManager;
 import com.gmw.services.TOConverter;
 import com.gmw.services.ServiceUtils;
 import com.gmw.services.exceptions.ResourceNotFoundException;
-import com.gmw.services.view.DBViewBuilderReadService;
+import com.gmw.services.view.DBViewReadService;
 import com.gmw.services.DBService;
 import com.gmw.view.enums.FieldTypeEnum;
 import com.gmw.view.tos.ExistingFieldTO;
@@ -23,11 +23,11 @@ import org.apache.logging.log4j.Logger;
 import java.util.Arrays;
 import java.util.List;
 
-public class DBViewBuilderReadServiceImpl extends DBService implements DBViewBuilderReadService, TOConverter<ExistingViewTO, View> {
+public class DBViewReadServiceImpl extends DBService implements DBViewReadService, TOConverter<ExistingViewTO, View> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public DBViewBuilderReadServiceImpl(RepositoryManager repositoryManager) {
+    public DBViewReadServiceImpl(RepositoryManager repositoryManager) {
         super(repositoryManager);
     }
 

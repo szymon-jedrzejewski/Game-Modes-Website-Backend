@@ -12,7 +12,7 @@ import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
 import com.gmw.services.exceptions.ResourceNotDeletedException;
 import com.gmw.services.exceptions.ResourceNotUpdatedException;
-import com.gmw.services.view.DBViewBuilderService;
+import com.gmw.services.view.DBViewService;
 import com.gmw.view.tos.ExistingFieldTO;
 import com.gmw.view.tos.ExistingViewTO;
 import com.gmw.view.tos.NewFieldTO;
@@ -23,11 +23,11 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DBViewBuilderServiceImpl extends DBViewBuilderReadServiceImpl implements DBViewBuilderService {
+public class DBViewServiceImpl extends DBViewReadServiceImpl implements DBViewService {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public DBViewBuilderServiceImpl(RepositoryManager repositoryManager) {
+    public DBViewServiceImpl(RepositoryManager repositoryManager) {
         super(repositoryManager);
     }
 
