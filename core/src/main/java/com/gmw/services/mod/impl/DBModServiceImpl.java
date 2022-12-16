@@ -20,6 +20,12 @@ public class DBModServiceImpl extends DBModReadServiceImpl implements DBModServi
     public void createMod(NewModTO newMod) throws ResourceNotCreatedException {
         Repository<Mod> repository = getRepositoryManager().getModRepository();
 
+        Mod mod = prepareMod(newMod);
+
+        ServiceUtils.create(repository, mod);
+    }
+
+    private static Mod prepareMod(NewModTO newMod) {
         Mod mod = new Mod("mods");
         mod.setAvatar(newMod.getAvatar());
         mod.setDate(newMod.getDate());
@@ -29,8 +35,7 @@ public class DBModServiceImpl extends DBModReadServiceImpl implements DBModServi
         mod.setDownloadLink(newMod.getDownloadLink());
         mod.setGameId(newMod.getGameId());
         mod.setName(newMod.getName());
-
-        ServiceUtils.create(repository, mod);
+        return mod;
     }
 
     @Override
@@ -43,15 +48,8 @@ public class DBModServiceImpl extends DBModReadServiceImpl implements DBModServi
     public void updateMod(ExistingModTO existingModTO) throws ResourceNotUpdatedException {
         Repository<Mod> repository = getRepositoryManager().getModRepository();
 
-        Mod mod = new Mod("mods");
-        mod.setAvatar(existingModTO.getAvatar());
-        mod.setDate(existingModTO.getDate());
-        mod.setUserId(existingModTO.getUserId());
-        mod.setDescription(existingModTO.getDescription());
-        mod.setCategoryId(existingModTO.getCategoryId());
-        mod.setDownloadLink(existingModTO.getDownloadLink());
-        mod.setGameId(existingModTO.getGameId());
-        mod.setName(existingModTO.getName());
+        Mod mod = prepareMod(existingModTO);
+        mod.setId(existingModTO.getId());
 
         ServiceUtils.update(repository, mod);
     }
