@@ -1,6 +1,10 @@
 package com.gmw.services;
 
 import com.gmw.repository.sql.SqlRepositoryManager;
+import com.gmw.services.field.DBFieldReadService;
+import com.gmw.services.field.DBFieldService;
+import com.gmw.services.field.impl.DBFieldReadServiceImpl;
+import com.gmw.services.field.impl.DBFieldServiceImpl;
 import com.gmw.services.game.DBGameReadService;
 import com.gmw.services.game.DBGameService;
 import com.gmw.services.game.impl.DBGameReadServiceImpl;
@@ -31,5 +35,15 @@ public class SqlServiceManager implements ServiceManager {
     @Override
     public DBGameReadService getDbGameReadService() {
         return new DBGameReadServiceImpl(REPOSITORY_MANAGER);
+    }
+
+    @Override
+    public DBFieldReadService getDbFieldReadService() {
+        return new DBFieldReadServiceImpl(REPOSITORY_MANAGER);
+    }
+
+    @Override
+    public DBFieldService getDbFieldService() {
+        return new DBFieldServiceImpl(REPOSITORY_MANAGER);
     }
 }

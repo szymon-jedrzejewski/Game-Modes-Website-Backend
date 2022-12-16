@@ -4,11 +4,18 @@ import com.gmw.api.rest.activity.Activity;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.SqlServiceManager;
 import com.gmw.services.exceptions.ResourceNotDeletedException;
+import com.gmw.services.exceptions.ResourceNotFoundException;
+import com.gmw.services.field.DBFieldService;
 import com.gmw.services.view.DBViewService;
+import com.gmw.view.tos.ExistingFieldTO;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 
-public class DeleteViewActivity extends Activity<Void> {
+import java.util.List;
 
+public class DeleteViewActivity extends Activity<Void> {
+    private static final Logger LOGGER = LogManager.getLogger();
     private final Long viewId;
 
     public DeleteViewActivity(Long viewId) {
@@ -18,8 +25,22 @@ public class DeleteViewActivity extends Activity<Void> {
     @Override
     protected Void realExecute() throws ResourceNotDeletedException {
         ServiceManager serviceManager = new SqlServiceManager();
-        DBViewService service = serviceManager.getDbViewBuilderService();
-        service.deleteView(viewId);
+        DBFieldService fieldService = serviceManager.getDbFieldService();
+        DBViewService viewService = serviceManager.getDbViewBuilderService();
+
+        try {
+
+            List<Long> fieldsIds = fieldService.obtainFieldsByViewId(viewId).stream().map(ExistingFieldTO::getId).toList();
+            for (Long id : fieldsIds)
+            {
+                fieldService.deleteField(id);
+            }
+            viewService.deleteView(viewId);
+
+        } catch (ResourceNotFoundException e) {
+            LOGGER.error("Cannot remove a field!", e);
+        }
+
         status = HttpStatus.OK;
         return null;
     }

@@ -82,7 +82,7 @@ public class SqlQueryUtilityTest {
     public void generateCreateQueryForField() throws SqlQueryUtilityException {
         Field field = prepareField();
         String actualQuery = SqlQueryUtility.generateCreateQuery(field);
-        String expectedQuery = "INSERT INTO fields (name,description,type,values,view_id) " +
+        String expectedQuery = "INSERT INTO fields (name,description,type,label,view_id) " +
                 "VALUES ('test', 'some description', 'TEXT', '', 1);";
         Assert.assertEquals(expectedQuery, actualQuery);
     }
@@ -128,7 +128,7 @@ public class SqlQueryUtilityTest {
                 "name = 'test', " +
                 "description = 'some description', " +
                 "type = 'TEXT', " +
-                "values = '', " +
+                "label = '', " +
                 "view_id = 1 WHERE id = 1;";
         Assert.assertEquals(expected, actual);
     }
@@ -194,7 +194,7 @@ public class SqlQueryUtilityTest {
         expected.setDescription("Desc");
         expected.setName("Name");
         expected.setType("TEXT");
-        expected.setValues("valueOne,valueTwo");
+        expected.setLabel("valueOne");
 
         Mockito.when(resultSet.next()).thenReturn(true).thenReturn(false);
         Mockito.when(resultSet.getObject("id")).thenReturn(1);
@@ -202,7 +202,7 @@ public class SqlQueryUtilityTest {
         Mockito.when(resultSet.getObject("description")).thenReturn("Desc");
         Mockito.when(resultSet.getObject("name")).thenReturn("Name");
         Mockito.when(resultSet.getObject("type")).thenReturn("TEXT");
-        Mockito.when(resultSet.getObject("values")).thenReturn("valueOne,valueTwo");
+        Mockito.when(resultSet.getObject("label")).thenReturn("valueOne");
         Mockito.when(ps.executeQuery()).thenReturn(resultSet);
 
         QuerySpec querySpec = new QuerySpec();

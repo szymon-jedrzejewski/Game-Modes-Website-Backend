@@ -4,6 +4,7 @@ import com.gmw.api.rest.activity.Activity;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.SqlServiceManager;
 import com.gmw.services.exceptions.ResourceNotFoundException;
+import com.gmw.services.field.DBFieldReadService;
 import com.gmw.services.view.DBViewReadService;
 import com.gmw.view.tos.ExistingViewTO;
 import org.springframework.http.HttpStatus;
@@ -20,9 +21,13 @@ public class FindViewActivity extends Activity<ExistingViewTO> {
     protected ExistingViewTO realExecute() throws ResourceNotFoundException {
         ServiceManager serviceManager = new SqlServiceManager();
         DBViewReadService service = serviceManager.getDbViewBuilderReadService();
+        DBFieldReadService fieldReadService = serviceManager.getDbFieldReadService();
 
         status = HttpStatus.OK;
 
-        return service.obtainViewByGameId(gameId);
+        ExistingViewTO existingViewTO = service.obtainViewByGameId(gameId);
+        existingViewTO.setFields(fieldReadService.obtainFieldsByViewId(existingViewTO.getId()));
+
+        return existingViewTO;
     }
 }

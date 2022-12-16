@@ -15,7 +15,7 @@ public class Field extends Table implements Persistable {
     private String name;
     private String description;
     private String type;
-    private String values;
+    private String label;
     private Long viewId;
 
     public Field(String tableName,
@@ -23,14 +23,14 @@ public class Field extends Table implements Persistable {
                  String name,
                  String description,
                  String type,
-                 String values,
+                 String label,
                  Long viewId) {
         super(tableName);
         this.id = id;
         this.name = name;
         this.description = description;
         this.type = type;
-        this.values = values;
+        this.label = label;
         this.viewId = viewId;
     }
     public Field(String tableName) {

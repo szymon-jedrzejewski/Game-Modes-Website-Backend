@@ -41,7 +41,7 @@ CREATE TABLE fields
     name        VARCHAR(200),
     description TEXT,
     type        VARCHAR(50),
-    values      TEXT,
+    label       TEXT,
     CONSTRAINT FK_views FOREIGN KEY (view_id) REFERENCES views (id)
 );
 
