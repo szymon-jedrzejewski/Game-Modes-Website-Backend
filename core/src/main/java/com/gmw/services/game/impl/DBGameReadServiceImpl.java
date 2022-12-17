@@ -1,5 +1,6 @@
 package com.gmw.services.game.impl;
 
+import com.gmw.coverters.GameConverter;
 import com.gmw.game.tos.ExistingGameTO;
 import com.gmw.model.Game;
 import com.gmw.persistence.Operator;
@@ -9,14 +10,13 @@ import com.gmw.persistence.SearchCondition;
 import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
 import com.gmw.services.DBService;
-import com.gmw.services.TOConverter;
 import com.gmw.services.ServiceUtils;
 import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.services.game.DBGameReadService;
 
 import java.util.List;
 
-public class DBGameReadServiceImpl extends DBService implements DBGameReadService, TOConverter<ExistingGameTO, Game> {
+public class DBGameReadServiceImpl extends DBService implements DBGameReadService {
     
     public DBGameReadServiceImpl(RepositoryManager repositoryManager) {
         super(repositoryManager);
@@ -31,7 +31,7 @@ public class DBGameReadServiceImpl extends DBService implements DBGameReadServic
         querySpec.setClazz(Game.class);
         querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, id));
 
-        return ServiceUtils.find(repository, this, querySpec).get(0);
+        return ServiceUtils.find(repository, new GameConverter(), querySpec).get(0);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class DBGameReadServiceImpl extends DBService implements DBGameReadServic
         querySpec.setClazz(Game.class);
         querySpec.append(QueryOperator.WHERE, new SearchCondition("name", Operator.EQUAL_TO, name));
 
-        return ServiceUtils.find(repository, this, querySpec).get(0);
+        return ServiceUtils.find(repository, new GameConverter(), querySpec).get(0);
     }
 
     @Override
@@ -53,17 +53,6 @@ public class DBGameReadServiceImpl extends DBService implements DBGameReadServic
         querySpec.setClazz(Game.class);
         querySpec.setTableName("games");
 
-        return ServiceUtils.find(repository, this, querySpec);
-    }
-
-    @Override
-    public ExistingGameTO convert(Game game) {
-        return ExistingGameTO
-                .builder()
-                .id(game.getId())
-                .name(game.getName())
-                .description(game.getDescription())
-                .avatar(game.getAvatar())
-                .build();
+        return ServiceUtils.find(repository, new GameConverter(), querySpec);
     }
 }

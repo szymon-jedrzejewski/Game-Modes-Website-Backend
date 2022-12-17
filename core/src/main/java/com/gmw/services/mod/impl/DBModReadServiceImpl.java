@@ -1,5 +1,6 @@
 package com.gmw.services.mod.impl;
 
+import com.gmw.coverters.ModConverter;
 import com.gmw.mod.tos.ExistingModTO;
 import com.gmw.model.Mod;
 import com.gmw.persistence.Operator;
@@ -10,13 +11,12 @@ import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
 import com.gmw.services.DBService;
 import com.gmw.services.ServiceUtils;
-import com.gmw.services.TOConverter;
 import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.services.mod.DBModReadService;
 
 import java.util.List;
 
-public class DBModReadServiceImpl extends DBService implements DBModReadService, TOConverter<ExistingModTO, Mod> {
+public class DBModReadServiceImpl extends DBService implements DBModReadService {
     public DBModReadServiceImpl(RepositoryManager repositoryManager) {
         super(repositoryManager);
     }
@@ -29,7 +29,7 @@ public class DBModReadServiceImpl extends DBService implements DBModReadService,
         querySpec.setTableName("mods");
         querySpec.setClazz(Mod.class);
 
-        return ServiceUtils.find(repository, this, querySpec);
+        return ServiceUtils.find(repository, new ModConverter(), querySpec);
     }
 
     @Override
@@ -41,21 +41,6 @@ public class DBModReadServiceImpl extends DBService implements DBModReadService,
         querySpec.setClazz(Mod.class);
         querySpec.append(QueryOperator.WHERE, new SearchCondition("game_id", Operator.EQUAL_TO, gameId));
 
-        return ServiceUtils.find(repository, this, querySpec);
-    }
-
-    @Override
-    public ExistingModTO convert(Mod mod) {
-        return ExistingModTO
-                .builder()
-                .id(mod.getId())
-                .avatar(mod.getAvatar())
-                .description(mod.getDescription())
-                .categoryId(mod.getCategoryId())
-                .date(mod.getDate())
-                .downloadLink(mod.getDownloadLink())
-                .gameId(mod.getGameId())
-                .name(mod.getName())
-                .build();
+        return ServiceUtils.find(repository, new ModConverter(), querySpec);
     }
 }

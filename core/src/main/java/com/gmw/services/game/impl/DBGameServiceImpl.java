@@ -1,5 +1,7 @@
 package com.gmw.services.game.impl;
 
+import com.gmw.coverters.GameConverter;
+import com.gmw.coverters.TOConverter;
 import com.gmw.game.tos.ExistingGameTO;
 import com.gmw.game.tos.NewGameTO;
 import com.gmw.model.Game;
@@ -25,11 +27,9 @@ public class DBGameServiceImpl extends DBGameReadServiceImpl implements DBGameSe
     public void createGame(NewGameTO newGame) throws ResourceNotCreatedException {
 
         Repository<Game> repository = getRepositoryManager().getGameRepository();
+        TOConverter<NewGameTO, Game> converter = new GameConverter();
 
-        Game game = new Game("games");
-        game.setName(newGame.getName());
-        game.setDescription(newGame.getDescription());
-        game.setAvatar(newGame.getAvatar());
+        Game game = converter.convertToModel(newGame);
 
         ServiceUtils.create(repository, game);
     }
@@ -42,13 +42,11 @@ public class DBGameServiceImpl extends DBGameReadServiceImpl implements DBGameSe
 
     @Override
     public void updateGame(ExistingGameTO existingGameTO) throws ResourceNotUpdatedException {
-        Game game = new Game("games");
-        game.setId(existingGameTO.getId());
-        game.setName(existingGameTO.getName());
-        game.setDescription(existingGameTO.getDescription());
-        game.setAvatar(existingGameTO.getAvatar());
-
         Repository<Game> repository = getRepositoryManager().getGameRepository();
+        TOConverter<NewGameTO, Game> converter = new GameConverter();
+
+        Game game = converter.convertToModel(existingGameTO);
+        game.setId(existingGameTO.getId());
 
         ServiceUtils.update(repository, game);
     }

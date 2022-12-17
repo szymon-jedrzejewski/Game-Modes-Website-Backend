@@ -1,5 +1,6 @@
 package com.gmw.services.view.impl;
 
+import com.gmw.coverters.ViewConverter;
 import com.gmw.model.View;
 import com.gmw.persistence.Operator;
 import com.gmw.persistence.QueryOperator;
@@ -9,12 +10,11 @@ import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
 import com.gmw.services.DBService;
 import com.gmw.services.ServiceUtils;
-import com.gmw.services.TOConverter;
 import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.services.view.DBViewReadService;
 import com.gmw.view.tos.ExistingViewTO;
 
-public class DBViewReadServiceImpl extends DBService implements DBViewReadService, TOConverter<ExistingViewTO, View> {
+public class DBViewReadServiceImpl extends DBService implements DBViewReadService {
 
     public DBViewReadServiceImpl(RepositoryManager repositoryManager) {
         super(repositoryManager);
@@ -28,7 +28,7 @@ public class DBViewReadServiceImpl extends DBService implements DBViewReadServic
         querySpec.setClazz(View.class);
         querySpec.setTableName("views");
 
-        return ServiceUtils.find(viewRepositoryManager, this, querySpec).get(0);
+        return ServiceUtils.find(viewRepositoryManager, new ViewConverter(), querySpec).get(0);
     }
 
     @Override
@@ -39,15 +39,6 @@ public class DBViewReadServiceImpl extends DBService implements DBViewReadServic
         querySpec.setClazz(View.class);
         querySpec.setTableName("views");
 
-        return ServiceUtils.find(viewRepositoryManager, this, querySpec).get(0);
-    }
-
-    @Override
-    public ExistingViewTO convert(View view) {
-            return ExistingViewTO
-                    .builder()
-                    .id(view.getId())
-                    .gameId(view.getGameId())
-                    .build();
+        return ServiceUtils.find(viewRepositoryManager, new ViewConverter(), querySpec).get(0);
     }
 }

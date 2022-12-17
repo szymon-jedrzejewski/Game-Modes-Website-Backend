@@ -1,6 +1,7 @@
 package com.gmw.services.category.impl;
 
 import com.gmw.category.tos.ExistingCategoryTO;
+import com.gmw.coverters.CategoryConverter;
 import com.gmw.model.Category;
 import com.gmw.persistence.Operator;
 import com.gmw.persistence.QueryOperator;
@@ -9,14 +10,13 @@ import com.gmw.persistence.SearchCondition;
 import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
 import com.gmw.services.DBService;
-import com.gmw.services.TOConverter;
 import com.gmw.services.ServiceUtils;
 import com.gmw.services.category.DBCategoryReadService;
 import com.gmw.services.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 
-public class DBCategoryReadServiceImpl extends DBService implements DBCategoryReadService, TOConverter<ExistingCategoryTO, Category> {
+public class DBCategoryReadServiceImpl extends DBService implements DBCategoryReadService {
 
     public DBCategoryReadServiceImpl(RepositoryManager repositoryManager) {
         super(repositoryManager);
@@ -31,7 +31,7 @@ public class DBCategoryReadServiceImpl extends DBService implements DBCategoryRe
 
         Repository<Category> repository = getRepositoryManager().getCategoryRepository();
 
-        return ServiceUtils.find(repository, this, querySpec).get(0);
+        return ServiceUtils.find(repository, new CategoryConverter(), querySpec).get(0);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class DBCategoryReadServiceImpl extends DBService implements DBCategoryRe
 
         Repository<Category> repository = getRepositoryManager().getCategoryRepository();
 
-        return ServiceUtils.find(repository, this, querySpec).get(0);
+        return ServiceUtils.find(repository, new CategoryConverter(), querySpec).get(0);
     }
 
     @Override
@@ -54,15 +54,6 @@ public class DBCategoryReadServiceImpl extends DBService implements DBCategoryRe
 
         Repository<Category> repository = getRepositoryManager().getCategoryRepository();
 
-        return ServiceUtils.find(repository, this, querySpec);
-    }
-
-    @Override
-    public ExistingCategoryTO convert(Category category) {
-        return ExistingCategoryTO
-                .builder()
-                .id(category.getId())
-                .name(category.getName())
-                .build();
+        return ServiceUtils.find(repository, new CategoryConverter(), querySpec);
     }
 }

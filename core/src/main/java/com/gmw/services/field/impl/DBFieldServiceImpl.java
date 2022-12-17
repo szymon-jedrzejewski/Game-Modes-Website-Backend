@@ -1,5 +1,7 @@
 package com.gmw.services.field.impl;
 
+import com.gmw.coverters.FieldConverter;
+import com.gmw.coverters.TOConverter;
 import com.gmw.model.Field;
 import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
@@ -19,8 +21,9 @@ public class DBFieldServiceImpl extends DBFieldReadServiceImpl implements DBFiel
     @Override
     public void createField(NewFieldTO newField, Long viewId) throws ResourceNotCreatedException {
         Repository<Field> repository = getRepositoryManager().getFieldRepository();
+        TOConverter<NewFieldTO, Field> converter = new FieldConverter();
 
-        Field field = mapToField(newField);
+        Field field = converter.convertToModel(newField);
         field.setViewId(viewId);
 
         ServiceUtils.create(repository, field);
@@ -29,8 +32,10 @@ public class DBFieldServiceImpl extends DBFieldReadServiceImpl implements DBFiel
     @Override
     public void updateField(ExistingFieldTO existingFieldTO, Long viewId) throws ResourceNotUpdatedException {
         Repository<Field> repository = getRepositoryManager().getFieldRepository();
+        TOConverter<NewFieldTO, Field> converter = new FieldConverter();
 
-        Field field = mapToField(existingFieldTO);
+        Field field = converter.convertToModel(existingFieldTO);
+        field.setId(existingFieldTO.getId());
         field.setViewId(viewId);
 
         ServiceUtils.update(repository, field);
@@ -41,16 +46,5 @@ public class DBFieldServiceImpl extends DBFieldReadServiceImpl implements DBFiel
         Repository<Field> repository = getRepositoryManager().getFieldRepository();
 
         ServiceUtils.delete(repository, fieldId);
-    }
-
-    private Field mapToField(NewFieldTO newField) {
-
-        Field field = new Field("fields");
-        field.setType(newField.getFieldType().toString());
-        field.setDescription(newField.getDescription());
-        field.setName(newField.getName());
-        field.setLabel(newField.getLabel());
-
-        return field;
     }
 }

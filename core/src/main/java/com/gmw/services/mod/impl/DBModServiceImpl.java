@@ -1,5 +1,7 @@
 package com.gmw.services.mod.impl;
 
+import com.gmw.coverters.ModConverter;
+import com.gmw.coverters.TOConverter;
 import com.gmw.mod.tos.ExistingModTO;
 import com.gmw.mod.tos.NewModTO;
 import com.gmw.model.Mod;
@@ -19,23 +21,11 @@ public class DBModServiceImpl extends DBModReadServiceImpl implements DBModServi
     @Override
     public void createMod(NewModTO newMod) throws ResourceNotCreatedException {
         Repository<Mod> repository = getRepositoryManager().getModRepository();
+        TOConverter<NewModTO, Mod> converter = new ModConverter();
 
-        Mod mod = prepareMod(newMod);
+        Mod mod = converter.convertToModel(newMod);
 
         ServiceUtils.create(repository, mod);
-    }
-
-    private static Mod prepareMod(NewModTO newMod) {
-        Mod mod = new Mod("mods");
-        mod.setAvatar(newMod.getAvatar());
-        mod.setDate(newMod.getDate());
-        mod.setUserId(newMod.getUserId());
-        mod.setDescription(newMod.getDescription());
-        mod.setCategoryId(newMod.getCategoryId());
-        mod.setDownloadLink(newMod.getDownloadLink());
-        mod.setGameId(newMod.getGameId());
-        mod.setName(newMod.getName());
-        return mod;
     }
 
     @Override
@@ -47,8 +37,9 @@ public class DBModServiceImpl extends DBModReadServiceImpl implements DBModServi
     @Override
     public void updateMod(ExistingModTO existingModTO) throws ResourceNotUpdatedException {
         Repository<Mod> repository = getRepositoryManager().getModRepository();
+        TOConverter<NewModTO, Mod> converter = new ModConverter();
 
-        Mod mod = prepareMod(existingModTO);
+        Mod mod = converter.convertToModel(existingModTO);
         mod.setId(existingModTO.getId());
 
         ServiceUtils.update(repository, mod);

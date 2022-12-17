@@ -2,6 +2,8 @@ package com.gmw.services.category.impl;
 
 import com.gmw.category.tos.ExistingCategoryTO;
 import com.gmw.category.tos.NewCategoryTO;
+import com.gmw.coverters.CategoryConverter;
+import com.gmw.coverters.TOConverter;
 import com.gmw.exceptions.SqlRepositoryException;
 import com.gmw.model.Category;
 import com.gmw.repository.Repository;
@@ -27,15 +29,17 @@ public class DBCategoryServiceImpl extends DBCategoryReadServiceImpl implements 
 
         Repository<Category> repository = getRepositoryManager().getCategoryRepository();
 
-        Category category = new Category("categories");
-        category.setName(newCategoryTO.getName());
+        TOConverter<NewCategoryTO, Category> converter = new CategoryConverter();
+        Category category = converter.convertToModel(newCategoryTO);
 
         ServiceUtils.create(repository, category);
     }
 
     @Override
     public void updateCategory(ExistingCategoryTO existingCategory) throws ResourceNotUpdatedException {
-        Category category = new Category("categories", existingCategory.getId(), existingCategory.getName());
+        TOConverter<NewCategoryTO, Category> converter = new CategoryConverter();
+        Category category = converter.convertToModel(existingCategory);
+        category.setId(existingCategory.getId());
 
         try {
             getRepositoryManager().getCategoryRepository().update(category);
