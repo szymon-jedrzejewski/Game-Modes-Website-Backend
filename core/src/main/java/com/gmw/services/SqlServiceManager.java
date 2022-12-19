@@ -9,6 +9,10 @@ import com.gmw.services.game.DBGameReadService;
 import com.gmw.services.game.DBGameService;
 import com.gmw.services.game.impl.DBGameReadServiceImpl;
 import com.gmw.services.game.impl.DBGameServiceImpl;
+import com.gmw.services.rating.DBRatingReadService;
+import com.gmw.services.rating.DBRatingService;
+import com.gmw.services.rating.impl.DBRatingReadServiceImpl;
+import com.gmw.services.rating.impl.DBRatingServiceImpl;
 import com.gmw.services.user.DBUserReadService;
 import com.gmw.services.user.DBUserService;
 import com.gmw.services.user.impl.DBUserReadServiceImpl;
@@ -64,5 +68,15 @@ public class SqlServiceManager implements ServiceManager {
     @Override
     public DBUserService getDbUserService() {
         return new DBUserServiceImpl(repositoryManager);
+    }
+
+    @Override
+    public DBRatingReadService getDbRatingReadService() {
+        return new DBRatingReadServiceImpl(repositoryManager);
+    }
+
+    @Override
+    public DBRatingService getDbRatingService() {
+        return new DBRatingServiceImpl(repositoryManager);
     }
 }
