@@ -3,8 +3,10 @@ package com.gmw.persistence;
 import com.gmw.exceptions.SqlQueryUtilityException;
 import com.gmw.model.Field;
 import com.gmw.model.Game;
+import com.gmw.model.User;
 import com.gmw.model.View;
 import com.gmw.persistence.sql.SqlQueryUtility;
+import com.gmw.user.enums.RoleEnum;
 import com.gmw.view.enums.FieldTypeEnum;
 import org.junit.Assert;
 import org.junit.Test;
@@ -148,6 +150,27 @@ public class SqlQueryUtilityTest {
         String actual = SqlQueryUtility.generateUpdateQuery(prepareView());
         String expected = "UPDATE views SET " +
                 "game_id = 2 " +
+                "WHERE id = 1;";
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void generateUpdateQueryToUpdateRoleForAUser() throws SqlQueryUtilityException {
+        User user = new User("users");
+        user.setId(1L);
+        user.setEmail("name@email.com");
+        user.setAvatar(null);
+        user.setPassword("password");
+        user.setName("name");
+        user.setRole(RoleEnum.USER.toString());
+
+        String actual = SqlQueryUtility.generateUpdateQuery(user);
+        String expected = "UPDATE users SET " +
+                "name = 'name', " +
+                "password = 'password', " +
+                "email = 'name@email.com', " +
+                "role = 'USER', " +
+                "avatar = null " +
                 "WHERE id = 1;";
         Assert.assertEquals(expected, actual);
     }

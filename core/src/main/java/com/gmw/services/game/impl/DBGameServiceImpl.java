@@ -12,12 +12,8 @@ import com.gmw.services.exceptions.ResourceNotCreatedException;
 import com.gmw.services.exceptions.ResourceNotDeletedException;
 import com.gmw.services.exceptions.ResourceNotUpdatedException;
 import com.gmw.services.game.DBGameService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class DBGameServiceImpl extends DBGameReadServiceImpl implements DBGameService {
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     public DBGameServiceImpl(RepositoryManager repositoryManager) {
         super(repositoryManager);
