@@ -39,6 +39,7 @@ public class DBUserServiceImpl extends DBUserReadServiceImpl implements DBUserSe
 
         UserConverter converter = new UserConverter();
         User user = converter.convertToModel(userTO);
+        user.setId(userTO.getId());
 
         ServiceUtils.update(repository, user);
     }
@@ -47,10 +48,12 @@ public class DBUserServiceImpl extends DBUserReadServiceImpl implements DBUserSe
     public void deleteUser(Long userId) throws ResourceNotDeletedException {
         Repository<User> repository = getRepositoryManager().getUserRepository();
 
-        User user = new User();
+        User user = new User("users");
+        user.setId(userId);
         user.setEmail(null);
         user.setPassword(null);
         user.setAvatar(null);
+        user.setRole(null);
         user.setName("deleted_user");
 
         try {

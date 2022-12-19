@@ -32,7 +32,7 @@ public class SqlInjectionChecker {
                     String value = (String) field.get(persistable);
 
                     for (String separator : FORBIDDEN_WORDS) {
-                        if (value.toUpperCase().contains(separator)) {
+                        if (value != null && value.toUpperCase().contains(separator)) {
                             return true;
                         }
                     }

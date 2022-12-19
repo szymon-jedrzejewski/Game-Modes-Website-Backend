@@ -2,9 +2,10 @@ package com.gmw.api.rest.activity.view;
 
 import com.gmw.api.rest.activity.Activity;
 import com.gmw.services.ServiceManager;
-import com.gmw.services.SqlServiceManager;
+import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.ResourceNotDeletedException;
 import com.gmw.services.exceptions.ResourceNotFoundException;
+import com.gmw.services.exceptions.ServiceManagerFactoryException;
 import com.gmw.services.field.DBFieldService;
 import com.gmw.services.view.DBViewService;
 import com.gmw.view.tos.ExistingFieldTO;
@@ -24,24 +25,27 @@ public class DeleteViewActivity extends Activity<Void> {
 
     @Override
     protected Void realExecute() throws ResourceNotDeletedException {
-        ServiceManager serviceManager = new SqlServiceManager();
-        DBFieldService fieldService = serviceManager.getDbFieldService();
-        DBViewService viewService = serviceManager.getDbViewBuilderService();
-
         try {
+            ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager();
+            DBFieldService fieldService = serviceManager.getDbFieldService();
+            DBViewService viewService = serviceManager.getDbViewBuilderService();
 
-            List<Long> fieldsIds = fieldService.obtainFieldsByViewId(viewId).stream().map(ExistingFieldTO::getId).toList();
-            for (Long id : fieldsIds)
-            {
-                fieldService.deleteField(id);
+            try {
+
+                List<Long> fieldsIds = fieldService.obtainFieldsByViewId(viewId).stream().map(ExistingFieldTO::getId).toList();
+                for (Long id : fieldsIds) {
+                    fieldService.deleteField(id);
+                }
+                viewService.deleteView(viewId);
+
+            } catch (ResourceNotFoundException e) {
+                LOGGER.error("Cannot remove a field!", e);
             }
-            viewService.deleteView(viewId);
 
-        } catch (ResourceNotFoundException e) {
-            LOGGER.error("Cannot remove a field!", e);
+            status = HttpStatus.OK;
+        } catch (ServiceManagerFactoryException e) {
+            status = HttpStatus.CONFLICT;
         }
-
-        status = HttpStatus.OK;
         return null;
     }
 }

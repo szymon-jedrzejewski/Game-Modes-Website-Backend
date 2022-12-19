@@ -2,8 +2,9 @@ package com.gmw.api.rest.activity.view;
 
 import com.gmw.api.rest.activity.Activity;
 import com.gmw.services.ServiceManager;
-import com.gmw.services.SqlServiceManager;
+import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.ResourceNotFoundException;
+import com.gmw.services.exceptions.ServiceManagerFactoryException;
 import com.gmw.services.field.DBFieldReadService;
 import com.gmw.services.view.DBViewReadService;
 import com.gmw.view.tos.ExistingViewTO;
@@ -19,15 +20,20 @@ public class FindViewActivity extends Activity<ExistingViewTO> {
 
     @Override
     protected ExistingViewTO realExecute() throws ResourceNotFoundException {
-        ServiceManager serviceManager = new SqlServiceManager();
-        DBViewReadService service = serviceManager.getDbViewBuilderReadService();
-        DBFieldReadService fieldReadService = serviceManager.getDbFieldReadService();
+        try {
+            ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager();
+            DBViewReadService service = serviceManager.getDbViewBuilderReadService();
+            DBFieldReadService fieldReadService = serviceManager.getDbFieldReadService();
 
-        status = HttpStatus.OK;
+            status = HttpStatus.OK;
 
-        ExistingViewTO existingViewTO = service.obtainViewByGameId(gameId);
-        existingViewTO.setFields(fieldReadService.obtainFieldsByViewId(existingViewTO.getId()));
+            ExistingViewTO existingViewTO = service.obtainViewByGameId(gameId);
+            existingViewTO.setFields(fieldReadService.obtainFieldsByViewId(existingViewTO.getId()));
 
-        return existingViewTO;
+            return existingViewTO;
+        } catch (ServiceManagerFactoryException e) {
+            status = HttpStatus.NOT_FOUND;
+        }
+        return null;
     }
 }

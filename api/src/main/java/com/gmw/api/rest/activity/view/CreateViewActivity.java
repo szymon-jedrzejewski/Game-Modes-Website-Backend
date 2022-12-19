@@ -2,8 +2,9 @@ package com.gmw.api.rest.activity.view;
 
 import com.gmw.api.rest.activity.Activity;
 import com.gmw.services.ServiceManager;
-import com.gmw.services.SqlServiceManager;
+import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.ResourceNotCreatedException;
+import com.gmw.services.exceptions.ServiceManagerFactoryException;
 import com.gmw.services.field.DBFieldService;
 import com.gmw.services.view.DBViewService;
 import com.gmw.view.tos.NewFieldTO;
@@ -20,17 +21,20 @@ public class CreateViewActivity extends Activity<Void> {
 
     @Override
     protected Void realExecute() throws ResourceNotCreatedException {
-        ServiceManager serviceManager = new SqlServiceManager();
-        DBViewService service = serviceManager.getDbViewBuilderService();
-        DBFieldService fieldService = serviceManager.getDbFieldService();
-        Long viewId = service.createView(newView);
+        try {
+            ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager();
+            DBViewService service = serviceManager.getDbViewBuilderService();
+            DBFieldService fieldService = serviceManager.getDbFieldService();
+            Long viewId = service.createView(newView);
 
-        for (NewFieldTO field : newView.getFields())
-        {
-            fieldService.createField(field, viewId);
+            for (NewFieldTO field : newView.getFields()) {
+                fieldService.createField(field, viewId);
+            }
+
+            status = HttpStatus.CREATED;
+        } catch (ServiceManagerFactoryException e) {
+            status = HttpStatus.CONFLICT;
         }
-
-        status = HttpStatus.CREATED;
         return null;
     }
 }

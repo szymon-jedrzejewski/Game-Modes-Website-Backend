@@ -28,7 +28,7 @@ public class UserConverter implements
         user.setRole(RoleEnum.USER.toString());
         user.setName(newUserTO.getName());
         user.setEmail(newUserTO.getEmail());
-        user.setPassword(user.getPassword());
+        user.setPassword(newUserTO.getPassword());
         return user;
     }
 }

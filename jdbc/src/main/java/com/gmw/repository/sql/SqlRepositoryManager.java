@@ -14,23 +14,14 @@ import com.gmw.repository.sql.mod.ModRepository;
 import com.gmw.repository.sql.rating.RatingRepository;
 import com.gmw.repository.sql.user.UserRepository;
 import com.gmw.repository.sql.view.ViewSqlRepository;
-import com.gmw.utils.JDBCUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.sql.SQLException;
+import java.sql.Connection;
 
 public class SqlRepositoryManager implements RepositoryManager {
+    private final PersistenceManager persistenceManager;
 
-    private static final Logger logger = LogManager.getLogger();
-    private PersistenceManager persistenceManager;
-
-    public SqlRepositoryManager() {
-        try {
-            this.persistenceManager = new SqlSafePersistenceManager(JDBCUtils.getConnection());
-        } catch (SQLException e) {
-            logger.error("Error during sql persistence manager creation!");
-        }
+    public SqlRepositoryManager(Connection connection) {
+        this.persistenceManager = new SqlSafePersistenceManager(connection);
     }
 
     @Override
