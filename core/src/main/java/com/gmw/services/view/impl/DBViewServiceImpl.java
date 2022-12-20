@@ -4,7 +4,6 @@ package com.gmw.services.view.impl;
 import com.gmw.coverters.TOConverter;
 import com.gmw.coverters.ViewConverter;
 import com.gmw.exceptions.SqlRepositoryException;
-import com.gmw.model.Field;
 import com.gmw.model.View;
 import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
@@ -43,8 +42,8 @@ public class DBViewServiceImpl extends DBViewReadServiceImpl implements DBViewSe
     @Override
     public void deleteView(Long viewId) throws ResourceNotDeletedException {
 
-        Repository<Field> fieldRepositoryManager = getRepositoryManager().getFieldRepository();
+        Repository<View> repository = getRepositoryManager().getViewRepository();
 
-        ServiceUtils.delete(fieldRepositoryManager, viewId);
+        ServiceUtils.delete(repository, viewId);
     }
 }
