@@ -84,8 +84,8 @@ public class SqlQueryUtilityTest {
     public void generateCreateQueryForField() throws SqlQueryUtilityException {
         Field field = prepareField();
         String actualQuery = SqlQueryUtility.generateCreateQuery(field);
-        String expectedQuery = "INSERT INTO fields (name,description,type,label,view_id) " +
-                "VALUES ('test', 'some description', 'TEXT', '', 1);";
+        String expectedQuery = "INSERT INTO fields (description,type,label,view_id) " +
+                "VALUES ('some description', 'TEXT', '', 1);";
         Assert.assertEquals(expectedQuery, actualQuery);
     }
 
@@ -127,7 +127,6 @@ public class SqlQueryUtilityTest {
     public void generateUpdateQueryField() throws SqlQueryUtilityException {
         String actual = SqlQueryUtility.generateUpdateQuery(prepareField());
         String expected = "UPDATE fields SET " +
-                "name = 'test', " +
                 "description = 'some description', " +
                 "type = 'TEXT', " +
                 "label = '', " +
@@ -215,7 +214,6 @@ public class SqlQueryUtilityTest {
         expected.setId(1L);
         expected.setViewId(1L);
         expected.setDescription("Desc");
-        expected.setName("Name");
         expected.setType("TEXT");
         expected.setLabel("valueOne");
 
@@ -223,7 +221,6 @@ public class SqlQueryUtilityTest {
         Mockito.when(resultSet.getObject("id")).thenReturn(1);
         Mockito.when(resultSet.getObject("view_id")).thenReturn(1);
         Mockito.when(resultSet.getObject("description")).thenReturn("Desc");
-        Mockito.when(resultSet.getObject("name")).thenReturn("Name");
         Mockito.when(resultSet.getObject("type")).thenReturn("TEXT");
         Mockito.when(resultSet.getObject("label")).thenReturn("valueOne");
         Mockito.when(ps.executeQuery()).thenReturn(resultSet);
@@ -247,7 +244,6 @@ public class SqlQueryUtilityTest {
     private Field prepareField() {
         return new Field("fields",
                 1L,
-                "test",
                 "some description",
                 FieldTypeEnum.TEXT.toString(),
                 "",

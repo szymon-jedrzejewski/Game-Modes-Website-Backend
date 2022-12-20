@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NewFieldTO {
-    private String name;
     private String description;
     private FieldTypeEnum fieldType;
     private String label;

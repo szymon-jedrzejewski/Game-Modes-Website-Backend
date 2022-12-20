@@ -71,7 +71,6 @@ public class TestDbConstants {
             (
                 id          SERIAL PRIMARY KEY,
                 view_id     INT,
-                name        VARCHAR(200),
                 description VARCHAR(200),
                 type        VARCHAR(50),
                 label       VARCHAR(200),
@@ -128,7 +127,7 @@ public class TestDbConstants {
     private static final String INSERT_CATEGORY = "INSERT INTO categories VALUES(1, 'category_test_name');";
     private static final String INSERT_GAME = "INSERT INTO games VALUES(1, 'game_test_name', null, 'Game description test');";
     private static final String INSERT_VIEW = "INSERT INTO views VALUES(1, 1);";
-    private static final String INSERT_FIELD = "INSERT INTO fields VALUES(1, 1, 'test_field_name', 'Field test description', 'TEXT', 'Text field');";
+    private static final String INSERT_FIELD = "INSERT INTO fields VALUES(1, 1, 'Field test description', 'TEXT', 'Text field');";
     private static final String INSERT_MOD = "INSERT INTO mods VALUES(1, 'TestModName', 1, 1, 1, 'Test description mods', 'www.google.com', '2001-09-28', null);";
     private static final String INSERT_RATING = "INSERT INTO ratings VALUES(1, 1, 1, 5);";
     private static final String INSERT_COMMENT = "INSERT INTO comments VALUES(1, 1, 1, 'That mod is awesome test');";

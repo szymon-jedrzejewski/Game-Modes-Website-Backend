@@ -16,7 +16,6 @@ public class FieldConverter implements
                 .id(field.getId())
                 .fieldType(FieldTypeEnum.valueOf(field.getType()))
                 .description(field.getDescription())
-                .name(field.getName())
                 .label(field.getLabel())
                 .build();
     }
@@ -26,7 +25,6 @@ public class FieldConverter implements
         Field field = new Field("fields");
         field.setType(newFieldTO.getFieldType().toString());
         field.setDescription(newFieldTO.getDescription());
-        field.setName(newFieldTO.getName());
         field.setLabel(newFieldTO.getLabel());
 
         return field;

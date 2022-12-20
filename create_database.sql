@@ -38,7 +38,6 @@ CREATE TABLE fields
 (
     id          SERIAL PRIMARY KEY,
     view_id     INT,
-    name        VARCHAR(200),
     description TEXT,
     type        VARCHAR(50),
     label       TEXT,

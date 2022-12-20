@@ -9,8 +9,8 @@ public class ExistingFieldTO extends NewFieldTO {
     private final Long id;
 
     @Builder
-    public ExistingFieldTO(String name, String description, FieldTypeEnum fieldType, String label, Long id) {
-        super(name, description, fieldType, label);
+    public ExistingFieldTO(String description, FieldTypeEnum fieldType, String label, Long id) {
+        super(description, fieldType, label);
         this.id = id;
     }
 }

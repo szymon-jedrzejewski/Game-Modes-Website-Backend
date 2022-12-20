@@ -12,7 +12,6 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 public class Field extends Table implements Persistable {
     private Long id;
-    private String name;
     private String description;
     private String type;
     private String label;
@@ -20,14 +19,12 @@ public class Field extends Table implements Persistable {
 
     public Field(String tableName,
                  Long id,
-                 String name,
                  String description,
                  String type,
                  String label,
                  Long viewId) {
         super(tableName);
         this.id = id;
-        this.name = name;
         this.description = description;
         this.type = type;
         this.label = label;
