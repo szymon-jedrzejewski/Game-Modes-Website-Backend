@@ -87,6 +87,6 @@ public class DBCommentServiceImplTest {
         assertEquals(Long.valueOf(1), id);
 
         service.deleteComment(1L);
-        service.obtainCommentsByModId(1L).get(0).getId();
+        service.obtainCommentsByModId(1L);
     }
 }
