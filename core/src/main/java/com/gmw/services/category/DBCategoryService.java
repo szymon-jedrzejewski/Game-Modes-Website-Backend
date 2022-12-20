@@ -6,7 +6,7 @@ import com.gmw.services.exceptions.ResourceNotCreatedException;
 import com.gmw.services.exceptions.ResourceNotDeletedException;
 import com.gmw.services.exceptions.ResourceNotUpdatedException;
 
-public interface DBCategoryService {
+public interface DBCategoryService extends DBCategoryReadService {
     void createCategory(NewCategoryTO newCategoryTO) throws ResourceNotCreatedException;
     void updateCategory(ExistingCategoryTO existingCategory) throws ResourceNotUpdatedException;
     void deleteCategory(Long categoryId) throws ResourceNotDeletedException;
