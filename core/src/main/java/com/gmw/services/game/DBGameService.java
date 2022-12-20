@@ -6,7 +6,7 @@ import com.gmw.services.exceptions.ResourceNotUpdatedException;
 import com.gmw.game.tos.ExistingGameTO;
 import com.gmw.game.tos.NewGameTO;
 
-public interface DBGameService {
+public interface DBGameService extends DBGameReadService {
     void createGame(NewGameTO game) throws ResourceNotCreatedException;
     void deleteGame(Long gameId) throws ResourceNotDeletedException;
     void updateGame(ExistingGameTO game) throws ResourceNotUpdatedException;
