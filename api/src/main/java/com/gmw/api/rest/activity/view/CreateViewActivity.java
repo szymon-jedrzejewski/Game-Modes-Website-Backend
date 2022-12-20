@@ -23,7 +23,7 @@ public class CreateViewActivity extends Activity<Void> {
     protected Void realExecute() throws ResourceNotCreatedException {
         try {
             ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager();
-            DBViewService service = serviceManager.getDbViewBuilderService();
+            DBViewService service = serviceManager.getDbViewService();
             DBFieldService fieldService = serviceManager.getDbFieldService();
             Long viewId = service.createView(newView);
 

@@ -28,7 +28,7 @@ public class DeleteViewActivity extends Activity<Void> {
         try {
             ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager();
             DBFieldService fieldService = serviceManager.getDbFieldService();
-            DBViewService viewService = serviceManager.getDbViewBuilderService();
+            DBViewService viewService = serviceManager.getDbViewService();
 
             try {
 

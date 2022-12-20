@@ -22,7 +22,7 @@ public class FindViewActivity extends Activity<ExistingViewTO> {
     protected ExistingViewTO realExecute() throws ResourceNotFoundException {
         try {
             ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager();
-            DBViewReadService service = serviceManager.getDbViewBuilderReadService();
+            DBViewReadService service = serviceManager.getDbViewReadService();
             DBFieldReadService fieldReadService = serviceManager.getDbFieldReadService();
 
             status = HttpStatus.OK;

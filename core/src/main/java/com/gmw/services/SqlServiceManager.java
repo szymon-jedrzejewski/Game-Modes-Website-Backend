@@ -1,6 +1,14 @@
 package com.gmw.services;
 
 import com.gmw.repository.sql.SqlRepositoryManager;
+import com.gmw.services.category.DBCategoryReadService;
+import com.gmw.services.category.DBCategoryService;
+import com.gmw.services.category.impl.DBCategoryReadServiceImpl;
+import com.gmw.services.category.impl.DBCategoryServiceImpl;
+import com.gmw.services.comment.DBCommentReadService;
+import com.gmw.services.comment.DBCommentService;
+import com.gmw.services.comment.impl.DBCommentReadServiceImpl;
+import com.gmw.services.comment.impl.DBCommentServiceImpl;
 import com.gmw.services.field.DBFieldReadService;
 import com.gmw.services.field.DBFieldService;
 import com.gmw.services.field.impl.DBFieldReadServiceImpl;
@@ -9,6 +17,10 @@ import com.gmw.services.game.DBGameReadService;
 import com.gmw.services.game.DBGameService;
 import com.gmw.services.game.impl.DBGameReadServiceImpl;
 import com.gmw.services.game.impl.DBGameServiceImpl;
+import com.gmw.services.mod.DBModReadService;
+import com.gmw.services.mod.DBModService;
+import com.gmw.services.mod.impl.DBModReadServiceImpl;
+import com.gmw.services.mod.impl.DBModServiceImpl;
 import com.gmw.services.rating.DBRatingReadService;
 import com.gmw.services.rating.DBRatingService;
 import com.gmw.services.rating.impl.DBRatingReadServiceImpl;
@@ -31,12 +43,12 @@ public class SqlServiceManager implements ServiceManager {
     }
 
     @Override
-    public DBViewService getDbViewBuilderService() {
+    public DBViewService getDbViewService() {
         return new DBViewServiceImpl(repositoryManager);
     }
 
     @Override
-    public DBViewReadService getDbViewBuilderReadService() {
+    public DBViewReadService getDbViewReadService() {
         return new DBViewReadServiceImpl(repositoryManager);
     }
 
@@ -78,5 +90,35 @@ public class SqlServiceManager implements ServiceManager {
     @Override
     public DBRatingService getDbRatingService() {
         return new DBRatingServiceImpl(repositoryManager);
+    }
+
+    @Override
+    public DBCategoryService getDbCategoryService() {
+        return new DBCategoryServiceImpl(repositoryManager);
+    }
+
+    @Override
+    public DBCategoryReadService getDbCategoryReadService() {
+        return new DBCategoryReadServiceImpl(repositoryManager);
+    }
+
+    @Override
+    public DBCommentService getDbCommentService() {
+        return new DBCommentServiceImpl(repositoryManager);
+    }
+
+    @Override
+    public DBCommentReadService getDbCommentReadService() {
+        return new DBCommentReadServiceImpl(repositoryManager);
+    }
+
+    @Override
+    public DBModService getDbModService() {
+        return new DBModServiceImpl(repositoryManager);
+    }
+
+    @Override
+    public DBModReadService getDbModReadService() {
+        return new DBModReadServiceImpl(repositoryManager);
     }
 }

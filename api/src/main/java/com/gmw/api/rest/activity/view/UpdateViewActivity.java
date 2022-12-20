@@ -26,7 +26,7 @@ public class UpdateViewActivity extends Activity<Void> {
             DBFieldService service = serviceManager.getDbFieldService();
 
             try {
-                Long viewId = serviceManager.getDbViewBuilderReadService().obtainViewById(view.getId()).getId();
+                Long viewId = serviceManager.getDbViewReadService().obtainViewById(view.getId()).getId();
 
                 for (ExistingFieldTO field : view.getFields()) {
                     service.updateField(field, viewId);
