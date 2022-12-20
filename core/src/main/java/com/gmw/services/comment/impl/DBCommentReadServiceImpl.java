@@ -22,7 +22,7 @@ public class DBCommentReadServiceImpl extends DBService implements DBCommentRead
     }
 
     @Override
-    public List<ExistingCommentTO> findCommentsByModId(Long modId) throws ResourceNotFoundException {
+    public List<ExistingCommentTO> obtainCommentsByModId(Long modId) throws ResourceNotFoundException {
         Repository<Comment> repository = getRepositoryManager().getCommentRepository();
 
         QuerySpec querySpec = new QuerySpec();

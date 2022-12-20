@@ -6,7 +6,7 @@ import com.gmw.services.exceptions.ResourceNotCreatedException;
 import com.gmw.services.exceptions.ResourceNotDeletedException;
 import com.gmw.services.exceptions.ResourceNotUpdatedException;
 
-public interface DBCommentService {
+public interface DBCommentService extends DBCommentReadService {
     void createComment(NewCommentTO newCommentTO) throws ResourceNotCreatedException;
     void updateComment(ExistingCommentTO existingCommentTO) throws ResourceNotUpdatedException;
     void deleteComment(Long CommentId) throws ResourceNotDeletedException;

@@ -13,7 +13,6 @@ import com.gmw.services.rating.DBRatingService;
 import com.gmw.services.testutilities.ServiceType;
 import com.gmw.services.testutilities.TestDbUtilities;
 import com.gmw.user.tos.NewUserTO;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,11 +27,6 @@ class DBRatingServiceImplTest {
     void setUp() {
         TestDbUtilities.initializeDatabase(ServiceType.RATING);
         this.serviceManager = new SqlServiceManager(new SqlRepositoryManager(TestDbUtilities.getConnection()));
-    }
-
-    @AfterEach
-    void tearDown() {
-        TestDbUtilities.dropTables(ServiceType.RATING);
     }
 
     @Test

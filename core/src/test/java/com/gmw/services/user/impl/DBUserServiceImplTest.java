@@ -13,7 +13,6 @@ import com.gmw.services.user.DBUserService;
 import com.gmw.user.enums.RoleEnum;
 import com.gmw.user.tos.ExistingUserTO;
 import com.gmw.user.tos.NewUserTO;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,11 +28,6 @@ public class DBUserServiceImplTest {
     public void setUp() {
         TestDbUtilities.initializeDatabase(ServiceType.USER);
         this.serviceManager = new SqlServiceManager(new SqlRepositoryManager(TestDbUtilities.getConnection()));
-    }
-
-    @After
-    public void dropTables() {
-        TestDbUtilities.dropTables(ServiceType.USER);
     }
 
     @Test

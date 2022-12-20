@@ -21,7 +21,7 @@ public class CommentConverter implements
 
     @Override
     public Comment convertToModel(NewCommentTO newCommentTO) {
-        Comment comment = new Comment();
+        Comment comment = new Comment("comments");
         comment.setComment(newCommentTO.getComment());
         comment.setModId(newCommentTO.getModId());
         comment.setUserId(newCommentTO.getUserId());

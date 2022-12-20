@@ -30,11 +30,6 @@ public class DBCategoryServiceImplTest {
         this.serviceManager = new SqlServiceManager(new SqlRepositoryManager(TestDbUtilities.getConnection()));
     }
 
-    @After
-    public void tearDown() {
-        TestDbUtilities.dropTables(ServiceType.CATEGORY);
-    }
-
     @Test
     public void obtainCategories() throws ResourceNotFoundException {
         List<ExistingCategoryTO> existingCategoryTOS = serviceManager.getDbCategoryService().obtainCategories();

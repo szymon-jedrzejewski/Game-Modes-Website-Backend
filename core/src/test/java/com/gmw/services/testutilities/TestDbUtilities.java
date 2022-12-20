@@ -37,12 +37,4 @@ public class TestDbUtilities {
             throw new RuntimeException(e);
         }
     }
-
-    public static void dropTables(ServiceType serviceType) {
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
-            statement.execute(TestDbConstants.getQueries(serviceType).get(0));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

@@ -6,5 +6,5 @@ import com.gmw.services.exceptions.ResourceNotFoundException;
 import java.util.List;
 
 public interface DBCommentReadService {
-    List<ExistingCommentTO> findCommentsByModId(Long modId) throws ResourceNotFoundException;
+    List<ExistingCommentTO> obtainCommentsByModId(Long modId) throws ResourceNotFoundException;
 }

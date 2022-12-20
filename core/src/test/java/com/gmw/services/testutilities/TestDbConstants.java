@@ -49,7 +49,7 @@ public class TestDbConstants {
                 id          SERIAL PRIMARY KEY,
                 name        VARCHAR(200),
                 avatar      BYTEA,
-                description TEXT
+                description VARCHAR(200)
             );
                         
             """;
@@ -72,9 +72,9 @@ public class TestDbConstants {
                 id          SERIAL PRIMARY KEY,
                 view_id     INT,
                 name        VARCHAR(200),
-                description TEXT,
+                description VARCHAR(200),
                 type        VARCHAR(50),
-                label       TEXT,
+                label       VARCHAR(200),
                 CONSTRAINT FK_views FOREIGN KEY (view_id) REFERENCES views (id)
             );
                         
@@ -88,8 +88,8 @@ public class TestDbConstants {
                 user_id       INT,
                 game_id       INT,
                 category_id   INT,
-                description   TEXT,
-                download_link TEXT,
+                description   VARCHAR(200),
+                download_link VARCHAR(200),
                 date          DATE,
                 avatar        bytea,
                 CONSTRAINT FK_games FOREIGN KEY (game_id) REFERENCES games (id),
@@ -118,7 +118,7 @@ public class TestDbConstants {
                 id      SERIAL PRIMARY KEY,
                 user_id INT,
                 mod_id  INT,
-                comment TEXT,
+                comment VARCHAR(255),
                 CONSTRAINT FK_comments_users FOREIGN KEY (user_id) REFERENCES users (id),
                 CONSTRAINT FK_comments_mods FOREIGN KEY (mod_id) REFERENCES mods (id)
             );
