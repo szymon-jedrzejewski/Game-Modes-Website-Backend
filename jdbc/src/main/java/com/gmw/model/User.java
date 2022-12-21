@@ -20,20 +20,6 @@ public class User extends Table implements Persistable {
 
 
     public User() {
-        super(null);
-    }
-
-    public User(String tableName) {
-        super(tableName);
-    }
-
-    public User(String tableName, Long id, String name, String password, String email, String role, byte[] avatar) {
-        super(tableName);
-        this.id = id;
-        this.name = name;
-        this.password = password;
-        this.email = email;
-        this.role = role;
-        this.avatar = avatar;
+        super("users");
     }
 }

@@ -25,7 +25,7 @@ public class ModConverter implements
 
     @Override
     public Mod convertToModel(NewModTO newMod) {
-        Mod mod = new Mod("mods");
+        Mod mod = new Mod();
         mod.setAvatar(newMod.getAvatar());
         mod.setDate(newMod.getDate());
         mod.setUserId(newMod.getUserId());

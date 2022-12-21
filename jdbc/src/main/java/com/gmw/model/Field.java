@@ -17,24 +17,7 @@ public class Field extends Table implements Persistable {
     private String label;
     private Long viewId;
 
-    public Field(String tableName,
-                 Long id,
-                 String description,
-                 String type,
-                 String label,
-                 Long viewId) {
-        super(tableName);
-        this.id = id;
-        this.description = description;
-        this.type = type;
-        this.label = label;
-        this.viewId = viewId;
-    }
-    public Field(String tableName) {
-        super(tableName);
-    }
-
     public Field() {
-        super(null);
+        super("fields");
     }
 }

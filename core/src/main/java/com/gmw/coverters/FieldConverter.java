@@ -22,7 +22,7 @@ public class FieldConverter implements
 
     @Override
     public Field convertToModel(NewFieldTO newFieldTO) {
-        Field field = new Field("fields");
+        Field field = new Field();
         field.setType(newFieldTO.getFieldType().toString());
         field.setDescription(newFieldTO.getDescription());
         field.setLabel(newFieldTO.getLabel());

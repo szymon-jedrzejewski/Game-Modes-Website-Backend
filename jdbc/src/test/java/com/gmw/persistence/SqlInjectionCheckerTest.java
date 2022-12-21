@@ -10,7 +10,9 @@ public class SqlInjectionCheckerTest {
 
     @Test
     public void check_SimpleView() {
-        View view = new View("views", 1L, 1L);
+        View view = new View();
+        view.setGameId(1L);
+        view.setId(1L);
         Assert.assertFalse(SqlInjectionChecker.check(view));
     }
 }

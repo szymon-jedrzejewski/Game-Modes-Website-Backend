@@ -48,7 +48,7 @@ public class DBUserServiceImpl extends DBUserReadServiceImpl implements DBUserSe
     public void deleteUser(Long userId) throws ResourceNotDeletedException {
         Repository<User> repository = getRepositoryManager().getUserRepository();
 
-        User user = new User("users");
+        User user = new User();
         user.setId(userId);
         user.setEmail(null);
         user.setPassword(null);

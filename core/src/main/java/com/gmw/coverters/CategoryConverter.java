@@ -18,7 +18,7 @@ public class CategoryConverter implements
 
     @Override
     public Category convertToModel(NewCategoryTO newCategoryTO) {
-        Category category = new Category("categories");
+        Category category = new Category();
         category.setName(newCategoryTO.getName());
         return category;
     }

@@ -21,7 +21,7 @@ public class GameConverter implements
 
     @Override
     public Game convertToModel(NewGameTO newGameTO) {
-        Game game = new Game("games");
+        Game game = new Game();
         game.setName(newGameTO.getName());
         game.setDescription(newGameTO.getDescription());
         game.setAvatar(newGameTO.getAvatar());

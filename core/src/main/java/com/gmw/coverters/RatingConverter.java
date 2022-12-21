@@ -21,7 +21,7 @@ public class RatingConverter implements
 
     @Override
     public Rating convertToModel(NewRatingTO newRatingTO) {
-        Rating rating = new Rating("ratings");
+        Rating rating = new Rating();
         rating.setRating(newRatingTO.getRating());
         rating.setModId(newRatingTO.getModId());
         rating.setUserId(newRatingTO.getUserId());

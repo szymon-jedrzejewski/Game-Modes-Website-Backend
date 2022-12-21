@@ -18,18 +18,6 @@ public class Rating extends Table implements Persistable {
 
 
     public Rating() {
-        super(null);
-    }
-
-    public Rating(String tableName) {
-        super(tableName);
-    }
-
-    public Rating(String tableName, Long id, Long userId, Long modId, Integer rating) {
-        super(tableName);
-        this.id = id;
-        this.userId = userId;
-        this.modId = modId;
-        this.rating = rating;
+        super("ratings");
     }
 }

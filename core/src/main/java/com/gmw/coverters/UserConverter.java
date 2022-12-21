@@ -23,7 +23,7 @@ public class UserConverter implements
 
     @Override
     public User convertToModel(NewUserTO newUserTO) {
-        User user = new User("users");
+        User user = new User();
         user.setAvatar(newUserTO.getAvatar());
         user.setRole(RoleEnum.USER.toString());
         user.setName(newUserTO.getName());

@@ -15,18 +15,6 @@ public class Comment extends Table implements Persistable {
 
 
     public Comment() {
-        super(null);
-    }
-
-    public Comment(String tableName) {
-        super(tableName);
-    }
-
-    public Comment(String tableName, Long id, Long userId, Long modId, String comment) {
-        super(tableName);
-        this.id = id;
-        this.userId = userId;
-        this.modId = modId;
-        this.comment = comment;
+        super("comments");
     }
 }

@@ -19,7 +19,7 @@ public class ViewConverter implements
 
     @Override
     public View convertToModel(NewViewTO existingViewTO) {
-        View view = new View("views");
+        View view = new View();
         view.setGameId(existingViewTO.getGameId());
         return view;
     }

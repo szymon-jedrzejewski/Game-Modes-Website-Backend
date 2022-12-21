@@ -16,16 +16,6 @@ public class Category extends Table implements Persistable {
     private String name;
 
     public Category() {
-        super(null);
-    }
-
-    public Category(String tableName) {
-        super(tableName);
-    }
-
-    public Category(String tableName, Long id, String name) {
-        super(tableName);
-        this.id = id;
-        this.name = name;
+        super("categories");
     }
 }

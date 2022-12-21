@@ -155,7 +155,7 @@ public class SqlQueryUtilityTest {
 
     @Test
     public void generateUpdateQueryToUpdateRoleForAUser() throws SqlQueryUtilityException {
-        User user = new User("users");
+        User user = new User();
         user.setId(1L);
         user.setEmail("name@email.com");
         user.setAvatar(null);
@@ -233,7 +233,7 @@ public class SqlQueryUtilityTest {
     }
 
     private Game prepareGame() {
-        Game game = new Game("games");
+        Game game = new Game();
         game.setId(1L);
         game.setDescription("Some desc");
         game.setName("Name");
@@ -242,15 +242,19 @@ public class SqlQueryUtilityTest {
     }
 
     private Field prepareField() {
-        return new Field("fields",
-                1L,
-                "some description",
-                FieldTypeEnum.TEXT.toString(),
-                "",
-                1L);
+        Field field = new Field();
+        field.setId(1L);
+        field.setDescription("some description");
+        field.setType(FieldTypeEnum.TEXT.toString());
+        field.setLabel("");
+        field.setViewId(1L);
+        return field;
     }
 
     private View prepareView() {
-        return new View("views", 1L, 2L);
+        View view = new View();
+        view.setGameId(2L);
+        view.setId(1L);
+        return view;
     }
 }
