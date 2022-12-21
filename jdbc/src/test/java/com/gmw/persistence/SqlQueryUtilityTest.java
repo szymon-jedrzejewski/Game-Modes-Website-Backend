@@ -40,6 +40,18 @@ public class SqlQueryUtilityTest {
 
         Assert.assertEquals(expected, actual);
     }
+    @Test
+    public void generateFindByNameLikeQueryGame() {
+        QuerySpec querySpec = new QuerySpec();
+        querySpec.setClazz(Game.class);
+        querySpec.setTableName(new Game().getTableName());
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("name", Operator.ILIKE, List.of("%name%")));
+
+        String actual = SqlQueryUtility.generateFindQuery(querySpec);
+        String expected = "SELECT * FROM games WHERE name ILIKE ('%name%');";
+
+        Assert.assertEquals(expected, actual);
+    }
 
     @Test
     public void generateFindByIdInQueryGame() {

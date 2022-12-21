@@ -42,16 +42,89 @@ public class DBFieldValueServiceImplTest {
     }
 
     @Test
+    public void obtainModsIsBySearchValues_exactMatchBasicTest_shouldFindTwo() throws ResourceNotDeletedException, ResourceNotFoundException {
+        SearchFieldValue searchFieldValue = new SearchFieldValue();
+        searchFieldValue.setFieldId(1L);
+        searchFieldValue.setValue("Some random field text");
+        searchFieldValue.setExact(true);
+        SearchFieldValue searchFieldValue1 = new SearchFieldValue();
+        searchFieldValue1.setFieldId(1L);
+        searchFieldValue1.setValue("Test field value");
+        searchFieldValue1.setExact(true);
+        List<Long> longs = serviceManager.getDbFieldValueService().obtainModsIsBySearchValues(List.of(searchFieldValue, searchFieldValue1));
+        assertEquals(2, longs.size());
+        assertEquals(Long.valueOf(1), longs.get(0));
+        assertEquals(Long.valueOf(3), longs.get(1));
+    }
+
+    @Test
+    public void obtainModsIsBySearchValues_exactAndNotExactMatchBasicTest_shouldFindTwo() throws ResourceNotDeletedException, ResourceNotFoundException {
+        SearchFieldValue searchFieldValue = new SearchFieldValue();
+        searchFieldValue.setFieldId(1L);
+        searchFieldValue.setValue("Some random field text");
+        searchFieldValue.setExact(true);
+        SearchFieldValue searchFieldValue1 = new SearchFieldValue();
+        searchFieldValue1.setFieldId(1L);
+        searchFieldValue1.setValue("value");
+        searchFieldValue1.setExact(false);
+        List<Long> longs = serviceManager.getDbFieldValueService().obtainModsIsBySearchValues(List.of(searchFieldValue, searchFieldValue1));
+        assertEquals(2, longs.size());
+        assertEquals(Long.valueOf(1), longs.get(0));
+        assertEquals(Long.valueOf(3), longs.get(1));
+    }
+
+    @Test
+    public void obtainModsIsBySearchValues_notExactMatchBasicTest() throws ResourceNotDeletedException, ResourceNotFoundException {
+        SearchFieldValue searchFieldValue = new SearchFieldValue();
+        searchFieldValue.setFieldId(1L);
+        searchFieldValue.setValue("field");
+        searchFieldValue.setExact(false);
+        List<Long> longs = serviceManager.getDbFieldValueService().obtainModsIsBySearchValues(List.of(searchFieldValue));
+        assertEquals(2, longs.size());
+        assertEquals(Long.valueOf(1), longs.get(0));
+        assertEquals(Long.valueOf(3), longs.get(1));
+    }
+
+    @Test
+    public void obtainModsIsBySearchValues_notExactMatchBasicTest_shouldFindOne() throws ResourceNotDeletedException, ResourceNotFoundException {
+        SearchFieldValue searchFieldValue = new SearchFieldValue();
+        searchFieldValue.setFieldId(1L);
+        searchFieldValue.setValue("some");
+        searchFieldValue.setExact(false);
+        List<Long> longs = serviceManager.getDbFieldValueService().obtainModsIsBySearchValues(List.of(searchFieldValue));
+        assertEquals(1, longs.size());
+        assertEquals(Long.valueOf(3), longs.get(0));
+    }
+
+    @Test
+    public void obtainModsIsBySearchValues_notExactMatchBasicTest_shouldFindTwo() throws ResourceNotDeletedException, ResourceNotFoundException {
+        SearchFieldValue searchFieldValue = new SearchFieldValue();
+        searchFieldValue.setFieldId(1L);
+        searchFieldValue.setValue("some");
+        searchFieldValue.setExact(false);
+        SearchFieldValue searchFieldValue1 = new SearchFieldValue();
+        searchFieldValue1.setFieldId(1L);
+        searchFieldValue1.setValue("value");
+        searchFieldValue1.setExact(false);
+        List<Long> longs = serviceManager.getDbFieldValueService().obtainModsIsBySearchValues(List.of(searchFieldValue, searchFieldValue1));
+        assertEquals(2, longs.size());
+        assertEquals(Long.valueOf(1), longs.get(0));
+        assertEquals(Long.valueOf(3), longs.get(1));
+    }
+
+    @Test
     public void createFieldValue() throws ResourceNotCreatedException, ResourceNotDeletedException, ResourceNotFoundException {
         DBFieldValueService service = serviceManager.getDbFieldValueService();
-        NewFieldValueTO newFieldValueTO = new NewFieldValueTO(1L, 1L,"random value");
+        NewFieldValueTO newFieldValueTO = new NewFieldValueTO(1L, 2L, "random value");
 
         SearchFieldValue searchFieldValue = new SearchFieldValue();
         searchFieldValue.setFieldId(1L);
         searchFieldValue.setValue("Test field value");
+        searchFieldValue.setExact(true);
         SearchFieldValue searchFieldValue1 = new SearchFieldValue();
         searchFieldValue1.setFieldId(1L);
         searchFieldValue1.setValue("random value");
+        searchFieldValue1.setExact(true);
 
         List<Long> beforeCreation = service.obtainModsIsBySearchValues(List.of(searchFieldValue, searchFieldValue1));
         assertEquals(1, beforeCreation.size());
@@ -76,6 +149,7 @@ public class DBFieldValueServiceImplTest {
         SearchFieldValue searchFieldValue = new SearchFieldValue();
         searchFieldValue.setFieldId(1L);
         searchFieldValue.setValue("Test field value");
+        searchFieldValue.setExact(true);
 
         List<Long> before = service.obtainModsIsBySearchValues(List.of(searchFieldValue));
         assertEquals(1, before.size());
@@ -95,6 +169,7 @@ public class DBFieldValueServiceImplTest {
         SearchFieldValue searchFieldValue = new SearchFieldValue();
         searchFieldValue.setFieldId(1L);
         searchFieldValue.setValue("Test field value");
+        searchFieldValue.setExact(true);
 
         List<Long> before = service.obtainModsIsBySearchValues(List.of(searchFieldValue));
         assertEquals(1, before.size());

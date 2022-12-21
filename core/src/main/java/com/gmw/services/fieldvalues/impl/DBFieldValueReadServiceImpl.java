@@ -34,31 +34,13 @@ public class DBFieldValueReadServiceImpl extends DBService implements DBFieldVal
         if (searchFieldValues == null || searchFieldValues.isEmpty()) {
             throw new ResourceNotFoundException();
         } else {
-            SearchFieldValue searchFieldValue = searchFieldValues.get(0);
-            querySpec.appendWithOpeningRoundBracket(QueryOperator.WHERE, new SearchCondition("field_id", Operator.EQUAL_TO, List.of(searchFieldValue.getFieldId())));
-            querySpec.appendWithClosingRoundBracket(QueryOperator.AND, new SearchCondition("value", Operator.EQUAL_TO, List.of(searchFieldValue.getValue())));
-
-            if (searchFieldValues.size() > 1)
-            {
-                for (int i = 1; i < searchFieldValues.size(); i++) {
-                    String value = searchFieldValues.get(i).getValue();
-                    Long fieldId = searchFieldValues.get(i).getFieldId();
-                    if (value != null && fieldId != null) {
-                        querySpec.appendWithOpeningRoundBracket(QueryOperator.OR, new SearchCondition("field_id",
-                                Operator.EQUAL_TO, List.of(fieldId)));
-                        querySpec.appendWithClosingRoundBracket(QueryOperator.AND, new SearchCondition("value",
-                                Operator.EQUAL_TO, List.of(value)));
-                    }
-                }
-            }
-
+            prepareQuerySpec(searchFieldValues, querySpec);
         }
 
         try {
-            List<Long> modsIds = repository.find(querySpec).stream().map(FieldValue::getModId).toList();
+            List<Long> modsIds = repository.find(querySpec).stream().map(FieldValue::getModId).distinct().toList();
 
-            if (modsIds.isEmpty())
-            {
+            if (modsIds.isEmpty()) {
                 throw new ResourceNotFoundException();
             }
 
@@ -66,6 +48,45 @@ public class DBFieldValueReadServiceImpl extends DBService implements DBFieldVal
         } catch (SqlRepositoryException e) {
             LOGGER.error("Error during obtaining mods ids!", e);
             throw new ResourceNotFoundException();
+        }
+    }
+
+    private static void prepareQuerySpec(List<SearchFieldValue> searchFieldValues, QuerySpec querySpec) {
+        SearchFieldValue searchFieldValue = searchFieldValues.get(0);
+        querySpec.appendWithOpeningRoundBracket(QueryOperator.WHERE, new SearchCondition("field_id",
+                Operator.EQUAL_TO, List.of(searchFieldValue.getFieldId())));
+
+        if (searchFieldValue.isExact()) {
+            querySpec.appendWithClosingRoundBracket(QueryOperator.AND, new SearchCondition("value",
+                    Operator.EQUAL_TO, List.of(searchFieldValue.getValue())));
+        } else {
+            querySpec.appendWithClosingRoundBracket(QueryOperator.AND, new SearchCondition("value",
+                    Operator.ILIKE, List.of("%" + searchFieldValue.getValue() + "%")));
+
+        }
+
+        if (searchFieldValues.size() > 1) {
+            prepareQuerySpecForOtherSearchFieldValues(searchFieldValues, querySpec);
+        }
+    }
+
+    private static void prepareQuerySpecForOtherSearchFieldValues(List<SearchFieldValue> searchFieldValues, QuerySpec querySpec) {
+        for (int i = 1; i < searchFieldValues.size(); i++) {
+            String value = searchFieldValues.get(i).getValue();
+            Long fieldId = searchFieldValues.get(i).getFieldId();
+            boolean isExact = searchFieldValues.get(i).isExact();
+
+            if (value != null && fieldId != null) {
+                querySpec.appendWithOpeningRoundBracket(QueryOperator.OR, new SearchCondition("field_id",
+                        Operator.EQUAL_TO, List.of(fieldId)));
+                if (isExact) {
+                    querySpec.appendWithClosingRoundBracket(QueryOperator.AND, new SearchCondition("value",
+                            Operator.EQUAL_TO, List.of(value)));
+                } else {
+                    querySpec.appendWithClosingRoundBracket(QueryOperator.AND, new SearchCondition("value",
+                            Operator.ILIKE, List.of("%" + value + "%")));
+                }
+            }
         }
     }
 }

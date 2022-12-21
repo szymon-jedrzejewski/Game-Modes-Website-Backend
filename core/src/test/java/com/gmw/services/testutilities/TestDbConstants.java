@@ -146,6 +146,7 @@ public class TestDbConstants {
     private static final String INSERT_RATING = "INSERT INTO ratings VALUES(1, 1, 1, 5);";
     private static final String INSERT_COMMENT = "INSERT INTO comments VALUES(1, 1, 1, 'That mod is awesome test');";
     private static final String INSERT_FIELDS_VALUES = "INSERT INTO fields_values VALUES(1, 1, 1, 'Test field value');";
+    private static final String INSERT_FIELDS_VALUES_TWO = "INSERT INTO fields_values VALUES(2, 1, 3, 'Some random field text');";
 
 
     static {
@@ -178,7 +179,7 @@ public class TestDbConstants {
                 INSERT_GAME, CREATE_VIEWS, INSERT_VIEW, DROP_FIELDS, CREATE_FIELDS, DROP_CATEGORIES,
                 DROP_MODS, INSERT_FIELD, CREATE_CATEGORIES, INSERT_CATEGORY,
                 CREATE_MODS, INSERT_MOD, DROP_FIELDS_VALUES,
-                CREATE_FIELDS_VALUES, INSERT_FIELDS_VALUES)));
+                CREATE_FIELDS_VALUES, INSERT_FIELDS_VALUES, INSERT_FIELDS_VALUES_TWO)));
     }
 
     public static List<String> getQueries(ServiceType serviceType) {

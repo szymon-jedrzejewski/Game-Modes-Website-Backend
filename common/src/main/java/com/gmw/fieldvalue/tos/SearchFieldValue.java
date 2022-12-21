@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class SearchFieldValue {
     private Long fieldId;
     private String value;
+    private boolean isExact;
 }
