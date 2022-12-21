@@ -10,8 +10,8 @@ import com.gmw.services.exceptions.ResourceNotCreatedException;
 import com.gmw.services.exceptions.ResourceNotDeletedException;
 import com.gmw.services.exceptions.ResourceNotUpdatedException;
 import com.gmw.services.field.DBFieldService;
-import field.tos.ExistingFieldTO;
-import field.tos.NewFieldTO;
+import com.gmw.field.tos.ExistingFieldTO;
+import com.gmw.field.tos.NewFieldTO;
 
 public class DBFieldServiceImpl extends DBFieldReadServiceImpl implements DBFieldService {
     public DBFieldServiceImpl(RepositoryManager repositoryManager) {

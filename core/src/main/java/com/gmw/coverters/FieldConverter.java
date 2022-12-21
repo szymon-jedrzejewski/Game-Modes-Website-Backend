@@ -1,9 +1,9 @@
 package com.gmw.coverters;
 
 import com.gmw.model.Field;
-import field.enums.FieldTypeEnum;
-import field.tos.ExistingFieldTO;
-import field.tos.NewFieldTO;
+import com.gmw.field.enums.FieldTypeEnum;
+import com.gmw.field.tos.ExistingFieldTO;
+import com.gmw.field.tos.NewFieldTO;
 
 public class FieldConverter implements
         ModelConverter<ExistingFieldTO, Field>,

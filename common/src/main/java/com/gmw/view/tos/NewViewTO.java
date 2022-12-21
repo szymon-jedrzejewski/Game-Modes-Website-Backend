@@ -1,6 +1,6 @@
 package com.gmw.view.tos;
 
-import field.tos.NewFieldTO;
+import com.gmw.field.tos.NewFieldTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

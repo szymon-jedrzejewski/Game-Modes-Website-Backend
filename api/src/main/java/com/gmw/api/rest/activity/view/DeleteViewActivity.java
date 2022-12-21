@@ -8,7 +8,7 @@ import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.services.exceptions.ServiceManagerFactoryException;
 import com.gmw.services.field.DBFieldService;
 import com.gmw.services.view.DBViewService;
-import field.tos.ExistingFieldTO;
+import com.gmw.field.tos.ExistingFieldTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
