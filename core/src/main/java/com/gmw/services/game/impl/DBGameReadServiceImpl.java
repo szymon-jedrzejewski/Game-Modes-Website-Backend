@@ -29,7 +29,7 @@ public class DBGameReadServiceImpl extends DBService implements DBGameReadServic
         QuerySpec querySpec = new QuerySpec();
         querySpec.setTableName(new Game().getTableName());
         querySpec.setClazz(Game.class);
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, id));
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, List.of(id)));
 
         return ServiceUtils.find(repository, new GameConverter(), querySpec).get(0);
     }
@@ -41,7 +41,7 @@ public class DBGameReadServiceImpl extends DBService implements DBGameReadServic
         QuerySpec querySpec = new QuerySpec();
         querySpec.setTableName(new Game().getTableName());
         querySpec.setClazz(Game.class);
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("name", Operator.EQUAL_TO, name));
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("name", Operator.EQUAL_TO, List.of(name)));
 
         return ServiceUtils.find(repository, new GameConverter(), querySpec).get(0);
     }

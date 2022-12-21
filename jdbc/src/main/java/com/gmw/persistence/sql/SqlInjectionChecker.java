@@ -51,10 +51,13 @@ public class SqlInjectionChecker {
             for (Object spec : querySpec.getSpecs()) {
                 if (spec instanceof SearchValue
                         && ((SearchValue) spec).clazz().equals(String.class)) {
-                    String value = (String)((SearchValue) spec).value();
-                    if (value.contains(forbiddenWord))
+                    List<String> values = ((SearchValue) spec).values().stream().map(val -> (String)val).toList();
+                    for (String value : values)
                     {
-                        return true;
+                        if (value.contains(forbiddenWord))
+                        {
+                            return true;
+                        }
                     }
                 }
             }

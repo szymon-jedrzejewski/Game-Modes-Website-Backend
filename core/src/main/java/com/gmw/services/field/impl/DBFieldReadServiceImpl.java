@@ -28,7 +28,7 @@ public class DBFieldReadServiceImpl extends DBService implements DBFieldReadServ
         QuerySpec querySpec = new QuerySpec();
         querySpec.setTableName(new Field().getTableName());
         querySpec.setClazz(Field.class);
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("view_id", Operator.EQUAL_TO, viewId));
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("view_id", Operator.EQUAL_TO, List.of(viewId)));
 
         return ServiceUtils.find(repository, new FieldConverter(), querySpec);
     }

@@ -31,11 +31,15 @@ public class QuerySpec {
 
     public void appendWithOpeningRoundBracket(QueryOperator queryOperator, SearchCondition searchCondition) {
 
-        specs.add(queryOperator.toString());
-        specs.add("(");
-        specs.add(searchCondition.column());
-        specs.add(searchCondition.operator().toString());
-        specs.add(new SearchValue(searchCondition.value().getClass(), searchCondition.value()));
+        List<Object> values = searchCondition.values();
+        if (values != null && !values.isEmpty())
+        {
+            specs.add(queryOperator.toString());
+            specs.add("(");
+            specs.add(searchCondition.column());
+            specs.add(searchCondition.operator().toString());
+            specs.add(new SearchValue(values.get(0).getClass(), values));
+        }
 
         logger.debug("Specs: " + specs);
     }
@@ -49,10 +53,13 @@ public class QuerySpec {
     }
 
     private void prepareBasicSpecs(QueryOperator queryOperator, SearchCondition searchCondition) {
-        specs.add(queryOperator.toString());
-        specs.add(searchCondition.column());
-        specs.add(searchCondition.operator().toString());
-        specs.add(new SearchValue(searchCondition.value().getClass(), searchCondition.value()));
+        List<Object> values = searchCondition.values();
+        if (values != null && !values.isEmpty()) {
+            specs.add(queryOperator.toString());
+            specs.add(searchCondition.column());
+            specs.add(searchCondition.operator().toString());
+            specs.add(new SearchValue(values.get(0).getClass(), values));
+        }
     }
 
     @Override

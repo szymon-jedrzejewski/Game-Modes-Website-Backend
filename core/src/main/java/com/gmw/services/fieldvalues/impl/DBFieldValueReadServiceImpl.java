@@ -35,8 +35,8 @@ public class DBFieldValueReadServiceImpl extends DBService implements DBFieldVal
             throw new ResourceNotFoundException();
         } else {
             SearchFieldValue searchFieldValue = searchFieldValues.get(0);
-            querySpec.appendWithOpeningRoundBracket(QueryOperator.WHERE, new SearchCondition("field_id", Operator.EQUAL_TO, searchFieldValue.getFieldId()));
-            querySpec.appendWithClosingRoundBracket(QueryOperator.AND, new SearchCondition("value", Operator.EQUAL_TO, searchFieldValue.getValue()));
+            querySpec.appendWithOpeningRoundBracket(QueryOperator.WHERE, new SearchCondition("field_id", Operator.EQUAL_TO, List.of(searchFieldValue.getFieldId())));
+            querySpec.appendWithClosingRoundBracket(QueryOperator.AND, new SearchCondition("value", Operator.EQUAL_TO, List.of(searchFieldValue.getValue())));
 
             if (searchFieldValues.size() > 1)
             {
@@ -45,9 +45,9 @@ public class DBFieldValueReadServiceImpl extends DBService implements DBFieldVal
                     Long fieldId = searchFieldValues.get(i).getFieldId();
                     if (value != null && fieldId != null) {
                         querySpec.appendWithOpeningRoundBracket(QueryOperator.OR, new SearchCondition("field_id",
-                                Operator.EQUAL_TO, fieldId));
+                                Operator.EQUAL_TO, List.of(fieldId)));
                         querySpec.appendWithClosingRoundBracket(QueryOperator.AND, new SearchCondition("value",
-                                Operator.EQUAL_TO, value));
+                                Operator.EQUAL_TO, List.of(value)));
                     }
                 }
             }

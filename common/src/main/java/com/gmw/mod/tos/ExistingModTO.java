@@ -1,29 +1,24 @@
 package com.gmw.mod.tos;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.gmw.fieldvalue.tos.ExistingFieldValueTO;
+import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class ExistingModTO extends NewModTO {
+@Builder
+@EqualsAndHashCode
+public class ExistingModTO {
     private Long id;
-
-    @Builder
-    public ExistingModTO(String name,
-                         Long userId,
-                         Long gameId,
-                         Long categoryId,
-                         String description,
-                         String downloadLink,
-                         Date date,
-                         byte[] avatar,
-                         Long id) {
-        super(name, userId, gameId, categoryId, description, downloadLink, date, avatar);
-        this.id = id;
-    }
+    private String name;
+    private Long userId;
+    private Long gameId;
+    private Long categoryId;
+    private String description;
+    private String downloadLink;
+    @Setter
+    private List<ExistingFieldValueTO> fieldsValues;
+    private Date date;
+    private byte[] avatar;
 }

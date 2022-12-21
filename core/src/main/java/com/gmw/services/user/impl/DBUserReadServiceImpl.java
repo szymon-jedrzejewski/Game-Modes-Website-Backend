@@ -61,7 +61,7 @@ public class DBUserReadServiceImpl extends DBService implements DBUserReadServic
         QuerySpec querySpec = new QuerySpec();
         querySpec.setTableName(new User().getTableName());
         querySpec.setClazz(User.class);
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, userId));
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, List.of(userId)));
 
         return ServiceUtils.find(repository, new UserConverter(), querySpec).get(0);
     }
@@ -70,7 +70,7 @@ public class DBUserReadServiceImpl extends DBService implements DBUserReadServic
         QuerySpec querySpec = new QuerySpec();
         querySpec.setTableName(new User().getTableName());
         querySpec.setClazz(User.class);
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("email", Operator.EQUAL_TO, email));
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("email", Operator.EQUAL_TO, List.of(email)));
         return querySpec;
     }
 }

@@ -19,6 +19,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SqlQueryUtilityTest {
@@ -27,16 +28,28 @@ public class SqlQueryUtilityTest {
     @Mock
     private ResultSet resultSet;
 
-
     @Test
     public void generateFindByIdQueryGame() {
         QuerySpec querySpec = new QuerySpec();
         querySpec.setClazz(Game.class);
         querySpec.setTableName(new Game().getTableName());
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, 1));
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, List.of(1)));
 
         String actual = SqlQueryUtility.generateFindQuery(querySpec);
-        String expected = "SELECT * FROM games WHERE id = 1;";
+        String expected = "SELECT * FROM games WHERE id = (1);";
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void generateFindByIdInQueryGame() {
+        QuerySpec querySpec = new QuerySpec();
+        querySpec.setClazz(Game.class);
+        querySpec.setTableName(new Game().getTableName());
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.IN, List.of(1, 2, 3, 4)));
+
+        String actual = SqlQueryUtility.generateFindQuery(querySpec);
+        String expected = "SELECT * FROM games WHERE id IN (1,2,3,4);";
 
         Assert.assertEquals(expected, actual);
     }
@@ -46,12 +59,12 @@ public class SqlQueryUtilityTest {
         QuerySpec querySpec = new QuerySpec();
         querySpec.setClazz(Game.class);
         querySpec.setTableName(new Game().getTableName());
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, 1));
-        querySpec.appendWithOpeningRoundBracket(QueryOperator.AND, new SearchCondition("name", Operator.EQUAL_TO, "test_name"));
-        querySpec.appendWithClosingRoundBracket(QueryOperator.OR, new SearchCondition("description", Operator.EQUAL_TO, "desc"));
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, List.of(1)));
+        querySpec.appendWithOpeningRoundBracket(QueryOperator.AND, new SearchCondition("name", Operator.EQUAL_TO, List.of("test_name")));
+        querySpec.appendWithClosingRoundBracket(QueryOperator.OR, new SearchCondition("description", Operator.EQUAL_TO, List.of("desc")));
 
         String actual = SqlQueryUtility.generateFindQuery(querySpec);
-        String expected = "SELECT * FROM games WHERE id = 1 AND ( name = 'test_name' OR description = 'desc' );";
+        String expected = "SELECT * FROM games WHERE id = (1) AND ( name = ('test_name') OR description = ('desc') );";
 
         Assert.assertEquals(expected, actual);
     }
@@ -61,15 +74,15 @@ public class SqlQueryUtilityTest {
         QuerySpec querySpec = new QuerySpec();
         querySpec.setClazz(Game.class);
         querySpec.setTableName(new Game().getTableName());
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, 1));
-        querySpec.appendWithOpeningRoundBracket(QueryOperator.AND, new SearchCondition("name", Operator.EQUAL_TO, "test_name"));
-        querySpec.appendWithClosingRoundBracket(QueryOperator.OR, new SearchCondition("description", Operator.EQUAL_TO, "desc"));
-        querySpec.appendWithOpeningRoundBracket(QueryOperator.AND, new SearchCondition("name", Operator.NOT_EQUAL, "game"));
-        querySpec.appendWithClosingRoundBracket(QueryOperator.OR, new SearchCondition("description", Operator.NOT_EQUAL, "csed"));
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, List.of(1)));
+        querySpec.appendWithOpeningRoundBracket(QueryOperator.AND, new SearchCondition("name", Operator.EQUAL_TO, List.of("test_name")));
+        querySpec.appendWithClosingRoundBracket(QueryOperator.OR, new SearchCondition("description", Operator.EQUAL_TO, List.of("desc")));
+        querySpec.appendWithOpeningRoundBracket(QueryOperator.AND, new SearchCondition("name", Operator.NOT_EQUAL, List.of("game")));
+        querySpec.appendWithClosingRoundBracket(QueryOperator.OR, new SearchCondition("description", Operator.NOT_EQUAL, List.of("csed")));
 
         String actual = SqlQueryUtility.generateFindQuery(querySpec);
-        String expected = "SELECT * FROM games WHERE id = 1 AND ( name = 'test_name' OR description = 'desc' ) " +
-                "AND ( name != 'game' OR description != 'csed' );";
+        String expected = "SELECT * FROM games WHERE id = (1) AND ( name = ('test_name') OR description = ('desc') ) " +
+                "AND ( name != ('game') OR description != ('csed') );";
 
         Assert.assertEquals(expected, actual);
     }
@@ -79,10 +92,10 @@ public class SqlQueryUtilityTest {
         QuerySpec querySpec = new QuerySpec();
         querySpec.setClazz(Game.class);
         querySpec.setTableName(new Game().getTableName());
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("name", Operator.EQUAL_TO, "Fifa"));
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("name", Operator.EQUAL_TO, List.of("Fifa")));
 
         String actual = SqlQueryUtility.generateFindQuery(querySpec);
-        String expected = "SELECT * FROM games WHERE name = 'Fifa';";
+        String expected = "SELECT * FROM games WHERE name = ('Fifa');";
 
         Assert.assertEquals(expected, actual);
     }
@@ -92,10 +105,10 @@ public class SqlQueryUtilityTest {
         QuerySpec querySpec = new QuerySpec();
         querySpec.setClazz(View.class);
         querySpec.setTableName(new View().getTableName());
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, 1L));
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, List.of(1L)));
 
         String actual = SqlQueryUtility.generateFindQuery(querySpec);
-        String expected = "SELECT * FROM views WHERE id = 1;";
+        String expected = "SELECT * FROM views WHERE id = (1);";
 
         Assert.assertEquals(expected, actual);
     }
@@ -105,10 +118,10 @@ public class SqlQueryUtilityTest {
         QuerySpec querySpec = new QuerySpec();
         querySpec.setClazz(Field.class);
         querySpec.setTableName(new Field().getTableName());
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("view_id", Operator.EQUAL_TO, 1L));
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("view_id", Operator.EQUAL_TO, List.of(1L)));
 
         String actual = SqlQueryUtility.generateFindQuery(querySpec);
-        String expected = "SELECT * FROM fields WHERE view_id = 1;";
+        String expected = "SELECT * FROM fields WHERE view_id = (1);";
 
         Assert.assertEquals(expected, actual);
     }

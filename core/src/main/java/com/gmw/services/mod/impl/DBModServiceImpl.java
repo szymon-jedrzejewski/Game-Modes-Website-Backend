@@ -37,10 +37,17 @@ public class DBModServiceImpl extends DBModReadServiceImpl implements DBModServi
     @Override
     public void updateMod(ExistingModTO existingModTO) throws ResourceNotUpdatedException {
         Repository<Mod> repository = getRepositoryManager().getModRepository();
-        TOConverter<NewModTO, Mod> converter = new ModConverter();
 
-        Mod mod = converter.convertToModel(existingModTO);
+        Mod mod = new Mod();
         mod.setId(existingModTO.getId());
+        mod.setAvatar(existingModTO.getAvatar());
+        mod.setDate(existingModTO.getDate());
+        mod.setDescription(existingModTO.getDescription());
+        mod.setGameId(existingModTO.getGameId());
+        mod.setUserId(existingModTO.getUserId());
+        mod.setDownloadLink(existingModTO.getDownloadLink());
+        mod.setCategoryId(existingModTO.getCategoryId());
+        mod.setName(existingModTO.getName());
 
         ServiceUtils.update(repository, mod);
     }

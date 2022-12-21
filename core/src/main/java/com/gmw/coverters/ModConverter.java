@@ -17,6 +17,7 @@ public class ModConverter implements
                 .description(mod.getDescription())
                 .categoryId(mod.getCategoryId())
                 .date(mod.getDate())
+                .userId(mod.getUserId())
                 .downloadLink(mod.getDownloadLink())
                 .gameId(mod.getGameId())
                 .name(mod.getName())

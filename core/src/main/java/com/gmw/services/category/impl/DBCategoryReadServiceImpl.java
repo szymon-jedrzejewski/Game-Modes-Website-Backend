@@ -27,7 +27,7 @@ public class DBCategoryReadServiceImpl extends DBService implements DBCategoryRe
         QuerySpec querySpec = new QuerySpec();
         querySpec.setTableName(new Category().getTableName());
         querySpec.setClazz(Category.class);
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("name", Operator.EQUAL_TO, name));
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("name", Operator.EQUAL_TO, List.of(name)));
 
         Repository<Category> repository = getRepositoryManager().getCategoryRepository();
 
@@ -39,7 +39,7 @@ public class DBCategoryReadServiceImpl extends DBService implements DBCategoryRe
         QuerySpec querySpec = new QuerySpec();
         querySpec.setTableName(new Category().getTableName());
         querySpec.setClazz(Category.class);
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, id));
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, List.of(id)));
 
         Repository<Category> repository = getRepositoryManager().getCategoryRepository();
 

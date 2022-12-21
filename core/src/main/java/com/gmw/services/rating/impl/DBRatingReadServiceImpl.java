@@ -14,6 +14,8 @@ import com.gmw.services.ServiceUtils;
 import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.services.rating.DBRatingReadService;
 
+import java.util.List;
+
 public class DBRatingReadServiceImpl extends DBService implements DBRatingReadService {
     public DBRatingReadServiceImpl(RepositoryManager repositoryManager) {
         super(repositoryManager);
@@ -26,7 +28,7 @@ public class DBRatingReadServiceImpl extends DBService implements DBRatingReadSe
         QuerySpec querySpec = new QuerySpec();
         querySpec.setTableName(new QuerySpec().getTableName());
         querySpec.setClazz(Rating.class);
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("mod_id", Operator.EQUAL_TO, modId));
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("mod_id", Operator.EQUAL_TO, List.of(modId)));
 
         return ServiceUtils
                 .find(repository, new RatingConverter(), querySpec)

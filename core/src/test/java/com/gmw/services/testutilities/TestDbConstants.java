@@ -142,6 +142,7 @@ public class TestDbConstants {
     private static final String INSERT_VIEW = "INSERT INTO views VALUES(1, 1);";
     private static final String INSERT_FIELD = "INSERT INTO fields VALUES(1, 1, 'Field test description', 'TEXT', 'Text field');";
     private static final String INSERT_MOD = "INSERT INTO mods VALUES(1, 'TestModName', 1, 1, 1, 'Test description mods', 'www.google.com', '2001-09-28', null);";
+    private static final String INSERT_MOD_TWO = "INSERT INTO mods VALUES(2, 'ModNameTest', 1, 1, 1, 'description mod', 'www.google.com', '2022-09-28', null);";
     private static final String INSERT_RATING = "INSERT INTO ratings VALUES(1, 1, 1, 5);";
     private static final String INSERT_COMMENT = "INSERT INTO comments VALUES(1, 1, 1, 'That mod is awesome test');";
     private static final String INSERT_FIELDS_VALUES = "INSERT INTO fields_values VALUES(1, 1, 1, 'Test field value');";
@@ -157,7 +158,7 @@ public class TestDbConstants {
 
         serviceTypeToQuery.put(ServiceType.MOD, new LinkedList<>(List.of(DROP_USERS, DROP_GAMES, DROP_CATEGORIES,
                 DROP_MODS, CREATE_USERS, INSERT_USER, CREATE_GAMES, INSERT_GAME, CREATE_CATEGORIES, INSERT_CATEGORY,
-                CREATE_MODS, INSERT_MOD)));
+                CREATE_MODS, INSERT_MOD, INSERT_MOD_TWO)));
 
         serviceTypeToQuery.put(ServiceType.FIELD, new LinkedList<>(List.of(DROP_VIEWS, DROP_GAMES, CREATE_GAMES,
                 INSERT_GAME, CREATE_VIEWS, INSERT_VIEW, DROP_FIELDS, CREATE_FIELDS, INSERT_FIELD)));

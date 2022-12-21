@@ -14,6 +14,8 @@ import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.services.view.DBViewReadService;
 import com.gmw.view.tos.ExistingViewTO;
 
+import java.util.List;
+
 public class DBViewReadServiceImpl extends DBService implements DBViewReadService {
 
     public DBViewReadServiceImpl(RepositoryManager repositoryManager) {
@@ -24,7 +26,7 @@ public class DBViewReadServiceImpl extends DBService implements DBViewReadServic
     public ExistingViewTO obtainViewById(Long viewId) throws ResourceNotFoundException {
         Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepository();
         QuerySpec querySpec = new QuerySpec();
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, viewId));
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, List.of(viewId)));
         querySpec.setClazz(View.class);
         querySpec.setTableName(new View().getTableName());
 
@@ -35,7 +37,7 @@ public class DBViewReadServiceImpl extends DBService implements DBViewReadServic
     public ExistingViewTO obtainViewByGameId(Long gameId) throws ResourceNotFoundException {
         Repository<View> viewRepositoryManager = getRepositoryManager().getViewRepository();
         QuerySpec querySpec = new QuerySpec();
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("game_id", Operator.EQUAL_TO, gameId));
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("game_id", Operator.EQUAL_TO, List.of(gameId)));
         querySpec.setClazz(View.class);
         querySpec.setTableName(new View().getTableName());
 

@@ -253,11 +253,14 @@ public class SqlQueryUtility {
         List<String> values = new ArrayList<>();
         for (Object spec : specs) {
             if (spec instanceof SearchValue) {
+                List<Object> searchValues = ((SearchValue) spec).values();
+                List<String> strings;
                 if (((SearchValue) spec).clazz().equals(String.class)) {
-                    values.add("'" + ((SearchValue) spec).value() + "'");
+                    strings = new ArrayList<>(searchValues.stream().map(val -> "'" + val + "'").toList());
                 } else {
-                    values.add(((SearchValue) spec).value().toString());
+                    strings = new ArrayList<>(searchValues.stream().map(String::valueOf).toList());
                 }
+                values.add("(" + String.join(",", strings) + ")");
             } else {
                 values.add(spec.toString());
             }
