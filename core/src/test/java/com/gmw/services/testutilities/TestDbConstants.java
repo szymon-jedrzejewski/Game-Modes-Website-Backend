@@ -21,6 +21,7 @@ public class TestDbConstants {
     private static final String DROP_RATINGS = "\nDROP TABLE IF EXISTS ratings CASCADE;\n";
     private static final String DROP_COMMENTS = "\nDROP TABLE IF EXISTS comments CASCADE;\n";
     private static final String DROP_MODS = "\nDROP TABLE IF EXISTS mods CASCADE;\n";
+    private static final String DROP_FIELDS_VALUES = "\nDROP TABLE IF EXISTS fields_values CASCADE;\n";
     private static final String CREATE_CATEGORIES = """
             CREATE TABLE categories
             (
@@ -123,6 +124,17 @@ public class TestDbConstants {
             );
                         
             """;
+    private static final String CREATE_FIELDS_VALUES = """
+                        
+            CREATE TABLE fields_values
+            (
+                id          SERIAL PRIMARY KEY,
+                field_id    INT,
+                value       VARCHAR(255),
+                CONSTRAINT FK_fields FOREIGN KEY (field_id) REFERENCES fields (id)
+            );
+                        
+            """;
     private static final String INSERT_USER = "INSERT INTO users VALUES(1, 'test_name', 'secret_password', 'email@org.com', 'USER', null);";
     private static final String INSERT_CATEGORY = "INSERT INTO categories VALUES(1, 'category_test_name');";
     private static final String INSERT_GAME = "INSERT INTO games VALUES(1, 'game_test_name', null, 'Game description test');";
@@ -131,6 +143,7 @@ public class TestDbConstants {
     private static final String INSERT_MOD = "INSERT INTO mods VALUES(1, 'TestModName', 1, 1, 1, 'Test description mods', 'www.google.com', '2001-09-28', null);";
     private static final String INSERT_RATING = "INSERT INTO ratings VALUES(1, 1, 1, 5);";
     private static final String INSERT_COMMENT = "INSERT INTO comments VALUES(1, 1, 1, 'That mod is awesome test');";
+    private static final String INSERT_FIELDS_VALUES = "INSERT INTO field_values VALUES(1, 1, 'Test field value');";
 
 
     static {
@@ -158,6 +171,10 @@ public class TestDbConstants {
 
         serviceTypeToQuery.put(ServiceType.VIEW, new LinkedList<>(List.of(DROP_VIEWS, DROP_GAMES, CREATE_GAMES,
                 INSERT_GAME, CREATE_VIEWS, INSERT_VIEW)));
+
+        serviceTypeToQuery.put(ServiceType.FIELD_VALUE, new LinkedList<>(List.of(DROP_VIEWS, DROP_GAMES, CREATE_GAMES,
+                INSERT_GAME, CREATE_VIEWS, INSERT_VIEW, DROP_FIELDS, CREATE_FIELDS, INSERT_FIELD, DROP_FIELDS_VALUES,
+                CREATE_FIELDS_VALUES, INSERT_FIELDS_VALUES)));
     }
 
     public static List<String> getQueries(ServiceType serviceType) {

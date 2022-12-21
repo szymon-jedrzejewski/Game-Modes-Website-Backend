@@ -8,5 +8,5 @@ public enum ServiceType {
     GAME,
     VIEW,
     FIELD,
-    MOD
+    FIELD_VALUE, MOD
 }

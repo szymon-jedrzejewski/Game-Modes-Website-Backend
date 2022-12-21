@@ -1,6 +1,3 @@
-CREATE
-DATABASE mods;
-
 CREATE TABLE categories
 (
     id   SERIAL PRIMARY KEY,
@@ -41,7 +38,15 @@ CREATE TABLE fields
     description TEXT,
     type        VARCHAR(50),
     label       TEXT,
-    CONSTRAINT FK_views FOREIGN KEY (view_id) REFERENCES views (id)
+    CONSTRAINT FK_fields_views FOREIGN KEY (view_id) REFERENCES views (id)
+);
+
+CREATE TABLE fields_values
+(
+    id          SERIAL PRIMARY KEY,
+    field_id    INT,
+    value       TEXT,
+    CONSTRAINT FK_fields_values_fields FOREIGN KEY (field_id) REFERENCES fields (id)
 );
 
 CREATE TABLE mods
@@ -55,9 +60,9 @@ CREATE TABLE mods
     download_link TEXT,
     date          DATE,
     avatar        bytea,
-    CONSTRAINT FK_games FOREIGN KEY (game_id) REFERENCES games (id),
-    CONSTRAINT FK_users FOREIGN KEY (user_id) REFERENCES users (id),
-    CONSTRAINT FK_category FOREIGN KEY (category_id) REFERENCES categories (id)
+    CONSTRAINT FK_mods_games FOREIGN KEY (game_id) REFERENCES games (id),
+    CONSTRAINT FK_mods_users FOREIGN KEY (user_id) REFERENCES users (id),
+    CONSTRAINT FK_mods_category FOREIGN KEY (category_id) REFERENCES categories (id)
 );
 
 CREATE TABLE ratings
@@ -66,8 +71,8 @@ CREATE TABLE ratings
     user_id INT,
     mod_id  INT,
     rating  INT,
-    CONSTRAINT FK_users FOREIGN KEY (user_id) REFERENCES users (id),
-    CONSTRAINT FK_mods FOREIGN KEY (mod_id) REFERENCES mods (id)
+    CONSTRAINT FK_ratings_users FOREIGN KEY (user_id) REFERENCES users (id),
+    CONSTRAINT FK_ratings_mods FOREIGN KEY (mod_id) REFERENCES mods (id)
 );
 
 CREATE TABLE comments
@@ -76,6 +81,6 @@ CREATE TABLE comments
     user_id INT,
     mod_id  INT,
     comment TEXT,
-    CONSTRAINT FK_users FOREIGN KEY (user_id) REFERENCES users (id),
-    CONSTRAINT FK_mods FOREIGN KEY (mod_id) REFERENCES mods (id)
+    CONSTRAINT FK_comments_users FOREIGN KEY (user_id) REFERENCES users (id),
+    CONSTRAINT FK_comments_mods FOREIGN KEY (mod_id) REFERENCES mods (id)
 );
