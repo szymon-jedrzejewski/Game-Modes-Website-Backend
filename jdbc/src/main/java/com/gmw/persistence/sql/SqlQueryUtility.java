@@ -26,7 +26,7 @@ public class SqlQueryUtility {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public static String generateFindQuery(QuerySpec querySpec) {
-        String tableName = querySpec.getTableName();
+         String tableName = querySpec.getTableName();
         if (querySpec.getSpecs() == null || querySpec.getSpecs().isEmpty()) {
             LOGGER.debug("Find query: " + "SELECT * FROM " + tableName + ";");
             return "SELECT * FROM " + tableName + ";";

@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SearchValue {
+public class NewFieldValueTO {
     private Long fieldId;
+    private Long modId;
     private String value;
-    private boolean exactMatch;
 }

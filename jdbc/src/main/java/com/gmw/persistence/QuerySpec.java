@@ -24,12 +24,35 @@ public class QuerySpec {
 
     public void append(QueryOperator queryOperator, SearchCondition searchCondition) {
 
+        prepareBasicSpecs(queryOperator, searchCondition);
+
+        logger.debug("Specs: " + specs);
+    }
+
+    public void appendWithOpeningRoundBracket(QueryOperator queryOperator, SearchCondition searchCondition) {
+
         specs.add(queryOperator.toString());
+        specs.add("(");
         specs.add(searchCondition.column());
         specs.add(searchCondition.operator().toString());
         specs.add(new SearchValue(searchCondition.value().getClass(), searchCondition.value()));
 
         logger.debug("Specs: " + specs);
+    }
+
+    public void appendWithClosingRoundBracket(QueryOperator queryOperator, SearchCondition searchCondition) {
+
+        prepareBasicSpecs(queryOperator, searchCondition);
+        specs.add(")");
+
+        logger.debug("Specs: " + specs);
+    }
+
+    private void prepareBasicSpecs(QueryOperator queryOperator, SearchCondition searchCondition) {
+        specs.add(queryOperator.toString());
+        specs.add(searchCondition.column());
+        specs.add(searchCondition.operator().toString());
+        specs.add(new SearchValue(searchCondition.value().getClass(), searchCondition.value()));
     }
 
     @Override

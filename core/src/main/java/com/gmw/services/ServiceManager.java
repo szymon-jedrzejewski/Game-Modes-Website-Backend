@@ -6,6 +6,8 @@ import com.gmw.services.comment.DBCommentReadService;
 import com.gmw.services.comment.DBCommentService;
 import com.gmw.services.field.DBFieldReadService;
 import com.gmw.services.field.DBFieldService;
+import com.gmw.services.fieldvalues.DBFieldValueReadService;
+import com.gmw.services.fieldvalues.DBFieldValueService;
 import com.gmw.services.game.DBGameReadService;
 import com.gmw.services.game.DBGameService;
 import com.gmw.services.mod.DBModReadService;
@@ -35,4 +37,6 @@ public interface ServiceManager {
     DBCommentReadService getDbCommentReadService();
     DBModService getDbModService();
     DBModReadService getDbModReadService();
+    DBFieldValueReadService getDbFieldValueReadService();
+    DBFieldValueService getDbFieldValueService();
 }

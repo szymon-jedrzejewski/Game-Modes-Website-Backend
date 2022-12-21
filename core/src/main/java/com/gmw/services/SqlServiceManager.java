@@ -13,6 +13,10 @@ import com.gmw.services.field.DBFieldReadService;
 import com.gmw.services.field.DBFieldService;
 import com.gmw.services.field.impl.DBFieldReadServiceImpl;
 import com.gmw.services.field.impl.DBFieldServiceImpl;
+import com.gmw.services.fieldvalues.DBFieldValueReadService;
+import com.gmw.services.fieldvalues.DBFieldValueService;
+import com.gmw.services.fieldvalues.impl.DBFieldValueReadServiceImpl;
+import com.gmw.services.fieldvalues.impl.DBFieldValueServiceImpl;
 import com.gmw.services.game.DBGameReadService;
 import com.gmw.services.game.DBGameService;
 import com.gmw.services.game.impl.DBGameReadServiceImpl;
@@ -120,5 +124,15 @@ public class SqlServiceManager implements ServiceManager {
     @Override
     public DBModReadService getDbModReadService() {
         return new DBModReadServiceImpl(repositoryManager);
+    }
+
+    @Override
+    public DBFieldValueReadService getDbFieldValueReadService() {
+        return new DBFieldValueReadServiceImpl(repositoryManager);
+    }
+
+    @Override
+    public DBFieldValueService getDbFieldValueService() {
+        return new DBFieldValueServiceImpl(repositoryManager);
     }
 }

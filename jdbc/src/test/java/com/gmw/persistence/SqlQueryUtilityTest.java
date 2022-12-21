@@ -42,6 +42,39 @@ public class SqlQueryUtilityTest {
     }
 
     @Test
+    public void generateFindQueryGameWithBracket() {
+        QuerySpec querySpec = new QuerySpec();
+        querySpec.setClazz(Game.class);
+        querySpec.setTableName(new Game().getTableName());
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, 1));
+        querySpec.appendWithOpeningRoundBracket(QueryOperator.AND, new SearchCondition("name", Operator.EQUAL_TO, "test_name"));
+        querySpec.appendWithClosingRoundBracket(QueryOperator.OR, new SearchCondition("description", Operator.EQUAL_TO, "desc"));
+
+        String actual = SqlQueryUtility.generateFindQuery(querySpec);
+        String expected = "SELECT * FROM games WHERE id = 1 AND ( name = 'test_name' OR description = 'desc' );";
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void generateFindQueryGameWithTwoBrackets() {
+        QuerySpec querySpec = new QuerySpec();
+        querySpec.setClazz(Game.class);
+        querySpec.setTableName(new Game().getTableName());
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, 1));
+        querySpec.appendWithOpeningRoundBracket(QueryOperator.AND, new SearchCondition("name", Operator.EQUAL_TO, "test_name"));
+        querySpec.appendWithClosingRoundBracket(QueryOperator.OR, new SearchCondition("description", Operator.EQUAL_TO, "desc"));
+        querySpec.appendWithOpeningRoundBracket(QueryOperator.AND, new SearchCondition("name", Operator.NOT_EQUAL, "game"));
+        querySpec.appendWithClosingRoundBracket(QueryOperator.OR, new SearchCondition("description", Operator.NOT_EQUAL, "csed"));
+
+        String actual = SqlQueryUtility.generateFindQuery(querySpec);
+        String expected = "SELECT * FROM games WHERE id = 1 AND ( name = 'test_name' OR description = 'desc' ) " +
+                "AND ( name != 'game' OR description != 'csed' );";
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
     public void generateFindByNameQueryGame() {
         QuerySpec querySpec = new QuerySpec();
         querySpec.setClazz(Game.class);

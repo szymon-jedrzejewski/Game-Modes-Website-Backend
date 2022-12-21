@@ -130,6 +130,7 @@ public class TestDbConstants {
             (
                 id          SERIAL PRIMARY KEY,
                 field_id    INT,
+                mod_id      INT,
                 value       VARCHAR(255),
                 CONSTRAINT FK_fields FOREIGN KEY (field_id) REFERENCES fields (id)
             );
@@ -143,7 +144,7 @@ public class TestDbConstants {
     private static final String INSERT_MOD = "INSERT INTO mods VALUES(1, 'TestModName', 1, 1, 1, 'Test description mods', 'www.google.com', '2001-09-28', null);";
     private static final String INSERT_RATING = "INSERT INTO ratings VALUES(1, 1, 1, 5);";
     private static final String INSERT_COMMENT = "INSERT INTO comments VALUES(1, 1, 1, 'That mod is awesome test');";
-    private static final String INSERT_FIELDS_VALUES = "INSERT INTO field_values VALUES(1, 1, 'Test field value');";
+    private static final String INSERT_FIELDS_VALUES = "INSERT INTO fields_values VALUES(1, 1, 1, 'Test field value');";
 
 
     static {
@@ -173,7 +174,9 @@ public class TestDbConstants {
                 INSERT_GAME, CREATE_VIEWS, INSERT_VIEW)));
 
         serviceTypeToQuery.put(ServiceType.FIELD_VALUE, new LinkedList<>(List.of(DROP_VIEWS, DROP_GAMES, CREATE_GAMES,
-                INSERT_GAME, CREATE_VIEWS, INSERT_VIEW, DROP_FIELDS, CREATE_FIELDS, INSERT_FIELD, DROP_FIELDS_VALUES,
+                INSERT_GAME, CREATE_VIEWS, INSERT_VIEW, DROP_FIELDS, CREATE_FIELDS, DROP_CATEGORIES,
+                DROP_MODS, INSERT_FIELD, CREATE_CATEGORIES, INSERT_CATEGORY,
+                CREATE_MODS, INSERT_MOD, DROP_FIELDS_VALUES,
                 CREATE_FIELDS_VALUES, INSERT_FIELDS_VALUES)));
     }
 

@@ -41,14 +41,6 @@ CREATE TABLE fields
     CONSTRAINT FK_fields_views FOREIGN KEY (view_id) REFERENCES views (id)
 );
 
-CREATE TABLE fields_values
-(
-    id          SERIAL PRIMARY KEY,
-    field_id    INT,
-    value       TEXT,
-    CONSTRAINT FK_fields_values_fields FOREIGN KEY (field_id) REFERENCES fields (id)
-);
-
 CREATE TABLE mods
 (
     id            SERIAL PRIMARY KEY,
@@ -63,6 +55,17 @@ CREATE TABLE mods
     CONSTRAINT FK_mods_games FOREIGN KEY (game_id) REFERENCES games (id),
     CONSTRAINT FK_mods_users FOREIGN KEY (user_id) REFERENCES users (id),
     CONSTRAINT FK_mods_category FOREIGN KEY (category_id) REFERENCES categories (id)
+);
+
+
+CREATE TABLE fields_values
+(
+    id          SERIAL PRIMARY KEY,
+    field_id    INT,
+    mod_id      INT,
+    value       TEXT,
+    CONSTRAINT FK_fields_values_fields FOREIGN KEY (field_id) REFERENCES fields (id),
+    CONSTRAINT FK_fields_values_mods FOREIGN KEY (mod_id) REFERENCES mods (id)
 );
 
 CREATE TABLE ratings
