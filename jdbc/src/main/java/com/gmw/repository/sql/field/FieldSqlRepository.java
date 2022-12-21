@@ -46,7 +46,7 @@ public class FieldSqlRepository implements Repository<Field> {
     @Override
     public void delete(Long id) throws SqlRepositoryException {
         try {
-            persistenceManager.delete(id, "fields");
+            persistenceManager.delete(id, new Field().getTableName());
             LOGGER.debug("Field with id " + id + " was deleted!");
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during deleting the field! ", e);

@@ -45,7 +45,7 @@ public class GameSqlRepository implements Repository<Game> {
     public void delete(Long id) throws SqlRepositoryException {
         LOGGER.debug("Deleting game with id: " + id);
         try {
-            persistenceManager.delete(id, "games");
+            persistenceManager.delete(id, new Game().getTableName());
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Can not delete the game game!", e);
             throw new SqlRepositoryException();

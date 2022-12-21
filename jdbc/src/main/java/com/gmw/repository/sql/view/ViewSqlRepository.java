@@ -46,7 +46,7 @@ public class ViewSqlRepository implements Repository<View> {
     @Override
     public void delete(Long id) throws SqlRepositoryException {
         try {
-            persistenceManager.delete(id, "views");
+            persistenceManager.delete(id, new View().getTableName());
             LOGGER.debug("View with id " + id + " was deleted!");
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Can not delete the view!", e);

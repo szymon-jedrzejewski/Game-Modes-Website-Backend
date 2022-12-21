@@ -47,7 +47,7 @@ public class ModRepository implements Repository<Mod> {
     @Override
     public void delete(Long id) throws SqlRepositoryException {
         try {
-            persistenceManager.delete(id, "mods");
+            persistenceManager.delete(id, new Mod().getTableName());
             LOGGER.debug("Mod with id " + id + " was deleted!");
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during deleting mod!", e);

@@ -48,7 +48,7 @@ public class UserRepository implements Repository<User> {
     @Override
     public void delete(Long id) throws SqlRepositoryException {
         try {
-            persistenceManager.delete(id, "users");
+            persistenceManager.delete(id, new User().getTableName());
             LOGGER.debug("User with id " + id + " was deleted!");
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during deleting the user!", e);

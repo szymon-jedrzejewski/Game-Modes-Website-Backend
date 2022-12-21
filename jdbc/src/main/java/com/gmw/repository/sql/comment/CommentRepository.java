@@ -48,7 +48,7 @@ public class CommentRepository implements Repository<Comment> {
     @Override
     public void delete(Long id) throws SqlRepositoryException {
         try {
-            persistenceManager.delete(id, "comments");
+            persistenceManager.delete(id, new Comment().getTableName());
             LOGGER.debug("Comment with id " + id + " was deleted!");
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during deleting comment!", e);

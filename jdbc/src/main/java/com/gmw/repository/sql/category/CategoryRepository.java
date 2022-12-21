@@ -48,7 +48,7 @@ public class CategoryRepository implements Repository<Category> {
     @Override
     public void delete(Long id) throws SqlRepositoryException {
         try {
-            persistenceManager.delete(id, "categories");
+            persistenceManager.delete(id, new Category().getTableName());
             LOGGER.debug("Category with id " + id + " was deleted!");
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during deleting category!", e);

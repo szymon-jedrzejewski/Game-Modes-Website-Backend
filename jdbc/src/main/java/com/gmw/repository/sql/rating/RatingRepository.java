@@ -48,7 +48,7 @@ public class RatingRepository implements Repository<Rating> {
     @Override
     public void delete(Long id) throws SqlRepositoryException {
         try {
-            persistenceManager.delete(id, "ratings");
+            persistenceManager.delete(id, new Rating().getTableName());
             LOGGER.debug("Rating with id " + id + " was deleted!");
         } catch (SqlPersistenceManagerException e) {
             LOGGER.error("Error during deleting the rating!", e);
