@@ -24,7 +24,7 @@ public class DBRatingReadServiceImpl extends DBService implements DBRatingReadSe
         Repository<Rating> repository = getRepositoryManager().getRatingRepository();
 
         QuerySpec querySpec = new QuerySpec();
-        querySpec.setTableName("ratings");
+        querySpec.setTableName(new QuerySpec().getTableName());
         querySpec.setClazz(Rating.class);
         querySpec.append(QueryOperator.WHERE, new SearchCondition("mod_id", Operator.EQUAL_TO, modId));
 

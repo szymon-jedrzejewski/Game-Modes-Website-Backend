@@ -26,7 +26,7 @@ public class DBCommentReadServiceImpl extends DBService implements DBCommentRead
         Repository<Comment> repository = getRepositoryManager().getCommentRepository();
 
         QuerySpec querySpec = new QuerySpec();
-        querySpec.setTableName("comments");
+        querySpec.setTableName(new Comment().getTableName());
         querySpec.setClazz(Comment.class);
         querySpec.append(QueryOperator.WHERE, new SearchCondition("mod_id", Operator.EQUAL_TO, modId));
 

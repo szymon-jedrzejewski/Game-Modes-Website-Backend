@@ -29,10 +29,7 @@ public class DBUserReadServiceImpl extends DBService implements DBUserReadServic
     @Override
     public ExistingUserTO obtainUserByEmail(String email) throws ResourceNotFoundException {
         Repository<User> repository = getRepositoryManager().getUserRepository();
-        QuerySpec querySpec = new QuerySpec();
-        querySpec.setTableName("users");
-        querySpec.setClazz(User.class);
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("email", Operator.EQUAL_TO, email));
+        QuerySpec querySpec = prepareQuerySpecToFindByEmail(email);
 
         return ServiceUtils.find(repository, new UserConverter(), querySpec).get(0);
     }
@@ -40,10 +37,7 @@ public class DBUserReadServiceImpl extends DBService implements DBUserReadServic
     @Override
     public String obtainUserRoleByUserEmail(String email) throws ResourceNotFoundException {
         Repository<User> repository = getRepositoryManager().getUserRepository();
-        QuerySpec querySpec = new QuerySpec();
-        querySpec.setTableName("users");
-        querySpec.setClazz(User.class);
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("email", Operator.EQUAL_TO, email));
+        QuerySpec querySpec = prepareQuerySpecToFindByEmail(email);
 
         try {
             List<User> users = repository.find(querySpec);
@@ -65,10 +59,18 @@ public class DBUserReadServiceImpl extends DBService implements DBUserReadServic
     public ExistingUserTO obtainUserById(Long userId) throws ResourceNotFoundException {
         Repository<User> repository = getRepositoryManager().getUserRepository();
         QuerySpec querySpec = new QuerySpec();
-        querySpec.setTableName("users");
+        querySpec.setTableName(new User().getTableName());
         querySpec.setClazz(User.class);
         querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, userId));
 
         return ServiceUtils.find(repository, new UserConverter(), querySpec).get(0);
+    }
+
+    private QuerySpec prepareQuerySpecToFindByEmail(String email) {
+        QuerySpec querySpec = new QuerySpec();
+        querySpec.setTableName(new User().getTableName());
+        querySpec.setClazz(User.class);
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("email", Operator.EQUAL_TO, email));
+        return querySpec;
     }
 }

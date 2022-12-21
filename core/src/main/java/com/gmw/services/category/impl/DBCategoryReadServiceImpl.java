@@ -25,7 +25,7 @@ public class DBCategoryReadServiceImpl extends DBService implements DBCategoryRe
     @Override
     public ExistingCategoryTO obtainCategoryByName(String name) throws ResourceNotFoundException {
         QuerySpec querySpec = new QuerySpec();
-        querySpec.setTableName("categories");
+        querySpec.setTableName(new Category().getTableName());
         querySpec.setClazz(Category.class);
         querySpec.append(QueryOperator.WHERE, new SearchCondition("name", Operator.EQUAL_TO, name));
 
@@ -37,7 +37,7 @@ public class DBCategoryReadServiceImpl extends DBService implements DBCategoryRe
     @Override
     public ExistingCategoryTO obtainCategoryById(Long id) throws ResourceNotFoundException {
         QuerySpec querySpec = new QuerySpec();
-        querySpec.setTableName("categories");
+        querySpec.setTableName(new Category().getTableName());
         querySpec.setClazz(Category.class);
         querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, id));
 
@@ -49,7 +49,7 @@ public class DBCategoryReadServiceImpl extends DBService implements DBCategoryRe
     @Override
     public List<ExistingCategoryTO> obtainCategories() throws ResourceNotFoundException {
         QuerySpec querySpec = new QuerySpec();
-        querySpec.setTableName("categories");
+        querySpec.setTableName(new Category().getTableName());
         querySpec.setClazz(Category.class);
 
         Repository<Category> repository = getRepositoryManager().getCategoryRepository();

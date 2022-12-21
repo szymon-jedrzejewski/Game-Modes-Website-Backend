@@ -27,7 +27,7 @@ public class DBGameReadServiceImpl extends DBService implements DBGameReadServic
         Repository<Game> repository = getRepositoryManager().getGameRepository();
 
         QuerySpec querySpec = new QuerySpec();
-        querySpec.setTableName("games");
+        querySpec.setTableName(new Game().getTableName());
         querySpec.setClazz(Game.class);
         querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, id));
 
@@ -39,7 +39,7 @@ public class DBGameReadServiceImpl extends DBService implements DBGameReadServic
         Repository<Game> repository = getRepositoryManager().getGameRepository();
 
         QuerySpec querySpec = new QuerySpec();
-        querySpec.setTableName("games");
+        querySpec.setTableName(new Game().getTableName());
         querySpec.setClazz(Game.class);
         querySpec.append(QueryOperator.WHERE, new SearchCondition("name", Operator.EQUAL_TO, name));
 
@@ -51,7 +51,7 @@ public class DBGameReadServiceImpl extends DBService implements DBGameReadServic
         Repository<Game> repository = getRepositoryManager().getGameRepository();
         QuerySpec querySpec = new QuerySpec();
         querySpec.setClazz(Game.class);
-        querySpec.setTableName("games");
+        querySpec.setTableName(new Game().getTableName());
 
         return ServiceUtils.find(repository, new GameConverter(), querySpec);
     }

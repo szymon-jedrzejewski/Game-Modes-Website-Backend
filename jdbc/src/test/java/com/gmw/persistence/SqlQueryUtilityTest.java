@@ -32,7 +32,7 @@ public class SqlQueryUtilityTest {
     public void generateFindByIdQueryGame() {
         QuerySpec querySpec = new QuerySpec();
         querySpec.setClazz(Game.class);
-        querySpec.setTableName("games");
+        querySpec.setTableName(new Game().getTableName());
         querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, 1));
 
         String actual = SqlQueryUtility.generateFindQuery(querySpec);
@@ -45,7 +45,7 @@ public class SqlQueryUtilityTest {
     public void generateFindByNameQueryGame() {
         QuerySpec querySpec = new QuerySpec();
         querySpec.setClazz(Game.class);
-        querySpec.setTableName("games");
+        querySpec.setTableName(new Game().getTableName());
         querySpec.append(QueryOperator.WHERE, new SearchCondition("name", Operator.EQUAL_TO, "Fifa"));
 
         String actual = SqlQueryUtility.generateFindQuery(querySpec);
@@ -58,7 +58,7 @@ public class SqlQueryUtilityTest {
     public void generateFindByIdQueryView() {
         QuerySpec querySpec = new QuerySpec();
         querySpec.setClazz(View.class);
-        querySpec.setTableName("views");
+        querySpec.setTableName(new View().getTableName());
         querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, 1L));
 
         String actual = SqlQueryUtility.generateFindQuery(querySpec);
@@ -71,7 +71,7 @@ public class SqlQueryUtilityTest {
     public void generateFindByViewIdQueryField() {
         QuerySpec querySpec = new QuerySpec();
         querySpec.setClazz(Field.class);
-        querySpec.setTableName("fields");
+        querySpec.setTableName(new Field().getTableName());
         querySpec.append(QueryOperator.WHERE, new SearchCondition("view_id", Operator.EQUAL_TO, 1L));
 
         String actual = SqlQueryUtility.generateFindQuery(querySpec);
@@ -111,14 +111,14 @@ public class SqlQueryUtilityTest {
 
     @Test
     public void generateDeleteQueryView() {
-        String actual = SqlQueryUtility.generateDeleteQuery("views", 1);
+        String actual = SqlQueryUtility.generateDeleteQuery(new View().getTableName(), 1);
         String expected = "DELETE FROM views WHERE id = 1;";
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void generateDeleteQueryGame() {
-        String actual = SqlQueryUtility.generateDeleteQuery("games", 1);
+        String actual = SqlQueryUtility.generateDeleteQuery(new Game().getTableName(), 1);
         String expected = "DELETE FROM games WHERE id = 1;";
         Assert.assertEquals(expected, actual);
     }

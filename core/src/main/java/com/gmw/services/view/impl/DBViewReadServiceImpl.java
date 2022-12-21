@@ -26,7 +26,7 @@ public class DBViewReadServiceImpl extends DBService implements DBViewReadServic
         QuerySpec querySpec = new QuerySpec();
         querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, viewId));
         querySpec.setClazz(View.class);
-        querySpec.setTableName("views");
+        querySpec.setTableName(new View().getTableName());
 
         return ServiceUtils.find(viewRepositoryManager, new ViewConverter(), querySpec).get(0);
     }
@@ -37,7 +37,7 @@ public class DBViewReadServiceImpl extends DBService implements DBViewReadServic
         QuerySpec querySpec = new QuerySpec();
         querySpec.append(QueryOperator.WHERE, new SearchCondition("game_id", Operator.EQUAL_TO, gameId));
         querySpec.setClazz(View.class);
-        querySpec.setTableName("views");
+        querySpec.setTableName(new View().getTableName());
 
         return ServiceUtils.find(viewRepositoryManager, new ViewConverter(), querySpec).get(0);
     }

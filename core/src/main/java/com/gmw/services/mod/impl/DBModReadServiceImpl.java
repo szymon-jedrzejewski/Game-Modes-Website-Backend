@@ -26,7 +26,7 @@ public class DBModReadServiceImpl extends DBService implements DBModReadService 
         Repository<Mod> repository = getRepositoryManager().getModRepository();
 
         QuerySpec querySpec = new QuerySpec();
-        querySpec.setTableName("mods");
+        querySpec.setTableName(new Mod().getTableName());
         querySpec.setClazz(Mod.class);
 
         return ServiceUtils.find(repository, new ModConverter(), querySpec);
@@ -37,7 +37,7 @@ public class DBModReadServiceImpl extends DBService implements DBModReadService 
         Repository<Mod> repository = getRepositoryManager().getModRepository();
 
         QuerySpec querySpec = new QuerySpec();
-        querySpec.setTableName("mods");
+        querySpec.setTableName(new Mod().getTableName());
         querySpec.setClazz(Mod.class);
         querySpec.append(QueryOperator.WHERE, new SearchCondition("game_id", Operator.EQUAL_TO, gameId));
 
