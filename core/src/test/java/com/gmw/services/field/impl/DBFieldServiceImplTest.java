@@ -10,9 +10,9 @@ import com.gmw.services.exceptions.ResourceNotUpdatedException;
 import com.gmw.services.field.DBFieldService;
 import com.gmw.services.testutilities.ServiceType;
 import com.gmw.services.testutilities.TestDbUtilities;
-import com.gmw.view.enums.FieldTypeEnum;
-import com.gmw.view.tos.ExistingFieldTO;
-import com.gmw.view.tos.NewFieldTO;
+import field.enums.FieldTypeEnum;
+import field.tos.ExistingFieldTO;
+import field.tos.NewFieldTO;
 import org.junit.Before;
 import org.junit.Test;
 

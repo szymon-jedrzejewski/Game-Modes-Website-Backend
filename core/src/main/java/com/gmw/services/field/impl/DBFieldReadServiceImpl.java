@@ -12,7 +12,7 @@ import com.gmw.services.DBService;
 import com.gmw.services.ServiceUtils;
 import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.services.field.DBFieldReadService;
-import com.gmw.view.tos.ExistingFieldTO;
+import field.tos.ExistingFieldTO;
 
 import java.util.List;
 

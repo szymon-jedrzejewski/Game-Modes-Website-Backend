@@ -13,4 +13,5 @@ public interface RepositoryManager {
     Repository<Mod> getModRepository();
     Repository<Rating> getRatingRepository();
     Repository<User> getUserRepository();
+    Repository<FieldValue> getFieldValueRepository();
 }

@@ -7,7 +7,7 @@ import com.gmw.services.exceptions.ResourceNotCreatedException;
 import com.gmw.services.exceptions.ServiceManagerFactoryException;
 import com.gmw.services.field.DBFieldService;
 import com.gmw.services.view.DBViewService;
-import com.gmw.view.tos.NewFieldTO;
+import field.tos.NewFieldTO;
 import com.gmw.view.tos.NewViewTO;
 import org.springframework.http.HttpStatus;
 

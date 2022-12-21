@@ -1,4 +1,4 @@
-package com.gmw.view.enums;
+package field.enums;
 
 public enum FieldTypeEnum {
     TEXT,

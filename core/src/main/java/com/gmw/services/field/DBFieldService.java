@@ -3,8 +3,8 @@ package com.gmw.services.field;
 import com.gmw.services.exceptions.ResourceNotCreatedException;
 import com.gmw.services.exceptions.ResourceNotDeletedException;
 import com.gmw.services.exceptions.ResourceNotUpdatedException;
-import com.gmw.view.tos.ExistingFieldTO;
-import com.gmw.view.tos.NewFieldTO;
+import field.tos.ExistingFieldTO;
+import field.tos.NewFieldTO;
 
 public interface DBFieldService extends DBFieldReadService {
 

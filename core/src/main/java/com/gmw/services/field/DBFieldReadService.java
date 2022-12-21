@@ -1,7 +1,7 @@
 package com.gmw.services.field;
 
 import com.gmw.services.exceptions.ResourceNotFoundException;
-import com.gmw.view.tos.ExistingFieldTO;
+import field.tos.ExistingFieldTO;
 
 import java.util.List;
 

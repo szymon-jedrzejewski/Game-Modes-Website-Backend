@@ -1,6 +1,6 @@
-package com.gmw.view.tos;
+package field.tos;
 
-import com.gmw.view.enums.FieldTypeEnum;
+import field.enums.FieldTypeEnum;
 import lombok.Builder;
 import lombok.Getter;
 

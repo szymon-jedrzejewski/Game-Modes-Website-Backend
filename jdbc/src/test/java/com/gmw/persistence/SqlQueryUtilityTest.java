@@ -7,7 +7,7 @@ import com.gmw.model.User;
 import com.gmw.model.View;
 import com.gmw.persistence.sql.SqlQueryUtility;
 import com.gmw.user.enums.RoleEnum;
-import com.gmw.view.enums.FieldTypeEnum;
+import field.enums.FieldTypeEnum;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

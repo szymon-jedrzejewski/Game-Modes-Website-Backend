@@ -9,6 +9,7 @@ import com.gmw.repository.RepositoryManager;
 import com.gmw.repository.sql.category.CategoryRepository;
 import com.gmw.repository.sql.comment.CommentRepository;
 import com.gmw.repository.sql.field.FieldSqlRepository;
+import com.gmw.repository.sql.fieldvalue.FieldValueSqlRepository;
 import com.gmw.repository.sql.game.GameSqlRepository;
 import com.gmw.repository.sql.mod.ModRepository;
 import com.gmw.repository.sql.rating.RatingRepository;
@@ -62,5 +63,10 @@ public class SqlRepositoryManager implements RepositoryManager {
     @Override
     public Repository<User> getUserRepository() {
         return new UserRepository(persistenceManager);
+    }
+
+    @Override
+    public Repository<FieldValue> getFieldValueRepository() {
+        return new FieldValueSqlRepository(persistenceManager);
     }
 }
