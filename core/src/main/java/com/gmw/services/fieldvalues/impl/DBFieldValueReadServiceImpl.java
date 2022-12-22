@@ -51,42 +51,44 @@ public class DBFieldValueReadServiceImpl extends DBService implements DBFieldVal
         }
     }
 
-    private static void prepareQuerySpec(List<SearchFieldValue> searchFieldValues, QuerySpec querySpec) {
+    private void prepareQuerySpec(List<SearchFieldValue> searchFieldValues, QuerySpec querySpec) {
         SearchFieldValue searchFieldValue = searchFieldValues.get(0);
         querySpec.appendWithOpeningRoundBracket(QueryOperator.WHERE, new SearchCondition("field_id",
                 Operator.EQUAL_TO, List.of(searchFieldValue.getFieldId())));
 
-        if (searchFieldValue.isExact()) {
-            querySpec.appendWithClosingRoundBracket(QueryOperator.AND, new SearchCondition("value",
-                    Operator.EQUAL_TO, List.of(searchFieldValue.getValue())));
-        } else {
-            querySpec.appendWithClosingRoundBracket(QueryOperator.AND, new SearchCondition("value",
-                    Operator.ILIKE, List.of("%" + searchFieldValue.getValue() + "%")));
+        Operator operator = prepareOperator(searchFieldValue);
+        String value = prepareValue(searchFieldValue);
+        querySpec.appendWithClosingRoundBracket(QueryOperator.AND, new SearchCondition("value",
+                operator, List.of(value)));
 
-        }
 
         if (searchFieldValues.size() > 1) {
             prepareQuerySpecForOtherSearchFieldValues(searchFieldValues, querySpec);
         }
     }
 
-    private static void prepareQuerySpecForOtherSearchFieldValues(List<SearchFieldValue> searchFieldValues, QuerySpec querySpec) {
+    private void prepareQuerySpecForOtherSearchFieldValues(List<SearchFieldValue> searchFieldValues, QuerySpec querySpec) {
         for (int i = 1; i < searchFieldValues.size(); i++) {
-            String value = searchFieldValues.get(i).getValue();
-            Long fieldId = searchFieldValues.get(i).getFieldId();
-            boolean isExact = searchFieldValues.get(i).isExact();
+            SearchFieldValue searchFieldValue = searchFieldValues.get(i);
+            Long fieldId = searchFieldValue.getFieldId();
 
-            if (value != null && fieldId != null) {
+            Operator operator = prepareOperator(searchFieldValue);
+            String value = prepareValue(searchFieldValue);
+
+            if (searchFieldValue.getValue() != null && fieldId != null) {
                 querySpec.appendWithOpeningRoundBracket(QueryOperator.OR, new SearchCondition("field_id",
                         Operator.EQUAL_TO, List.of(fieldId)));
-                if (isExact) {
-                    querySpec.appendWithClosingRoundBracket(QueryOperator.AND, new SearchCondition("value",
-                            Operator.EQUAL_TO, List.of(value)));
-                } else {
-                    querySpec.appendWithClosingRoundBracket(QueryOperator.AND, new SearchCondition("value",
-                            Operator.ILIKE, List.of("%" + value + "%")));
-                }
+                querySpec.appendWithClosingRoundBracket(QueryOperator.AND, new SearchCondition("value",
+                        operator, List.of(value)));
             }
         }
+    }
+
+    private static String prepareValue(SearchFieldValue searchFieldValue) {
+        return searchFieldValue.isExact() ? searchFieldValue.getValue() : "%" + searchFieldValue.getValue() + "%";
+    }
+
+    private Operator prepareOperator(SearchFieldValue searchFieldValue) {
+        return searchFieldValue.isExact() ? Operator.EQUAL_TO : Operator.ILIKE;
     }
 }
