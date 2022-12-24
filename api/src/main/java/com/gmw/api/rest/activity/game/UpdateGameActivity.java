@@ -19,14 +19,13 @@ public class UpdateGameActivity extends Activity<Void> {
 
     @Override
     protected Void realExecute() throws ResourceNotUpdatedException {
-        try {
-            ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager();
+        try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
             DBGameService service = serviceManager.getDbGameService();
 
             service.updateGame(game);
             status = HttpStatus.OK;
-        } catch (ServiceManagerFactoryException e) {
-            status = HttpStatus.CONFLICT;
+        } catch (Exception e) {
+            throw new ResourceNotUpdatedException();
         }
 
         return null;

@@ -18,13 +18,12 @@ public class DeleteGameActivity extends Activity<Void> {
 
     @Override
     protected Void realExecute() throws ResourceNotDeletedException {
-        try {
-            ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager();
+        try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
             DBGameService service = serviceManager.getDbGameService();
             service.deleteGame(id);
             status = HttpStatus.OK;
-        } catch (ServiceManagerFactoryException e) {
-            status = HttpStatus.CONFLICT;
+        } catch (Exception e) {
+            throw new ResourceNotDeletedException();
         }
         return null;
     }

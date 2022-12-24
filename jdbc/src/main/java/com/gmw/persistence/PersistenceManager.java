@@ -4,7 +4,7 @@ import com.gmw.exceptions.SqlPersistenceManagerException;
 
 import java.util.List;
 
-public interface PersistenceManager {
+public interface PersistenceManager extends AutoCloseable{
 
     Persistable create(Persistable persistable) throws SqlPersistenceManagerException;
     void update(Persistable persistable) throws SqlPersistenceManagerException;

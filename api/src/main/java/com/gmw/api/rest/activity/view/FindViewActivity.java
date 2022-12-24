@@ -4,7 +4,6 @@ import com.gmw.api.rest.activity.Activity;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.ResourceNotFoundException;
-import com.gmw.services.exceptions.ServiceManagerFactoryException;
 import com.gmw.services.field.DBFieldReadService;
 import com.gmw.services.view.DBViewReadService;
 import com.gmw.view.tos.ExistingViewTO;
@@ -20,8 +19,7 @@ public class FindViewActivity extends Activity<ExistingViewTO> {
 
     @Override
     protected ExistingViewTO realExecute() throws ResourceNotFoundException {
-        try {
-            ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager();
+        try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
             DBViewReadService service = serviceManager.getDbViewReadService();
             DBFieldReadService fieldReadService = serviceManager.getDbFieldReadService();
 
@@ -31,9 +29,8 @@ public class FindViewActivity extends Activity<ExistingViewTO> {
             existingViewTO.setFields(fieldReadService.obtainFieldsByViewId(existingViewTO.getId()));
 
             return existingViewTO;
-        } catch (ServiceManagerFactoryException e) {
-            status = HttpStatus.NOT_FOUND;
+        } catch (Exception e) {
+            throw new ResourceNotFoundException();
         }
-        return null;
     }
 }

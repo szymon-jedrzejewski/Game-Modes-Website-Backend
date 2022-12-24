@@ -18,7 +18,7 @@ import com.gmw.repository.sql.view.ViewSqlRepository;
 
 import java.sql.Connection;
 
-public class SqlRepositoryManager implements RepositoryManager {
+public class SqlRepositoryManager implements RepositoryManager, AutoCloseable {
     private final PersistenceManager persistenceManager;
 
     public SqlRepositoryManager(Connection connection) {
@@ -68,5 +68,10 @@ public class SqlRepositoryManager implements RepositoryManager {
     @Override
     public Repository<FieldValue> getFieldValueRepository() {
         return new FieldValueSqlRepository(persistenceManager);
+    }
+
+    @Override
+    public void close() throws Exception {
+        persistenceManager.close();
     }
 }

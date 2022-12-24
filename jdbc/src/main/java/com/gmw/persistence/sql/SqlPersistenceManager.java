@@ -90,4 +90,9 @@ public class SqlPersistenceManager implements PersistenceManager {
 
         throw new SqlPersistenceManagerException();
     }
+
+    @Override
+    public void close() throws Exception {
+        connection.close();
+    }
 }

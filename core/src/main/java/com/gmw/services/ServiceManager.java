@@ -19,7 +19,7 @@ import com.gmw.services.user.DBUserService;
 import com.gmw.services.view.DBViewReadService;
 import com.gmw.services.view.DBViewService;
 
-public interface ServiceManager {
+public interface ServiceManager extends AutoCloseable {
 
     DBViewService getDbViewService();
     DBViewReadService getDbViewReadService();

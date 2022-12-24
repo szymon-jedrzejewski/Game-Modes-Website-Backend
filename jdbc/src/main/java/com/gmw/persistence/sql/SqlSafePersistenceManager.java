@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 import java.util.List;
 
-public class SqlSafePersistenceManager extends SqlPersistenceManager{
+public class SqlSafePersistenceManager extends SqlPersistenceManager {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String MESSAGE = "There was attempt of sql injection!";

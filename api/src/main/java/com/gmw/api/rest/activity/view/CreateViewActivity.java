@@ -1,13 +1,12 @@
 package com.gmw.api.rest.activity.view;
 
 import com.gmw.api.rest.activity.Activity;
+import com.gmw.field.tos.NewFieldTO;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.ResourceNotCreatedException;
-import com.gmw.services.exceptions.ServiceManagerFactoryException;
 import com.gmw.services.field.DBFieldService;
 import com.gmw.services.view.DBViewService;
-import com.gmw.field.tos.NewFieldTO;
 import com.gmw.view.tos.NewViewTO;
 import org.springframework.http.HttpStatus;
 
@@ -21,8 +20,7 @@ public class CreateViewActivity extends Activity<Void> {
 
     @Override
     protected Void realExecute() throws ResourceNotCreatedException {
-        try {
-            ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager();
+        try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
             DBViewService service = serviceManager.getDbViewService();
             DBFieldService fieldService = serviceManager.getDbFieldService();
             Long viewId = service.createView(newView);
@@ -32,8 +30,8 @@ public class CreateViewActivity extends Activity<Void> {
             }
 
             status = HttpStatus.CREATED;
-        } catch (ServiceManagerFactoryException e) {
-            status = HttpStatus.CONFLICT;
+        } catch (Exception e) {
+            throw new ResourceNotCreatedException();
         }
         return null;
     }

@@ -135,4 +135,9 @@ public class SqlServiceManager implements ServiceManager {
     public DBFieldValueService getDbFieldValueService() {
         return new DBFieldValueServiceImpl(repositoryManager);
     }
+
+    @Override
+    public void close() throws Exception {
+        repositoryManager.close();
+    }
 }

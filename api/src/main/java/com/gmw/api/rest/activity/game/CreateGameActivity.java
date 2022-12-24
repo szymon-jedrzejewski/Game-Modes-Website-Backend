@@ -5,7 +5,6 @@ import com.gmw.game.tos.NewGameTO;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.ResourceNotCreatedException;
-import com.gmw.services.exceptions.ServiceManagerFactoryException;
 import com.gmw.services.game.DBGameService;
 import org.springframework.http.HttpStatus;
 
@@ -19,14 +18,12 @@ public class CreateGameActivity extends Activity<Void> {
 
     @Override
     protected Void realExecute() throws ResourceNotCreatedException {
-        try
-        {
-            ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager();
+        try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
             DBGameService service = serviceManager.getDbGameService();
             status = HttpStatus.CREATED;
             service.createGame(newGameTO);
-        } catch (ServiceManagerFactoryException e) {
-            status = HttpStatus.CONFLICT;
+        } catch (Exception e) {
+            throw new ResourceNotCreatedException();
         }
 
         return null;
