@@ -17,6 +17,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DBRatingServiceImplTest {
@@ -32,7 +34,14 @@ class DBRatingServiceImplTest {
     @Test
     void obtainRatingForMod() throws ResourceNotFoundException {
         Double rating = serviceManager.getDbRatingService().obtainRatingForMod(1L);
-        assertEquals(5L, rating);
+        assertEquals(5.0, rating);
+    }
+
+    @Test
+    void obtainRatingsIdsByModId() throws ResourceNotFoundException {
+        List<Long> ratingsIds = serviceManager.getDbRatingService().obtainRatingsIdsByModId(1L);
+        assertEquals(1, ratingsIds.size());
+        assertEquals(1, ratingsIds.get(0));
     }
 
     @Test

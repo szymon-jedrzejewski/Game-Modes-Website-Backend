@@ -24,11 +24,7 @@ public class DBRatingReadServiceImpl extends DBService implements DBRatingReadSe
     @Override
     public Double obtainRatingForMod(Long modId) throws ResourceNotFoundException {
         Repository<Rating> repository = getRepositoryManager().getRatingRepository();
-
-        QuerySpec querySpec = new QuerySpec();
-        querySpec.setTableName(new QuerySpec().getTableName());
-        querySpec.setClazz(Rating.class);
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("mod_id", Operator.EQUAL_TO, List.of(modId)));
+        QuerySpec querySpec = prepareQuerySpec(modId);
 
         return ServiceUtils
                 .find(repository, new RatingConverter(), querySpec)
@@ -36,5 +32,25 @@ public class DBRatingReadServiceImpl extends DBService implements DBRatingReadSe
                 .mapToDouble(ExistingRatingTO::getRating)
                 .average()
                 .orElseThrow(ResourceNotFoundException::new);
+    }
+
+    @Override
+    public List<Long> obtainRatingsIdsByModId(Long modId) throws ResourceNotFoundException {
+        Repository<Rating> repository = getRepositoryManager().getRatingRepository();
+        QuerySpec querySpec = prepareQuerySpec(modId);
+
+        return ServiceUtils
+                .find(repository, new RatingConverter(), querySpec)
+                .stream()
+                .map(ExistingRatingTO::getId)
+                .toList();
+    }
+
+    private QuerySpec prepareQuerySpec(Long modId) {
+        QuerySpec querySpec = new QuerySpec();
+        querySpec.setTableName(new Rating().getTableName());
+        querySpec.setClazz(Rating.class);
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("mod_id", Operator.EQUAL_TO, List.of(modId)));
+        return querySpec;
     }
 }

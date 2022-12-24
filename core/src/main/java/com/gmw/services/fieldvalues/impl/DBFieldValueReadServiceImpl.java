@@ -1,6 +1,8 @@
 package com.gmw.services.fieldvalues.impl;
 
+import com.gmw.coverters.FieldValueConverter;
 import com.gmw.exceptions.SqlRepositoryException;
+import com.gmw.fieldvalue.tos.ExistingFieldValueTO;
 import com.gmw.fieldvalue.tos.SearchFieldValue;
 import com.gmw.model.FieldValue;
 import com.gmw.persistence.Operator;
@@ -10,6 +12,7 @@ import com.gmw.persistence.SearchCondition;
 import com.gmw.repository.Repository;
 import com.gmw.repository.RepositoryManager;
 import com.gmw.services.DBService;
+import com.gmw.services.ServiceUtils;
 import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.services.fieldvalues.DBFieldValueReadService;
 import org.apache.logging.log4j.LogManager;
@@ -25,7 +28,7 @@ public class DBFieldValueReadServiceImpl extends DBService implements DBFieldVal
     }
 
     @Override
-    public List<Long> obtainModsIsBySearchValues(List<SearchFieldValue> searchFieldValues) throws ResourceNotFoundException {
+    public List<Long> obtainModsIdsBySearchValues(List<SearchFieldValue> searchFieldValues) throws ResourceNotFoundException {
         Repository<FieldValue> repository = getRepositoryManager().getFieldValueRepository();
         QuerySpec querySpec = new QuerySpec();
         querySpec.setTableName(new FieldValue().getTableName());
@@ -49,6 +52,21 @@ public class DBFieldValueReadServiceImpl extends DBService implements DBFieldVal
             LOGGER.error("Error during obtaining mods ids!", e);
             throw new ResourceNotFoundException();
         }
+    }
+
+    @Override
+    public List<Long> obtainFieldValuesIdsByModId(Long modId) throws ResourceNotFoundException {
+        Repository<FieldValue> repository = getRepositoryManager().getFieldValueRepository();
+        QuerySpec querySpec = new QuerySpec();
+        querySpec.setTableName(new FieldValue().getTableName());
+        querySpec.setClazz(FieldValue.class);
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("mod_id", Operator.EQUAL_TO, List.of(modId)));
+
+        return ServiceUtils
+                .find(repository, new FieldValueConverter(), querySpec)
+                .stream()
+                .map(ExistingFieldValueTO::getId)
+                .toList();
     }
 
     private void prepareQuerySpec(List<SearchFieldValue> searchFieldValues, QuerySpec querySpec) {

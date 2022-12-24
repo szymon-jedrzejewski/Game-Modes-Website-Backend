@@ -27,7 +27,7 @@ public class CreateModActivity extends Activity<Void> {
                 serviceManager.getDbFieldValueService().createFieldValue(fieldValueTO);
             }
         } catch (Exception e) {
-            throw new ResourceNotFoundException(e);
+            throw new ResourceNotCreatedException(e);
         }
         return null;
     }

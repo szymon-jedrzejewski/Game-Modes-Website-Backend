@@ -175,7 +175,8 @@ public class TestDbConstants {
         serviceTypeToQuery.put(ServiceType.VIEW, new LinkedList<>(List.of(DROP_VIEWS, DROP_GAMES, CREATE_GAMES,
                 INSERT_GAME, CREATE_VIEWS, INSERT_VIEW)));
 
-        serviceTypeToQuery.put(ServiceType.FIELD_VALUE, new LinkedList<>(List.of(DROP_VIEWS, DROP_GAMES, CREATE_GAMES,
+        serviceTypeToQuery.put(ServiceType.FIELD_VALUE, new LinkedList<>(List.of(DROP_USERS, CREATE_USERS
+                , INSERT_USER, DROP_VIEWS, DROP_GAMES, CREATE_GAMES,
                 INSERT_GAME, CREATE_VIEWS, INSERT_VIEW, DROP_FIELDS, CREATE_FIELDS, DROP_CATEGORIES,
                 DROP_MODS, INSERT_FIELD, CREATE_CATEGORIES, INSERT_CATEGORY,
                 CREATE_MODS, INSERT_MOD, DROP_FIELDS_VALUES,
