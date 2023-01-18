@@ -45,6 +45,18 @@ public class DBModReadServiceImpl extends DBService implements DBModReadService 
     }
 
     @Override
+    public ExistingModTO findModById(Long modId) throws ResourceNotFoundException {
+        Repository<Mod> repository = getRepositoryManager().getModRepository();
+
+        QuerySpec querySpec = new QuerySpec();
+        querySpec.setTableName(new Mod().getTableName());
+        querySpec.setClazz(Mod.class);
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, List.of(modId)));
+
+        return ServiceUtils.find(repository, new ModConverter(), querySpec).get(0);
+    }
+
+    @Override
     public List<ExistingModTO> findModsByIds(List<Long> ids) throws ResourceNotFoundException {
         Repository<Mod> repository = getRepositoryManager().getModRepository();
 

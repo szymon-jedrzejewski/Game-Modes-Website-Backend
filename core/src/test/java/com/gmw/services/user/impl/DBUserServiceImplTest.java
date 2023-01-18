@@ -18,6 +18,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -37,6 +39,17 @@ public class DBUserServiceImplTest {
         assertNotNull(existingUserTO);
         assertEquals(Long.valueOf(1), existingUserTO.getId());
         assertEquals(email, existingUserTO.getEmail());
+        assertEquals("test_name", existingUserTO.getName());
+        assertEquals("secret_password", existingUserTO.getPassword());
+    }
+
+    @Test
+    public void findUsersByIds() throws ResourceNotFoundException {
+        List<ExistingUserTO> existingUserTOS = serviceManager.getDbUserService().obtainUsersByIds(List.of(1L));
+        ExistingUserTO existingUserTO = existingUserTOS.get(0);
+        assertNotNull(existingUserTO);
+        assertEquals(Long.valueOf(1), existingUserTO.getId());
+        assertEquals("email@org.com", existingUserTO.getEmail());
         assertEquals("test_name", existingUserTO.getName());
         assertEquals("secret_password", existingUserTO.getPassword());
     }

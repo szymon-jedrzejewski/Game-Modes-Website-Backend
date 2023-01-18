@@ -16,15 +16,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
 public class DBModServiceImplTest {
-    private static final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     private ServiceManager serviceManager;
 
     @Before
@@ -38,6 +35,14 @@ public class DBModServiceImplTest {
         List<ExistingModTO> modsByIds = serviceManager.getDbModService().findModsByIds(List.of(1L, 2L));
 
         assertEquals(2, modsByIds.size());
+    }
+
+    @Test
+    public void findModById() throws ResourceNotFoundException {
+        ExistingModTO actual = serviceManager.getDbModService().findModById(1L);
+
+        assertNotNull(actual);
+        assertEquals(Long.valueOf(1L), actual.getId());
     }
 
     @Test

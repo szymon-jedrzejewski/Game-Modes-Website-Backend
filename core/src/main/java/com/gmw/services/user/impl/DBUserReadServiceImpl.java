@@ -56,6 +56,19 @@ public class DBUserReadServiceImpl extends DBService implements DBUserReadServic
     }
 
     @Override
+    public List<ExistingUserTO> obtainUsersByIds(List<Long> ids) throws ResourceNotFoundException {
+        Repository<User> repository = getRepositoryManager().getUserRepository();
+
+        QuerySpec querySpec = new QuerySpec();
+        querySpec.setTableName(new User().getTableName());
+        querySpec.setClazz(User.class);
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.IN,
+                ids.stream().map(id -> (Object) id).toList()));
+
+        return ServiceUtils.find(repository, new UserConverter(), querySpec);
+    }
+
+    @Override
     public ExistingUserTO obtainUserById(Long userId) throws ResourceNotFoundException {
         Repository<User> repository = getRepositoryManager().getUserRepository();
         QuerySpec querySpec = new QuerySpec();
