@@ -41,6 +41,7 @@ public class FindModByIdActivity extends Activity<ModDTO> {
 
         String category = serviceManager.getDbCategoryService().obtainCategoryById(existingModTO.getCategoryId()).getName();
         String gameName = serviceManager.getDbGameReadService().obtainGameById(existingModTO.getGameId()).getName();
+        Double rating = serviceManager.getDbRatingReadService().obtainRatingForMod(modId);
 
         String userName = dbUserReadService.obtainUserById(existingModTO.getUserId()).getName();
         Map<Long, ExistingUserTO> userIdToUser = dbUserReadService.obtainUsersByIds(
@@ -63,7 +64,8 @@ public class FindModByIdActivity extends Activity<ModDTO> {
                 existingCommentTOS
                         .stream()
                         .map(comment -> mapComment(comment, userIdToUser))
-                        .collect(Collectors.toList()));
+                        .collect(Collectors.toList()),
+                rating);
     }
 
     private CommentDTO mapComment(ExistingCommentTO existingCommentTO, Map<Long, ExistingUserTO> userIdToUser) {

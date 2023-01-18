@@ -14,5 +14,6 @@ public record ModDTO(String name,
                      Date date,
                      String category,
                      byte[] avatar,
-                     List<CommentDTO> comments) {
+                     List<CommentDTO> comments,
+                     Double rating) {
 }
