@@ -18,5 +18,6 @@ public class ExistingCommentTO extends NewCommentTO {
     public ExistingCommentTO(Long userId, Long modId, String comment, Long id, Timestamp creationDate) {
         super(userId, modId, comment);
         this.id = id;
+        this.creationDate = creationDate;
     }
 }
