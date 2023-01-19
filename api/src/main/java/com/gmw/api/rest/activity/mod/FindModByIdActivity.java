@@ -70,6 +70,8 @@ public class FindModByIdActivity extends Activity<ModDTO> {
 
     private CommentDTO mapComment(ExistingCommentTO existingCommentTO, Map<Long, ExistingUserTO> userIdToUser) {
 
-        return new CommentDTO(userIdToUser.get(existingCommentTO.getUserId()).getName(), existingCommentTO.getComment());
+        return new CommentDTO(userIdToUser.get(existingCommentTO.getUserId()).getName(),
+                existingCommentTO.getComment(),
+                existingCommentTO.getCreationDate().toString());
     }
 }

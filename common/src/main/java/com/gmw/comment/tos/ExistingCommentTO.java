@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class ExistingCommentTO extends NewCommentTO {
     private Long id;
+    private Timestamp creationDate;
 
     @Builder
     public ExistingCommentTO(Long userId, Long modId, String comment, Long id, Timestamp creationDate) {
