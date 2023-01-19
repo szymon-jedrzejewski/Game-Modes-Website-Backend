@@ -4,6 +4,8 @@ import com.gmw.comment.tos.ExistingCommentTO;
 import com.gmw.comment.tos.NewCommentTO;
 import com.gmw.model.Comment;
 
+import java.sql.Timestamp;
+
 public class CommentConverter implements
         ModelConverter<ExistingCommentTO, Comment>,
         TOConverter<NewCommentTO, Comment> {
@@ -16,6 +18,7 @@ public class CommentConverter implements
                 .modId(comment.getModId())
                 .userId(comment.getUserId())
                 .comment(comment.getComment())
+                .creationDate(comment.getCreationDate())
                 .build();
     }
 
@@ -25,6 +28,8 @@ public class CommentConverter implements
         comment.setComment(newCommentTO.getComment());
         comment.setModId(newCommentTO.getModId());
         comment.setUserId(newCommentTO.getUserId());
+        comment.setCreationDate(new Timestamp(System.currentTimeMillis()));
+
         return comment;
     }
 }

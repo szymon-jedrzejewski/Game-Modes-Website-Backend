@@ -84,6 +84,7 @@ CREATE TABLE comments
     user_id INT,
     mod_id  INT,
     comment TEXT,
+    creation_date timestamp,
     CONSTRAINT FK_comments_users FOREIGN KEY (user_id) REFERENCES users (id),
     CONSTRAINT FK_comments_mods FOREIGN KEY (mod_id) REFERENCES mods (id)
 );

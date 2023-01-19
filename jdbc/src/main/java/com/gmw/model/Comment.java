@@ -1,7 +1,12 @@
 package com.gmw.model;
 
 import com.gmw.persistence.Persistable;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -12,6 +17,7 @@ public class Comment extends Table implements Persistable {
     private Long userId;
     private Long modId;
     private String comment;
+    private Timestamp creationDate;
 
 
     public Comment() {

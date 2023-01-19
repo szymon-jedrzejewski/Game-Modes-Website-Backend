@@ -119,6 +119,7 @@ public class TestDbConstants {
                 user_id INT,
                 mod_id  INT,
                 comment VARCHAR(255),
+                creation_date timestamp,
                 CONSTRAINT FK_comments_users FOREIGN KEY (user_id) REFERENCES users (id),
                 CONSTRAINT FK_comments_mods FOREIGN KEY (mod_id) REFERENCES mods (id)
             );
@@ -144,7 +145,7 @@ public class TestDbConstants {
     private static final String INSERT_MOD = "INSERT INTO mods VALUES(1, 'TestModName', 1, 1, 1, 'Test description mods', 'www.google.com', '2001-09-28', null);";
     private static final String INSERT_MOD_TWO = "INSERT INTO mods VALUES(2, 'ModNameTest', 1, 1, 1, 'description mod', 'www.google.com', '2022-09-28', null);";
     private static final String INSERT_RATING = "INSERT INTO ratings VALUES(1, 1, 1, 5);";
-    private static final String INSERT_COMMENT = "INSERT INTO comments VALUES(1, 1, 1, 'That mod is awesome test');";
+    private static final String INSERT_COMMENT = "INSERT INTO comments VALUES(1, 1, 1, 'That mod is awesome test', '1999-01-08 04:05:06');";
     private static final String INSERT_FIELDS_VALUES = "INSERT INTO fields_values VALUES(1, 1, 1, 'Test field value');";
     private static final String INSERT_FIELDS_VALUES_TWO = "INSERT INTO fields_values VALUES(2, 1, 3, 'Some random field text');";
 
