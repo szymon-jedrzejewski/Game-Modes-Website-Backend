@@ -30,9 +30,6 @@ jobs:
       - name: Step 4 - Run unit tests
         run: mvn clean package
 
-      - name: List folders
-        run: ls -a -l
-
       - name: Rename the artifact
         run: cp api/target/api-0.0.1-SNAPSHOT.jar gmw-api-${{ github.sha }}.jar
 
