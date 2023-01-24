@@ -35,4 +35,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
     
     - name: Step 5 - Persist workflow data as artifacts
-      uses: actions
+      uses: actions/upload-artifact@v3.1.2
+      with:
+           name: gmw
+           path: staging
