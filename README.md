@@ -7,7 +7,15 @@ To run the application you have to create `.json` config file which looks like t
         "user": "userName",
         "password": "password",
         "url": "jdbc:postgresql://localhost:5432/databaseName"
-    }
+    },
+    "smtpConfig": {
+        "host": "host",
+        "auth": true,
+        "tls": true,
+        "port": 123,
+        "username": "username",
+        "password": "password"
+  }
 }
 ```
 Then if you run the application from cmd the command will look like this:

@@ -14,6 +14,7 @@
         <module>environment</module>
         <module>common</module>
         <module>jdbc</module>
+        <module>mail</module>
     </modules>
 
     <properties>
