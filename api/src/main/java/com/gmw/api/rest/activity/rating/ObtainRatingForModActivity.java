@@ -1,7 +1,6 @@
-package com.gmw.api.rest.activity.comment;
+package com.gmw.api.rest.activity.rating;
 
 import com.gmw.api.rest.activity.Activity;
-import com.gmw.comment.tos.ExistingCommentTO;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.ResourceNotFoundException;
@@ -10,20 +9,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 
-import java.util.List;
-
 @AllArgsConstructor
-public class FindAllForModCommentsActivity extends Activity<List<ExistingCommentTO>> {
+public class ObtainRatingForModActivity extends Activity<Double> {
     private static final Logger LOGGER = LogManager.getLogger();
     private final Long modId;
 
     @Override
-    protected List<ExistingCommentTO> realExecute() throws ResourceNotFoundException {
+    protected Double realExecute() throws ResourceNotFoundException {
         try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()){
             status = HttpStatus.OK;
-            return serviceManager.getDbCommentReadService().obtainCommentsByModId(modId);
+            return serviceManager.getDbRatingService().obtainRatingForMod(modId);
         } catch (Exception e) {
-            LOGGER.error("Cannot obtain comments!");
+            LOGGER.error("Cannot obtain rating for mod: " + modId);
             throw new ResourceNotFoundException(e);
         }
     }
