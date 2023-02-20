@@ -1,6 +1,7 @@
 package com.gmw.api.rest.activity.comment;
 
 import com.gmw.api.rest.activity.Activity;
+import com.gmw.api.rest.utils.RoleChecker;
 import com.gmw.comment.tos.NewCommentTO;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
@@ -15,12 +16,18 @@ public class CreateCommentActivity extends Activity<Void> {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private final NewCommentTO comment;
+    private final Long userId;
 
     @Override
     protected Void realExecute() throws ResourceNotCreatedException {
         try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
-            serviceManager.getDbCommentService().createComment(comment);
-            status = HttpStatus.CREATED;
+            if (RoleChecker.isAdmin(serviceManager, userId))
+            {
+                serviceManager.getDbCommentService().createComment(comment);
+                status = HttpStatus.CREATED;
+            } else {
+                setForbidden();
+            }
         } catch (Exception e) {
             LOGGER.error("Cannot save new comment!");
             throw new ResourceNotCreatedException(e);
