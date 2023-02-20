@@ -1,6 +1,7 @@
 package com.gmw.api.rest.activity.category;
 
 import com.gmw.api.rest.activity.Activity;
+import com.gmw.api.rest.utils.RoleChecker;
 import com.gmw.category.tos.NewCategoryTO;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
@@ -15,12 +16,18 @@ public class CreateCategoryActivity extends Activity<Void> {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private final NewCategoryTO category;
+    private final Long userId;
 
     @Override
     protected Void realExecute() throws ResourceNotCreatedException {
         try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
-            serviceManager.getDbCategoryService().createCategory(category);
-            status = HttpStatus.CREATED;
+            if (RoleChecker.isAdmin(serviceManager, userId))
+            {
+                serviceManager.getDbCategoryService().createCategory(category);
+                status = HttpStatus.CREATED;
+            } else {
+                setForbidden();
+            }
         } catch (Exception e) {
             LOGGER.error("Cannot save new category!");
             throw new ResourceNotCreatedException(e);

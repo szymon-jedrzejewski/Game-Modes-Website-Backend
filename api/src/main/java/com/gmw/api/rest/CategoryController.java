@@ -22,20 +22,20 @@ public class CategoryController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createCategory(@RequestBody NewCategoryTO category) {
-        CreateCategoryActivity activity = new CreateCategoryActivity(category);
+    public ResponseEntity<Void> createCategory(@RequestParam Long userId, @RequestBody NewCategoryTO category) {
+        CreateCategoryActivity activity = new CreateCategoryActivity(category, userId);
         return activity.execute();
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Void> updateCategory(@RequestBody ExistingCategoryTO existingCategoryTO) {
-        UpdateCategoryActivity activity = new UpdateCategoryActivity(existingCategoryTO);
+    public ResponseEntity<Void> updateCategory(@RequestParam Long userId, @RequestBody ExistingCategoryTO existingCategoryTO) {
+        UpdateCategoryActivity activity = new UpdateCategoryActivity(existingCategoryTO, userId);
         return activity.execute();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
-        DeleteCategoryActivity activity = new DeleteCategoryActivity(id);
+    public ResponseEntity<Void> deleteCategory(@RequestParam Long userId, @PathVariable Long id) {
+        DeleteCategoryActivity activity = new DeleteCategoryActivity(id, userId);
         return activity.execute();
     }
 }
