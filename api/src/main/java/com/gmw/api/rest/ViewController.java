@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 public class ViewController {
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createView(@RequestBody NewViewTO newView) {
-        CreateViewActivity createViewActivity = new CreateViewActivity(newView);
+    public ResponseEntity<Void> createView(@RequestParam Long userId, @RequestBody NewViewTO newView) {
+        CreateViewActivity createViewActivity = new CreateViewActivity(newView, userId);
         return createViewActivity.execute();
     }
 
@@ -27,14 +27,14 @@ public class ViewController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Void> updateView(@RequestBody ExistingViewTO existingViewTO) {
-        UpdateViewActivity activity = new UpdateViewActivity(existingViewTO);
+    public ResponseEntity<Void> updateView(@RequestParam Long userId, @RequestBody ExistingViewTO existingViewTO) {
+        UpdateViewActivity activity = new UpdateViewActivity(existingViewTO, userId);
         return activity.execute();
     }
 
     @DeleteMapping("/delete/{viewId}")
-    public ResponseEntity<Void> deleteView(@PathVariable Long viewId) {
-        DeleteViewActivity activity = new DeleteViewActivity(viewId);
+    public ResponseEntity<Void> deleteView(@RequestParam Long userId, @PathVariable Long viewId) {
+        DeleteViewActivity activity = new DeleteViewActivity(viewId, userId);
         return activity.execute();
     }
 }
