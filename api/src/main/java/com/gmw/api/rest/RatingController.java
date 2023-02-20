@@ -13,20 +13,20 @@ import org.springframework.web.bind.annotation.*;
 public class RatingController {
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createRating(@RequestBody NewRatingTO rating) {
-        CreateRatingActivity activity = new CreateRatingActivity(rating);
+    public ResponseEntity<Void> createRating(@RequestParam Long userId, @RequestBody NewRatingTO rating) {
+        CreateRatingActivity activity = new CreateRatingActivity(rating, userId);
         return activity.execute();
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Void> updateRating(@RequestBody ExistingRatingTO existingRatingTO) {
-        UpdateRatingActivity activity = new UpdateRatingActivity(existingRatingTO);
+    public ResponseEntity<Void> updateRating(@RequestParam Long userId, @RequestBody ExistingRatingTO existingRatingTO) {
+        UpdateRatingActivity activity = new UpdateRatingActivity(existingRatingTO, userId);
         return activity.execute();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteRating(@PathVariable Long id) {
-        DeleteRatingActivity activity = new DeleteRatingActivity(id);
+    public ResponseEntity<Void> deleteRating(@RequestParam Long userId, @PathVariable Long id) {
+        DeleteRatingActivity activity = new DeleteRatingActivity(id, userId);
         return activity.execute();
     }
 }
