@@ -1,6 +1,7 @@
 package com.gmw.api.rest.activity.rating;
 
 import com.gmw.api.rest.activity.Activity;
+import com.gmw.api.rest.utils.RoleChecker;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.ResourceNotDeletedException;
@@ -13,12 +14,18 @@ import org.springframework.http.HttpStatus;
 public class DeleteRatingActivity extends Activity<Void> {
     private static final Logger LOGGER = LogManager.getLogger();
     private final Long id;
+    private final Long userId;
 
     @Override
     protected Void realExecute() throws ResourceNotDeletedException {
-        try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()){
-            serviceManager.getDbRatingService().deleteRating(id);
-            status = HttpStatus.OK;
+        try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
+            if (RoleChecker.isAdmin(serviceManager, userId))
+            {
+                serviceManager.getDbRatingService().deleteRating(id);
+                status = HttpStatus.OK;
+            } else {
+                setForbidden();
+            }
         } catch (Exception e) {
             LOGGER.error("Cannot delete rating with id: " + id);
             throw new ResourceNotDeletedException(e);

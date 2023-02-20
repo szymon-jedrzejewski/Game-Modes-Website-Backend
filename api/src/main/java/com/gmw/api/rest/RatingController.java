@@ -2,7 +2,6 @@ package com.gmw.api.rest;
 
 import com.gmw.api.rest.activity.rating.CreateRatingActivity;
 import com.gmw.api.rest.activity.rating.DeleteRatingActivity;
-import com.gmw.api.rest.activity.rating.ObtainRatingForModActivity;
 import com.gmw.api.rest.activity.rating.UpdateRatingActivity;
 import com.gmw.rating.tos.ExistingRatingTO;
 import com.gmw.rating.tos.NewRatingTO;
@@ -12,12 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/rating")
 public class RatingController {
-
-    @GetMapping("/obtainRatingForMod/{modId}")
-    public ResponseEntity<Double> obtainRating(@PathVariable Long modId) {
-        ObtainRatingForModActivity activity = new ObtainRatingForModActivity(modId);
-        return activity.execute();
-    }
 
     @PostMapping("/create")
     public ResponseEntity<Void> createRating(@RequestBody NewRatingTO rating) {
