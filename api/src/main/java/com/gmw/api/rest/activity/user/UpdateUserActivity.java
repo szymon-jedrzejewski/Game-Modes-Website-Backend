@@ -1,6 +1,7 @@
 package com.gmw.api.rest.activity.user;
 
 import com.gmw.api.rest.activity.Activity;
+import com.gmw.api.rest.utils.RoleChecker;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.ResourceNotUpdatedException;
@@ -15,12 +16,17 @@ public class UpdateUserActivity extends Activity<Void> {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private final ExistingUserTO userTO;
+    private final Long userId;
 
     @Override
     protected Void realExecute() throws ResourceNotUpdatedException {
         try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
-            serviceManager.getDbUserService().updateUser(userTO);
-            status = HttpStatus.OK;
+            if (RoleChecker.isAdmin(serviceManager, userId)) {
+                serviceManager.getDbUserService().updateUser(userTO);
+                status = HttpStatus.OK;
+            } else {
+                setForbidden();
+            }
         } catch (Exception e) {
             LOGGER.error("Can not update user with id: " + userTO.getId());
             throw new ResourceNotUpdatedException(e);

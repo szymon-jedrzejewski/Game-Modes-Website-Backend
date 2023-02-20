@@ -24,8 +24,8 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Void> updateUser(@RequestBody ExistingUserTO existingUserTO) {
-        UpdateUserActivity activity = new UpdateUserActivity(existingUserTO);
+    public ResponseEntity<Void> updateUser(@RequestParam Long userId, @RequestBody ExistingUserTO existingUserTO) {
+        UpdateUserActivity activity = new UpdateUserActivity(existingUserTO, userId);
         return activity.execute();
     }
 
@@ -42,8 +42,8 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        DeleteUserActivity activity = new DeleteUserActivity(id);
+    public ResponseEntity<Void> deleteUser(@RequestParam Long userId, @PathVariable Long id) {
+        DeleteUserActivity activity = new DeleteUserActivity(id, userId);
         return activity.execute();
     }
 }
