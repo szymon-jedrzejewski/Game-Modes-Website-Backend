@@ -1,7 +1,7 @@
 package com.gmw.api.rest.activity.user;
 
 import com.gmw.api.rest.activity.Activity;
-import com.gmw.api.rest.activity.user.tos.ChangePasswordTO;
+import com.gmw.api.rest.activity.user.tos.ChangePasswordDTO;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.ResourceNotUpdatedException;
@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 public class UpdateUserPasswordActivity extends Activity<Void> {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    private final ChangePasswordTO passwordTO;
+    private final ChangePasswordDTO passwordTO;
 
     @Override
     protected Void realExecute() throws ResourceNotUpdatedException {

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChangePasswordTO {
+public class ChangePasswordDTO {
     private Long userId;
     private String password;
 }

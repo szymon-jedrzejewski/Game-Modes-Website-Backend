@@ -29,15 +29,18 @@ public class DBUserReadServiceImpl extends DBService implements DBUserReadServic
     @Override
     public ExistingUserTO obtainUserByEmail(String email) throws ResourceNotFoundException {
         Repository<User> repository = getRepositoryManager().getUserRepository();
-        QuerySpec querySpec = prepareQuerySpecToFindByEmail(email);
+        QuerySpec querySpec = new QuerySpec();
+        querySpec.setTableName(new User().getTableName());
+        querySpec.setClazz(User.class);
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("email", Operator.EQUAL_TO, List.of(email)));
 
         return ServiceUtils.find(repository, new UserConverter(), querySpec).get(0);
     }
 
     @Override
-    public String obtainUserRoleByUserEmail(String email) throws ResourceNotFoundException {
+    public String obtainUserRoleByUserId(Long id) throws ResourceNotFoundException {
         Repository<User> repository = getRepositoryManager().getUserRepository();
-        QuerySpec querySpec = prepareQuerySpecToFindByEmail(email);
+        QuerySpec querySpec = prepareQueryToFindById(id);
 
         try {
             List<User> users = repository.find(querySpec);
@@ -71,19 +74,16 @@ public class DBUserReadServiceImpl extends DBService implements DBUserReadServic
     @Override
     public ExistingUserTO obtainUserById(Long userId) throws ResourceNotFoundException {
         Repository<User> repository = getRepositoryManager().getUserRepository();
-        QuerySpec querySpec = new QuerySpec();
-        querySpec.setTableName(new User().getTableName());
-        querySpec.setClazz(User.class);
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, List.of(userId)));
+        QuerySpec querySpec = prepareQueryToFindById(userId);
 
         return ServiceUtils.find(repository, new UserConverter(), querySpec).get(0);
     }
 
-    private QuerySpec prepareQuerySpecToFindByEmail(String email) {
+    private static QuerySpec prepareQueryToFindById(Long id) {
         QuerySpec querySpec = new QuerySpec();
         querySpec.setTableName(new User().getTableName());
         querySpec.setClazz(User.class);
-        querySpec.append(QueryOperator.WHERE, new SearchCondition("email", Operator.EQUAL_TO, List.of(email)));
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, List.of(id)));
         return querySpec;
     }
 }

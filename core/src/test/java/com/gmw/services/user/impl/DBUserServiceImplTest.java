@@ -65,8 +65,8 @@ public class DBUserServiceImplTest {
     }
 
     @Test
-    public void findUserRoleByEmail() throws ResourceNotFoundException {
-        String role = serviceManager.getDbUserService().obtainUserRoleByUserEmail("email@org.com");
+    public void findUserRoleById() throws ResourceNotFoundException {
+        String role = serviceManager.getDbUserService().obtainUserRoleByUserId(1L);
         assertNotNull(role);
         assertEquals("USER", role);
     }
@@ -115,7 +115,7 @@ public class DBUserServiceImplTest {
         DBUserService service = serviceManager.getDbUserService();
         service.promoteToAdmin(prepareExistingUser());
 
-        assertEquals(RoleEnum.ADMIN, RoleEnum.valueOf(service.obtainUserRoleByUserEmail("test@email.com")));
+        assertEquals(RoleEnum.ADMIN, RoleEnum.valueOf(service.obtainUserRoleByUserId(1L)));
     }
 
     @Test
@@ -124,10 +124,10 @@ public class DBUserServiceImplTest {
         service.promoteToAdmin(prepareExistingUser());
 
         ExistingUserTO actual = service.obtainUserById(1L);
-        assertEquals(RoleEnum.ADMIN, RoleEnum.valueOf(service.obtainUserRoleByUserEmail("test@email.com")));
+        assertEquals(RoleEnum.ADMIN, RoleEnum.valueOf(service.obtainUserRoleByUserId(1L)));
 
         service.demoteFromAdmin(actual);
-        assertEquals(RoleEnum.USER, RoleEnum.valueOf(service.obtainUserRoleByUserEmail("test@email.com")));
+        assertEquals(RoleEnum.USER, RoleEnum.valueOf(service.obtainUserRoleByUserId(1L)));
     }
 
     private static ExistingUserTO prepareExistingUser() {
