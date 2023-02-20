@@ -32,20 +32,20 @@ public class GameController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createGame(@RequestBody NewGameTO game) {
-        CreateGameActivity activity = new CreateGameActivity(game);
+    public ResponseEntity<Void> createGame(@RequestParam Long userId, @RequestBody NewGameTO game) {
+        CreateGameActivity activity = new CreateGameActivity(game, userId);
         return activity.execute();
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Void> updateGame(@RequestBody ExistingGameTO existingGameTO) {
-        UpdateGameActivity activity = new UpdateGameActivity(existingGameTO);
+    public ResponseEntity<Void> updateGame(@RequestParam Long userId, @RequestBody ExistingGameTO existingGameTO) {
+        UpdateGameActivity activity = new UpdateGameActivity(existingGameTO, userId);
         return activity.execute();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteGame(@PathVariable Long id) {
-        DeleteGameActivity activity = new DeleteGameActivity(id);
+    public ResponseEntity<Void> deleteGame(@RequestParam Long userId, @PathVariable Long id) {
+        DeleteGameActivity activity = new DeleteGameActivity(id, userId);
         return activity.execute();
     }
 }

@@ -1,27 +1,31 @@
 package com.gmw.api.rest.activity.game;
 
 import com.gmw.api.rest.activity.Activity;
+import com.gmw.api.rest.utils.RoleChecker;
 import com.gmw.game.tos.NewGameTO;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.ResourceNotCreatedException;
 import com.gmw.services.game.DBGameService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+@AllArgsConstructor
 public class CreateGameActivity extends Activity<Void> {
 
     private final NewGameTO newGameTO;
-
-    public CreateGameActivity(NewGameTO newGameTO) {
-        this.newGameTO = newGameTO;
-    }
+    private final Long userId;
 
     @Override
     protected Void realExecute() throws ResourceNotCreatedException {
         try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
-            DBGameService service = serviceManager.getDbGameService();
-            status = HttpStatus.CREATED;
-            service.createGame(newGameTO);
+            if (RoleChecker.isAdmin(serviceManager, userId)) {
+                DBGameService service = serviceManager.getDbGameService();
+                status = HttpStatus.CREATED;
+                service.createGame(newGameTO);
+            } else {
+                setForbidden();
+            }
         } catch (Exception e) {
             throw new ResourceNotCreatedException();
         }
