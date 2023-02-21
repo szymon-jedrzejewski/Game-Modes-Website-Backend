@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gmw.reader.tos.Config;
 import com.gmw.reader.tos.DatabaseConfig;
 import com.gmw.reader.tos.SMTPConfig;
+import com.gmw.reader.tos.SecurityConfig;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -40,6 +41,20 @@ public class JsonConfigReader {
             Config config = mapper.readValue(new File(CONFIG_FILE), Config.class);
 
             return config.smtpConfig();
+        } catch (FileNotFoundException e) {
+            LOGGER.error("Cannot find the config file!", e);
+        } catch (IOException e) {
+            LOGGER.error("Error during reading the config file!", e);
+        }
+        return null;
+    }
+
+    public static SecurityConfig readSecurityConfig() {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            Config config = mapper.readValue(new File(CONFIG_FILE), Config.class);
+
+            return config.securityConfig();
         } catch (FileNotFoundException e) {
             LOGGER.error("Cannot find the config file!", e);
         } catch (IOException e) {
