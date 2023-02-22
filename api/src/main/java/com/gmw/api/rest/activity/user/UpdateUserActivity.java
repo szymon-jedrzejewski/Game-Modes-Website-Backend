@@ -4,6 +4,7 @@ import com.gmw.api.rest.activity.Activity;
 import com.gmw.api.rest.utils.RoleChecker;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
+import com.gmw.services.exceptions.PermissionDeniedException;
 import com.gmw.services.exceptions.ResourceNotUpdatedException;
 import com.gmw.user.tos.ExistingUserTO;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class UpdateUserActivity extends Activity<Void> {
                 serviceManager.getDbUserService().updateUser(userTO);
                 status = HttpStatus.OK;
             } else {
-                setForbidden();
+                throw new PermissionDeniedException();
             }
         } catch (Exception e) {
             LOGGER.error("Can not update user with id: " + userTO.getId());

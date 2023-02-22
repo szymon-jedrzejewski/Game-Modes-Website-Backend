@@ -1,7 +1,6 @@
 package com.gmw.api.rest.activity.mod;
 
 import com.gmw.api.rest.activity.Activity;
-import com.gmw.api.rest.utils.RoleChecker;
 import com.gmw.fieldvalue.tos.ExistingFieldValueTO;
 import com.gmw.mod.tos.ExistingModTO;
 import com.gmw.services.ServiceManager;
@@ -13,23 +12,19 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UpdateModActivity extends Activity<Void> {
     private final ExistingModTO existingModTO;
-    private final Long userId;
 
     @Override
     protected Void realExecute() throws ResourceNotUpdatedException {
         try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
+            //TODO only creator can edit the mod
+            serviceManager.getDbModService().updateMod(existingModTO);
 
-            if (RoleChecker.isAdmin(serviceManager, userId)) {
-                serviceManager.getDbModService().updateMod(existingModTO);
+            DBFieldValueService fieldValueService = serviceManager.getDbFieldValueService();
 
-                DBFieldValueService fieldValueService = serviceManager.getDbFieldValueService();
-
-                for (ExistingFieldValueTO fieldsValue : existingModTO.getFieldsValues()) {
-                    fieldValueService.updateFieldValue(fieldsValue);
-                }
-            } else {
-                setForbidden();
+            for (ExistingFieldValueTO fieldsValue : existingModTO.getFieldsValues()) {
+                fieldValueService.updateFieldValue(fieldsValue);
             }
+
 
         } catch (Exception e) {
             throw new ResourceNotUpdatedException(e);

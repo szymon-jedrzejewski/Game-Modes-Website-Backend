@@ -5,6 +5,7 @@ import com.gmw.api.rest.utils.RoleChecker;
 import com.gmw.game.tos.NewGameTO;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
+import com.gmw.services.exceptions.PermissionDeniedException;
 import com.gmw.services.exceptions.ResourceNotCreatedException;
 import com.gmw.services.game.DBGameService;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,7 @@ public class CreateGameActivity extends Activity<Void> {
                 status = HttpStatus.CREATED;
                 service.createGame(newGameTO);
             } else {
-                setForbidden();
+                throw new PermissionDeniedException();
             }
         } catch (Exception e) {
             throw new ResourceNotCreatedException();

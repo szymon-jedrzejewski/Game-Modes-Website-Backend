@@ -5,6 +5,7 @@ import com.gmw.api.rest.utils.RoleChecker;
 import com.gmw.category.tos.ExistingCategoryTO;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
+import com.gmw.services.exceptions.PermissionDeniedException;
 import com.gmw.services.exceptions.ResourceNotUpdatedException;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -26,7 +27,7 @@ public class UpdateCategoryActivity extends Activity<Void> {
                 serviceManager.getDbCategoryService().updateCategory(category);
                 status = HttpStatus.OK;
             } else {
-                setForbidden();
+                throw new PermissionDeniedException();
             }
         } catch (Exception e) {
             LOGGER.error("Can not update category with id: " + category.getId());

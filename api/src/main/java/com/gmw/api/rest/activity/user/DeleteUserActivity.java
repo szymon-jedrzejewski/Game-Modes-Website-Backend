@@ -4,6 +4,7 @@ import com.gmw.api.rest.activity.Activity;
 import com.gmw.api.rest.utils.RoleChecker;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
+import com.gmw.services.exceptions.PermissionDeniedException;
 import com.gmw.services.exceptions.ResourceNotDeletedException;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -23,7 +24,7 @@ public class DeleteUserActivity extends Activity<Void> {
                 serviceManager.getDbUserService().deleteUser(id);
                 status = HttpStatus.OK;
             } else {
-                setForbidden();
+                throw new PermissionDeniedException();
             }
         } catch (Exception e) {
             LOGGER.error("Cannot delete user with id: " + id);

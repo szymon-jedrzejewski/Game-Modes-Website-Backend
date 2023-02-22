@@ -13,20 +13,20 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createComment(@RequestParam Long userId, @RequestBody NewCommentTO comment) {
-        CreateCommentActivity activity = new CreateCommentActivity(comment, userId);
+    public ResponseEntity<Void> createComment(@RequestBody NewCommentTO comment) {
+        CreateCommentActivity activity = new CreateCommentActivity(comment);
         return activity.execute();
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Void> updateComment(@RequestParam Long userId, @RequestBody ExistingCommentTO existingCommentTO) {
-        UpdateCommentActivity activity = new UpdateCommentActivity(existingCommentTO, userId);
+    public ResponseEntity<Void> updateComment(@RequestBody ExistingCommentTO existingCommentTO) {
+        UpdateCommentActivity activity = new UpdateCommentActivity(existingCommentTO);
         return activity.execute();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteComment(@RequestParam Long userId, @PathVariable Long id) {
-        DeleteCommentActivity activity = new DeleteCommentActivity(id, userId);
+    public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
+        DeleteCommentActivity activity = new DeleteCommentActivity(id);
         return activity.execute();
     }
 }

@@ -5,6 +5,7 @@ import com.gmw.api.rest.activity.user.tos.RoleChangeDTO;
 import com.gmw.api.rest.utils.RoleChecker;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
+import com.gmw.services.exceptions.PermissionDeniedException;
 import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.services.exceptions.ResourceNotUpdatedException;
 import com.gmw.services.user.DBUserService;
@@ -27,7 +28,7 @@ public class PromoteToAdminActivity extends Activity<Void> {
             if (RoleChecker.isAdmin(serviceManager, roleChangeDTO.adminId())) {
                 service.promoteToAdmin(service.obtainUserById(roleChangeDTO.userToPromote()));
             } else {
-                setForbidden();
+                throw new PermissionDeniedException();
             }
         } catch (Exception e) {
             LOGGER.error("Cannot obtain user with email!");

@@ -5,6 +5,7 @@ import com.gmw.api.rest.utils.RoleChecker;
 import com.gmw.field.tos.NewFieldTO;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
+import com.gmw.services.exceptions.PermissionDeniedException;
 import com.gmw.services.exceptions.ResourceNotCreatedException;
 import com.gmw.services.field.DBFieldService;
 import com.gmw.services.view.DBViewService;
@@ -32,7 +33,7 @@ public class CreateViewActivity extends Activity<Void> {
 
                 status = HttpStatus.CREATED;
             } else {
-                setForbidden();
+                throw new PermissionDeniedException();
             }
         } catch (Exception e) {
             throw new ResourceNotCreatedException();

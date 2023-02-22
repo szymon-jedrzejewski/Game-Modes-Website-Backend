@@ -4,6 +4,7 @@ import com.gmw.api.rest.activity.Activity;
 import com.gmw.api.rest.utils.RoleChecker;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
+import com.gmw.services.exceptions.PermissionDeniedException;
 import com.gmw.services.exceptions.ResourceNotDeletedException;
 import com.gmw.services.game.DBGameService;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,7 @@ public class DeleteGameActivity extends Activity<Void> {
                 service.deleteGame(id);
                 status = HttpStatus.OK;
             } else {
-                setForbidden();
+                throw new PermissionDeniedException();
             }
         } catch (Exception e) {
             throw new ResourceNotDeletedException();

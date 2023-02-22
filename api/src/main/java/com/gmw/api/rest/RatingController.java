@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 public class RatingController {
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createRating(@RequestParam Long userId, @RequestBody NewRatingTO rating) {
-        CreateRatingActivity activity = new CreateRatingActivity(rating, userId);
+    public ResponseEntity<Void> createRating(@RequestBody NewRatingTO rating) {
+        CreateRatingActivity activity = new CreateRatingActivity(rating);
         return activity.execute();
     }
 

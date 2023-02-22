@@ -5,6 +5,7 @@ import com.gmw.api.rest.utils.RoleChecker;
 import com.gmw.category.tos.NewCategoryTO;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
+import com.gmw.services.exceptions.PermissionDeniedException;
 import com.gmw.services.exceptions.ResourceNotCreatedException;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -26,7 +27,7 @@ public class CreateCategoryActivity extends Activity<Void> {
                 serviceManager.getDbCategoryService().createCategory(category);
                 status = HttpStatus.CREATED;
             } else {
-                setForbidden();
+                throw new PermissionDeniedException();
             }
         } catch (Exception e) {
             LOGGER.error("Cannot save new category!");

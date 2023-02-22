@@ -5,6 +5,7 @@ import com.gmw.api.rest.utils.RoleChecker;
 import com.gmw.game.tos.ExistingGameTO;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
+import com.gmw.services.exceptions.PermissionDeniedException;
 import com.gmw.services.exceptions.ResourceNotUpdatedException;
 import com.gmw.services.game.DBGameService;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,7 @@ public class UpdateGameActivity extends Activity<Void> {
                 service.updateGame(game);
                 status = HttpStatus.OK;
             } else {
-                setForbidden();
+                throw new PermissionDeniedException();
             }
         } catch (Exception e) {
             throw new ResourceNotUpdatedException();
