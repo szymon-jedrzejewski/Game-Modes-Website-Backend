@@ -45,14 +45,14 @@ public class ModController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Void> updateMod(@RequestBody ExistingModTO existingModTO) {
-        UpdateModActivity activity = new UpdateModActivity(existingModTO);
+    public ResponseEntity<Void> updateMod(@RequestParam Long userId, @RequestBody ExistingModTO existingModTO) {
+        UpdateModActivity activity = new UpdateModActivity(existingModTO, userId);
         return activity.execute();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteMod(@PathVariable Long id) {
-        DeleteModActivity activity = new DeleteModActivity(id);
+    public ResponseEntity<Void> deleteMod(@RequestParam Long userId, @PathVariable Long id) {
+        DeleteModActivity activity = new DeleteModActivity(id, userId);
         return activity.execute();
     }
 }

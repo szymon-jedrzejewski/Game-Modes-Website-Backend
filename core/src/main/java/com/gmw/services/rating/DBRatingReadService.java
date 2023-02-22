@@ -8,4 +8,6 @@ public interface DBRatingReadService {
     Double obtainRatingForMod(Long modId) throws ResourceNotFoundException;
 
     List<Long> obtainRatingsIdsByModId(Long modId) throws ResourceNotFoundException;
+
+    Long obtainUserIdByRatingId(Long id) throws ResourceNotFoundException;
 }

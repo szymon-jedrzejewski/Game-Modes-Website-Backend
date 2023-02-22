@@ -32,4 +32,16 @@ public class DBCommentReadServiceImpl extends DBService implements DBCommentRead
 
         return ServiceUtils.find(repository, new CommentConverter(), querySpec);
     }
+
+    @Override
+    public Long obtainUserIdByCommentId(Long id) throws ResourceNotFoundException {
+        Repository<Comment> repository = getRepositoryManager().getCommentRepository();
+
+        QuerySpec querySpec = new QuerySpec();
+        querySpec.setTableName(new Comment().getTableName());
+        querySpec.setClazz(Comment.class);
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, List.of(id)));
+
+        return ServiceUtils.find(repository, new CommentConverter(), querySpec).get(0).getId();
+    }
 }

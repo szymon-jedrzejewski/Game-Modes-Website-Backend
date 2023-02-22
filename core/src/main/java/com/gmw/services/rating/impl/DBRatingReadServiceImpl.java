@@ -46,6 +46,18 @@ public class DBRatingReadServiceImpl extends DBService implements DBRatingReadSe
                 .toList();
     }
 
+    @Override
+    public Long obtainUserIdByRatingId(Long id) throws ResourceNotFoundException {
+        Repository<Rating> repository = getRepositoryManager().getRatingRepository();
+
+        QuerySpec querySpec = new QuerySpec();
+        querySpec.setTableName(new Rating().getTableName());
+        querySpec.setClazz(Rating.class);
+        querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, List.of(id)));
+
+        return ServiceUtils.find(repository, new RatingConverter(), querySpec).get(0).getUserId();
+    }
+
     private QuerySpec prepareQuerySpec(Long modId) {
         QuerySpec querySpec = new QuerySpec();
         querySpec.setTableName(new Rating().getTableName());

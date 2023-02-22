@@ -45,6 +45,12 @@ class DBRatingServiceImplTest {
     }
 
     @Test
+    void obtainUserIdByRatingId() throws ResourceNotFoundException {
+        Long userId = serviceManager.getDbRatingService().obtainUserIdByRatingId(1L);
+        assertEquals(1L, userId);
+    }
+
+    @Test
     void createRating() throws ResourceNotCreatedException, ResourceNotFoundException {
         DBRatingService service = serviceManager.getDbRatingService();
         serviceManager.getDbUserService().createUser(new NewUserTO());

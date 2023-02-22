@@ -12,11 +12,11 @@ import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.services.exceptions.ResourceNotUpdatedException;
 import com.gmw.services.testutilities.ServiceType;
 import com.gmw.services.testutilities.TestDbUtilities;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class DBCommentServiceImplTest {
 
@@ -37,6 +37,13 @@ public class DBCommentServiceImplTest {
         assertEquals(Long.valueOf(1), existingCommentTO.getModId());
         assertEquals(Long.valueOf(1), existingCommentTO.getUserId());
         assertEquals("That mod is awesome test", existingCommentTO.getComment());
+    }
+
+    @Test
+    public void obtainUserIdByCommentId() throws ResourceNotFoundException {
+        Long userId = serviceManager.getDbCommentService().obtainUserIdByCommentId(1L);
+
+        assertEquals(Long.valueOf(1), userId);
     }
 
     @Test

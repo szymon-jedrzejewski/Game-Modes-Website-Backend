@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface DBCommentReadService {
     List<ExistingCommentTO> obtainCommentsByModId(Long modId) throws ResourceNotFoundException;
+
+    Long obtainUserIdByCommentId(Long id) throws ResourceNotFoundException;
 }

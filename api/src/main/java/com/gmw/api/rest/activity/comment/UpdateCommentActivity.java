@@ -4,6 +4,8 @@ import com.gmw.api.rest.activity.Activity;
 import com.gmw.comment.tos.ExistingCommentTO;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
+import com.gmw.services.comment.DBCommentService;
+import com.gmw.services.exceptions.PermissionDeniedException;
 import com.gmw.services.exceptions.ResourceNotUpdatedException;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -15,14 +17,20 @@ public class UpdateCommentActivity extends Activity<Void> {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private final ExistingCommentTO category;
+    private final Long userId;
 
     @Override
     protected Void realExecute() throws ResourceNotUpdatedException {
         try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
-            //TODO only creator can edit comment
+            DBCommentService service = serviceManager.getDbCommentService();
+            Long userIdFromComment = service.obtainUserIdByCommentId(category.getId());
 
-            serviceManager.getDbCommentService().updateComment(category);
-            status = HttpStatus.OK;
+            if (userIdFromComment.equals(userId)) {
+                service.updateComment(category);
+                status = HttpStatus.OK;
+            } else {
+                throw new PermissionDeniedException();
+            }
         } catch (Exception e) {
             LOGGER.error("Can not update comments with id: " + category.getId());
             throw new ResourceNotUpdatedException(e);

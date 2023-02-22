@@ -3,7 +3,9 @@ package com.gmw.api.rest.activity.rating;
 import com.gmw.api.rest.activity.Activity;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
+import com.gmw.services.exceptions.PermissionDeniedException;
 import com.gmw.services.exceptions.ResourceNotDeletedException;
+import com.gmw.services.rating.DBRatingService;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,9 +20,15 @@ public class DeleteRatingActivity extends Activity<Void> {
     @Override
     protected Void realExecute() throws ResourceNotDeletedException {
         try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
-            //TODO only user can delete rating
-            serviceManager.getDbRatingService().deleteRating(id);
-            status = HttpStatus.OK;
+            DBRatingService service = serviceManager.getDbRatingService();
+            Long userIdFromRating = service.obtainUserIdByRatingId(id);
+
+            if (userIdFromRating.equals(userId)) {
+                service.deleteRating(id);
+                status = HttpStatus.OK;
+            } else {
+                throw new PermissionDeniedException();
+            }
 
         } catch (Exception e) {
             LOGGER.error("Cannot delete rating with id: " + id);

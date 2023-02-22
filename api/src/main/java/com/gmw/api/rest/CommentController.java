@@ -19,14 +19,14 @@ public class CommentController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Void> updateComment(@RequestBody ExistingCommentTO existingCommentTO) {
-        UpdateCommentActivity activity = new UpdateCommentActivity(existingCommentTO);
+    public ResponseEntity<Void> updateComment(@RequestParam Long userId, @RequestBody ExistingCommentTO existingCommentTO) {
+        UpdateCommentActivity activity = new UpdateCommentActivity(existingCommentTO, userId);
         return activity.execute();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
-        DeleteCommentActivity activity = new DeleteCommentActivity(id);
+    public ResponseEntity<Void> deleteComment(@RequestParam Long userId, @PathVariable Long id) {
+        DeleteCommentActivity activity = new DeleteCommentActivity(id, userId);
         return activity.execute();
     }
 }
