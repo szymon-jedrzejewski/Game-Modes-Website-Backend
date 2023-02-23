@@ -1,11 +1,13 @@
 package com.gmw.api.rest.activity.game;
 
 import com.gmw.api.rest.activity.Activity;
-import com.gmw.api.rest.utils.RoleChecker;
+import com.gmw.api.rest.security.JwtUtils;
+import com.gmw.api.rest.utils.PermissionChecker;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.PermissionDeniedException;
 import com.gmw.services.exceptions.ResourceNotDeletedException;
+import com.gmw.services.exceptions.UnauthorizedException;
 import com.gmw.services.game.DBGameService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,12 +16,15 @@ import org.springframework.http.HttpStatus;
 public class DeleteGameActivity extends Activity<Void> {
 
     private final Long id;
-    private final Long userId;
+    private final String token;
 
     @Override
-    protected Void realExecute() throws ResourceNotDeletedException {
+    protected Void realExecute() throws ResourceNotDeletedException, UnauthorizedException {
+        if (!JwtUtils.isValid(token)) {
+            throw new UnauthorizedException();
+        }
         try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
-            if (RoleChecker.isAdmin(serviceManager, userId))
+            if (PermissionChecker.isAdmin(token))
             {
                 DBGameService service = serviceManager.getDbGameService();
                 service.deleteGame(id);

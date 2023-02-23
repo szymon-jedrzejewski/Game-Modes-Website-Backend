@@ -5,6 +5,7 @@ import com.gmw.api.rest.activity.mod.tos.ModDTO;
 import com.gmw.fieldvalue.tos.SearchFieldValue;
 import com.gmw.mod.tos.ExistingModTO;
 import com.gmw.mod.tos.NewModTO;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/mod")
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT})
 public class ModController {
 
     @GetMapping("/getMod/{modId}")
@@ -39,20 +41,23 @@ public class ModController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createMod(@RequestBody NewModTO mod) {
-        CreateModActivity activity = new CreateModActivity(mod);
+    public ResponseEntity<Void> createMod(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+                                          @RequestBody NewModTO mod) {
+        CreateModActivity activity = new CreateModActivity(mod, token);
         return activity.execute();
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Void> updateMod(@RequestParam Long userId, @RequestBody ExistingModTO existingModTO) {
-        UpdateModActivity activity = new UpdateModActivity(existingModTO, userId);
+    public ResponseEntity<Void> updateMod(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+                                          @RequestBody ExistingModTO existingModTO) {
+        UpdateModActivity activity = new UpdateModActivity(existingModTO, token);
         return activity.execute();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteMod(@RequestParam Long userId, @PathVariable Long id) {
-        DeleteModActivity activity = new DeleteModActivity(id, userId);
+    public ResponseEntity<Void> deleteMod(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+                                          @PathVariable Long id) {
+        DeleteModActivity activity = new DeleteModActivity(id, token);
         return activity.execute();
     }
 }

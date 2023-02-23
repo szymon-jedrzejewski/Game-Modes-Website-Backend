@@ -6,6 +6,7 @@ import com.gmw.api.rest.activity.category.FindAllCategoriesActivity;
 import com.gmw.api.rest.activity.category.UpdateCategoryActivity;
 import com.gmw.category.tos.ExistingCategoryTO;
 import com.gmw.category.tos.NewCategoryTO;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/category")
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT})
 public class CategoryController {
 
     @GetMapping("/findAll")
@@ -22,20 +24,23 @@ public class CategoryController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createCategory(@RequestParam Long userId, @RequestBody NewCategoryTO category) {
-        CreateCategoryActivity activity = new CreateCategoryActivity(category, userId);
+    public ResponseEntity<Void> createCategory(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+                                               @RequestBody NewCategoryTO category) {
+        CreateCategoryActivity activity = new CreateCategoryActivity(category, token);
         return activity.execute();
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Void> updateCategory(@RequestParam Long userId, @RequestBody ExistingCategoryTO existingCategoryTO) {
-        UpdateCategoryActivity activity = new UpdateCategoryActivity(existingCategoryTO, userId);
+    public ResponseEntity<Void> updateCategory(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+                                               @RequestBody ExistingCategoryTO existingCategoryTO) {
+        UpdateCategoryActivity activity = new UpdateCategoryActivity(existingCategoryTO, token);
         return activity.execute();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteCategory(@RequestParam Long userId, @PathVariable Long id) {
-        DeleteCategoryActivity activity = new DeleteCategoryActivity(id, userId);
+    public ResponseEntity<Void> deleteCategory(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+                                               @PathVariable Long id) {
+        DeleteCategoryActivity activity = new DeleteCategoryActivity(id, token);
         return activity.execute();
     }
 }

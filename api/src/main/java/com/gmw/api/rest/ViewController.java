@@ -6,6 +6,7 @@ import com.gmw.api.rest.activity.view.FindViewActivity;
 import com.gmw.api.rest.activity.view.UpdateViewActivity;
 import com.gmw.view.tos.ExistingViewTO;
 import com.gmw.view.tos.NewViewTO;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +16,9 @@ import org.springframework.web.bind.annotation.*;
 public class ViewController {
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createView(@RequestParam Long userId, @RequestBody NewViewTO newView) {
-        CreateViewActivity createViewActivity = new CreateViewActivity(newView, userId);
+    public ResponseEntity<Void> createView(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+                                           @RequestBody NewViewTO newView) {
+        CreateViewActivity createViewActivity = new CreateViewActivity(newView, token);
         return createViewActivity.execute();
     }
 
@@ -27,14 +29,16 @@ public class ViewController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Void> updateView(@RequestParam Long userId, @RequestBody ExistingViewTO existingViewTO) {
-        UpdateViewActivity activity = new UpdateViewActivity(existingViewTO, userId);
+    public ResponseEntity<Void> updateView(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+                                           @RequestBody ExistingViewTO existingViewTO) {
+        UpdateViewActivity activity = new UpdateViewActivity(existingViewTO, token);
         return activity.execute();
     }
 
     @DeleteMapping("/delete/{viewId}")
-    public ResponseEntity<Void> deleteView(@RequestParam Long userId, @PathVariable Long viewId) {
-        DeleteViewActivity activity = new DeleteViewActivity(viewId, userId);
+    public ResponseEntity<Void> deleteView(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+                                           @PathVariable Long viewId) {
+        DeleteViewActivity activity = new DeleteViewActivity(viewId, token);
         return activity.execute();
     }
 }
