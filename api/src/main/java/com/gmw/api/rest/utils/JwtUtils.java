@@ -1,4 +1,4 @@
-package com.gmw.api.rest.security;
+package com.gmw.api.rest.utils;
 
 import com.gmw.reader.JsonConfigReader;
 import com.gmw.user.tos.ExistingUserTO;

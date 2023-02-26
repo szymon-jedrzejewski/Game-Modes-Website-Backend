@@ -3,7 +3,7 @@ package com.gmw.api.rest.activity.user;
 import com.gmw.api.rest.activity.Activity;
 import com.gmw.api.rest.tos.LoginDTO;
 import com.gmw.api.rest.tos.TokenDTO;
-import com.gmw.api.rest.security.JwtUtils;
+import com.gmw.api.rest.utils.JwtUtils;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.ResourceNotFoundException;

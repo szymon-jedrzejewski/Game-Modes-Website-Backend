@@ -1,7 +1,7 @@
 package com.gmw.api.rest.activity.category;
 
 import com.gmw.api.rest.activity.Activity;
-import com.gmw.api.rest.security.JwtUtils;
+import com.gmw.api.rest.utils.JwtUtils;
 import com.gmw.api.rest.utils.PermissionChecker;
 import com.gmw.category.tos.ExistingCategoryTO;
 import com.gmw.services.ServiceManager;

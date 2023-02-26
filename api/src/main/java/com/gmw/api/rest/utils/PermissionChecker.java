@@ -1,6 +1,5 @@
 package com.gmw.api.rest.utils;
 
-import com.gmw.api.rest.security.JwtUtils;
 import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.user.enums.RoleEnum;
 import lombok.AccessLevel;

@@ -1,7 +1,7 @@
 package com.gmw.api.rest.activity.mod;
 
 import com.gmw.api.rest.activity.Activity;
-import com.gmw.api.rest.security.JwtUtils;
+import com.gmw.api.rest.utils.JwtUtils;
 import com.gmw.comment.tos.ExistingCommentTO;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;

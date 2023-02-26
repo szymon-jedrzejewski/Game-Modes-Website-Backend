@@ -1,7 +1,7 @@
 package com.gmw.api.rest.activity.mod;
 
 import com.gmw.api.rest.activity.Activity;
-import com.gmw.api.rest.security.JwtUtils;
+import com.gmw.api.rest.utils.JwtUtils;
 import com.gmw.fieldvalue.tos.NewFieldValueTO;
 import com.gmw.mod.tos.NewModTO;
 import com.gmw.services.ServiceManager;
