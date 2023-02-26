@@ -1,19 +1,21 @@
-package com.gmw.smtp.service;
+package com.gmw.api.rest.utils;
 
 import com.gmw.reader.JsonConfigReader;
 import com.gmw.reader.tos.SMTPConfig;
 import jakarta.mail.*;
-import jakarta.mail.internet.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Properties;
 
-public class EmailServiceImpl implements EmailService {
+public class MailSender {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @Override
-    public void sendEmail(String recipient, String subject, String msg) {
+    public static void sendEmail(String recipient, String subject, String msg) {
         SMTPConfig smtpConfig = JsonConfigReader.readSMTPConfig();
         Properties properties = prepareProperties(smtpConfig);
 
@@ -49,7 +51,7 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
-    private Properties prepareProperties(SMTPConfig smtpConfig) {
+    private static Properties prepareProperties(SMTPConfig smtpConfig) {
 
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", smtpConfig.auth());

@@ -15,7 +15,7 @@ public class JwtUtils {
 
 
     public static String generateJwtToken(ExistingUserTO existingUserTO, String role) {
-        Long expiration = JsonConfigReader.readSecurityConfig().jwt().expiration();
+        Long expiration = JsonConfigReader.readSecurityConfig().jwt().tokenExpiration();
         String secret = JsonConfigReader.readSecurityConfig().jwt().secret();
         return Jwts.builder()
                 .setSubject(existingUserTO.getEmail())

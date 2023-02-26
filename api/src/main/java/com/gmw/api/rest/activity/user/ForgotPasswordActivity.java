@@ -2,13 +2,12 @@ package com.gmw.api.rest.activity.user;
 
 import com.gmw.api.rest.activity.Activity;
 import com.gmw.api.rest.tos.EmailDTO;
+import com.gmw.api.rest.utils.MailSender;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.services.exceptions.ResourceNotUpdatedException;
 import com.gmw.services.user.DBUserService;
-import com.gmw.smtp.service.EmailService;
-import com.gmw.smtp.service.EmailServiceImpl;
 import com.gmw.user.tos.ExistingUserTO;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -46,8 +45,7 @@ public class ForgotPasswordActivity extends Activity<Void> {
 
             dbUserService.updateUser(user);
 
-            EmailService emailService = new EmailServiceImpl();
-            emailService.sendEmail(user.getEmail(), "New password", "New password was generated: " + newPassword);
+            MailSender.sendEmail(user.getEmail(), "New password", "New password was generated: " + newPassword);
         } catch (Exception e) {
             LOGGER.error("Cannot update password user!");
             throw new ResourceNotUpdatedException();
