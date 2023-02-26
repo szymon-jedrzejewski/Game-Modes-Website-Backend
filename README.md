@@ -1,6 +1,9 @@
 # Game mods backend
+
 ### Running the application
+
 To run the application you have to create `.json` config file which looks like this:
+
 ```
 {
     "databaseConfig": {
@@ -20,11 +23,11 @@ To run the application you have to create `.json` config file which looks like t
     "jwt": {
       "secret": "secret",
       "expiration": 123
-    },
-    "passwordSecret": "password-secret"
+    }
   }
 }
 ```
+
 Expiration is in ms.
 
 Then if you run the application from cmd the command will look like this:

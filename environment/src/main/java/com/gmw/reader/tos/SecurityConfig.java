@@ -1,4 +1,4 @@
 package com.gmw.reader.tos;
 
-public record SecurityConfig(JWT jwt, String passwordSecret) {
+public record SecurityConfig(JWT jwt) {
 }
