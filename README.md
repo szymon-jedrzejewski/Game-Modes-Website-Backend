@@ -15,9 +15,18 @@ To run the application you have to create `.json` config file which looks like t
         "port": 123,
         "username": "username",
         "password": "password"
+  },
+  "securityConfig": {
+    "jwt": {
+      "secret": "secret",
+      "expiration": 123
+    },
+    "passwordSecret": "password-secret"
   }
 }
 ```
+Expiration is in ms.
+
 Then if you run the application from cmd the command will look like this:
 `java -jar -Dconfig="path-to-configfile.json" jar-name.jar com.gmw.api.ApiApplication`.
 
