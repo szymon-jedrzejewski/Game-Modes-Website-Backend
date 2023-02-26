@@ -1,8 +1,8 @@
 package com.gmw.api.rest.activity.mod;
 
 import com.gmw.api.rest.activity.Activity;
-import com.gmw.api.rest.activity.mod.tos.CommentDTO;
-import com.gmw.api.rest.activity.mod.tos.ModDTO;
+import com.gmw.api.rest.tos.CommentDTO;
+import com.gmw.api.rest.tos.ModDTO;
 import com.gmw.comment.tos.ExistingCommentTO;
 import com.gmw.mod.tos.ExistingModTO;
 import com.gmw.services.ServiceManager;

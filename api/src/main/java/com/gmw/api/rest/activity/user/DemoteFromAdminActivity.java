@@ -1,7 +1,7 @@
 package com.gmw.api.rest.activity.user;
 
 import com.gmw.api.rest.activity.Activity;
-import com.gmw.api.rest.activity.user.tos.RoleChangeDTO;
+import com.gmw.api.rest.tos.RoleChangeDTO;
 import com.gmw.api.rest.security.JwtUtils;
 import com.gmw.api.rest.utils.PermissionChecker;
 import com.gmw.services.ServiceManager;

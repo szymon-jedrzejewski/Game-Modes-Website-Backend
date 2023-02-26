@@ -1,4 +1,4 @@
-package com.gmw.api.rest.activity.user.tos;
+package com.gmw.api.rest.tos;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

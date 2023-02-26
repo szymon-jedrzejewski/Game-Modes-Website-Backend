@@ -4,6 +4,8 @@ import com.gmw.api.rest.activity.Activity;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.ResourceNotCreatedException;
+import com.gmw.smtp.service.EmailService;
+import com.gmw.smtp.service.EmailServiceImpl;
 import com.gmw.user.tos.NewUserTO;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -25,6 +27,10 @@ public class CreateUserActivity extends Activity<Void> {
             newUserTO.setPassword(encodedPassword);
             serviceManager.getDbUserService().createUser(newUserTO);
             status = HttpStatus.CREATED;
+            EmailService emailService = new EmailServiceImpl();
+            emailService.sendEmail(newUserTO.getEmail(),
+                    "Account created!",
+                    "Your account for gmw has been created successfully!");
         } catch (Exception e) {
             LOGGER.error("Cannot save new user!");
             throw new ResourceNotCreatedException(e);

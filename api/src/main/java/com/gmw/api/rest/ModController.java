@@ -1,7 +1,7 @@
 package com.gmw.api.rest;
 
 import com.gmw.api.rest.activity.mod.*;
-import com.gmw.api.rest.activity.mod.tos.ModDTO;
+import com.gmw.api.rest.tos.ModDTO;
 import com.gmw.fieldvalue.tos.SearchFieldValue;
 import com.gmw.mod.tos.ExistingModTO;
 import com.gmw.mod.tos.NewModTO;
