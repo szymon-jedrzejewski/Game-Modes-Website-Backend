@@ -28,9 +28,10 @@ public class LoginActivity extends Activity<TokenDTO> {
         try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
             DBUserReadService service = serviceManager.getDbUserReadService();
             ExistingUserTO user = service.obtainUserByEmail(loginDTO.getEmail());
-            String password = encoder.encode(loginDTO.getPassword());
 
-            if (user.getPassword().equals(password)) {
+            boolean isCorrectPassword = encoder.matches(loginDTO.getPassword(), user.getPassword());
+
+            if (isCorrectPassword) {
                 String role = service.obtainUserRoleByUserId(user.getId());
                 JwtUtils jwtUtils = new JwtUtils();
                 String token = jwtUtils.generateJwtToken(user, role);

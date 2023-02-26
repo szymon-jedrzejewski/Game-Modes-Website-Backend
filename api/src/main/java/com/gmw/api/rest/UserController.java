@@ -1,9 +1,10 @@
 package com.gmw.api.rest;
 
 import com.gmw.api.rest.activity.user.*;
-import com.gmw.api.rest.activity.user.tos.LoginDTO;
-import com.gmw.api.rest.activity.user.tos.RoleChangeDTO;
-import com.gmw.api.rest.activity.user.tos.TokenDTO;
+import com.gmw.api.rest.tos.EmailDTO;
+import com.gmw.api.rest.tos.LoginDTO;
+import com.gmw.api.rest.tos.RoleChangeDTO;
+import com.gmw.api.rest.tos.TokenDTO;
 import com.gmw.user.tos.ExistingUserTO;
 import com.gmw.user.tos.NewUserTO;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,12 @@ public class UserController {
     @PostMapping("/create")
     public ResponseEntity<Void> createUser(@RequestBody NewUserTO user) {
         CreateUserActivity activity = new CreateUserActivity(user, encoder);
+        return activity.execute();
+    }
+
+    @PostMapping("/forgotPassword")
+    public ResponseEntity<Void> forgotPassword(@RequestBody EmailDTO emailDTO) {
+        ForgotPasswordActivity activity = new ForgotPasswordActivity(emailDTO, encoder);
         return activity.execute();
     }
 
