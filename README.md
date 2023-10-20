@@ -36,3 +36,6 @@ Then if you run the application from cmd the command will look like this:
 If you want to run application using Intellij you will need to specify vm option in `Edit configurations...`.
 This option should look like this:
 `-Dconfig="path-to-file.json"`
+
+Api documentation can be found under the address {app_address}/swagger-ui/index.html. 
+On localhost it will look like this: http://localhost:8080/swagger-ui/index.html.
