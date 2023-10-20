@@ -26,6 +26,12 @@ public class GameController {
         return activity.execute();
     }
 
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<ExistingGameTO> findGameById(@PathVariable Long id) {
+        FindGameByIdActivity activity = new FindGameByIdActivity(id);
+        return activity.execute();
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Void> createGame(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                            @RequestBody NewGameTO game) {
