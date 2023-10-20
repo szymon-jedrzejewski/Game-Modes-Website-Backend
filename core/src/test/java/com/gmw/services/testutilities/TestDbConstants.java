@@ -137,17 +137,17 @@ public class TestDbConstants {
             );
                         
             """;
-    private static final String INSERT_USER = "INSERT INTO users VALUES(1, 'test_name', 'secret_password', 'email@org.com', 'USER', null);";
-    private static final String INSERT_CATEGORY = "INSERT INTO categories VALUES(1, 'category_test_name');";
-    private static final String INSERT_GAME = "INSERT INTO games VALUES(1, 'game_test_name', null, 'Game description test');";
-    private static final String INSERT_VIEW = "INSERT INTO views VALUES(1, 1);";
-    private static final String INSERT_FIELD = "INSERT INTO fields VALUES(1, 1, 'Field test description', 'TEXT', 'Text field');";
-    private static final String INSERT_MOD = "INSERT INTO mods VALUES(1, 'TestModName', 1, 1, 1, 'Test description mods', 'www.google.com', '2001-09-28', null);";
-    private static final String INSERT_MOD_TWO = "INSERT INTO mods VALUES(2, 'ModNameTest', 1, 1, 1, 'description mod', 'www.google.com', '2022-09-28', null);";
-    private static final String INSERT_RATING = "INSERT INTO ratings VALUES(1, 1, 1, 5);";
-    private static final String INSERT_COMMENT = "INSERT INTO comments VALUES(1, 1, 1, 'That mod is awesome test', '1999-01-08 04:05:06');";
-    private static final String INSERT_FIELDS_VALUES = "INSERT INTO fields_values VALUES(1, 1, 1, 'Test field value');";
-    private static final String INSERT_FIELDS_VALUES_TWO = "INSERT INTO fields_values VALUES(2, 1, 3, 'Some random field text');";
+    private static final String INSERT_USER = "INSERT INTO users VALUES(nextval('users_id_seq'), 'test_name', 'secret_password', 'email@org.com', 'USER', null);";
+    private static final String INSERT_CATEGORY = "INSERT INTO categories VALUES(nextval('categories_id_seq'), 'category_test_name');";
+    private static final String INSERT_GAME = "INSERT INTO games VALUES(nextval('games_id_seq'), 'game_test_name', null, 'Game description test');";
+    private static final String INSERT_VIEW = "INSERT INTO views VALUES(nextval('views_id_seq'), 1);";
+    private static final String INSERT_FIELD = "INSERT INTO fields VALUES(nextval('fields_id_seq'), 1, 'Field test description', 'TEXT', 'Text field');";
+    private static final String INSERT_MOD = "INSERT INTO mods VALUES(nextval('mods_id_seq'), 'TestModName', 1, 1, 1, 'Test description mods', 'www.google.com', '2001-09-28', null);";
+    private static final String INSERT_MOD_TWO = "INSERT INTO mods VALUES(nextval('mods_id_seq'), 'ModNameTest', 1, 1, 1, 'description mod', 'www.google.com', '2022-09-28', null);";
+    private static final String INSERT_RATING = "INSERT INTO ratings VALUES(nextval('ratings_id_seq'), 1, 1, 5);";
+    private static final String INSERT_COMMENT = "INSERT INTO comments VALUES(nextval('comments_id_seq'), 1, 1, 'That mod is awesome test', '1999-01-08 04:05:06');";
+    private static final String INSERT_FIELDS_VALUES = "INSERT INTO fields_values VALUES(nextval('fields_values_id_seq'), 1, 1, 'Test field value');";
+    private static final String INSERT_FIELDS_VALUES_TWO = "INSERT INTO fields_values VALUES(nextval('fields_values_id_seq'), 1, 3, 'Some random field text');";
 
 
     static {

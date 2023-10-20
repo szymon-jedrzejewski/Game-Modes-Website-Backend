@@ -2,6 +2,7 @@ package com.gmw.services.testutilities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,14 +12,14 @@ import java.sql.Statement;
 public class TestDbUtilities {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private static final String jdbcURL = "jdbc:h2:~/test";
-    private static final String jdbcUsername = "sa";
-    private static final String jdbcPassword = "";
+    private final static PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:15-alpine");
 
     public static Connection getConnection() {
+        POSTGRES.start();
+
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+            connection = DriverManager.getConnection(POSTGRES.getJdbcUrl(), POSTGRES.getUsername(), POSTGRES.getPassword());
         } catch (SQLException e) {
             LOGGER.error("Cannot create connection to in-memory database!", e);
         }
