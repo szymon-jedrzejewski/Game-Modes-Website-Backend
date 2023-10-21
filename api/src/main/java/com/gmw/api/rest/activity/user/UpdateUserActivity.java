@@ -2,7 +2,6 @@ package com.gmw.api.rest.activity.user;
 
 import com.gmw.api.rest.activity.Activity;
 import com.gmw.api.rest.utils.JwtUtils;
-import com.gmw.api.rest.utils.PermissionChecker;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.PermissionDeniedException;
@@ -28,7 +27,7 @@ public class UpdateUserActivity extends Activity<Void> {
         }
 
         try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
-            if (PermissionChecker.isAdmin(token)) {
+            if (JwtUtils.extractUserId(token).equals(userTO.getId())) {
                 serviceManager.getDbUserService().updateUser(userTO);
                 status = HttpStatus.OK;
             } else {
