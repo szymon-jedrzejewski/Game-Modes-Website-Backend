@@ -33,8 +33,7 @@ public class LoginActivity extends Activity<TokenDTO> {
 
             if (isCorrectPassword) {
                 String role = service.obtainUserRoleByUserId(user.getId());
-                JwtUtils jwtUtils = new JwtUtils();
-                String token = jwtUtils.generateJwtToken(user, role);
+                String token = JwtUtils.generateJwtToken(user, role);
                 status = HttpStatus.OK;
                 return new TokenDTO(token);
             } else {

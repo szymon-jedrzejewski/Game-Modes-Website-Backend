@@ -21,6 +21,13 @@ public class UserController {
 
     private final PasswordEncoder encoder;
 
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<ExistingUserTO> getUserBuId(@PathVariable Long id)
+    {
+        FindUserByIdActivity activity = new FindUserByIdActivity(id);
+        return activity.execute();
+    }
+
     @PostMapping("/login")
     public ResponseEntity<TokenDTO> getUserByEmail(@RequestBody LoginDTO loginDTO) {
         LoginActivity activity = new LoginActivity(loginDTO, encoder);
