@@ -8,6 +8,7 @@ import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.*;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
 public class CreateModActivity extends Activity<Void> {
@@ -28,6 +29,8 @@ public class CreateModActivity extends Activity<Void> {
                 fieldValueTO.setModId(modId);
                 serviceManager.getDbFieldValueService().createFieldValue(fieldValueTO);
             }
+
+            status = HttpStatus.CREATED;
         } catch (Exception e) {
             throw new ResourceNotCreatedException(e);
         }

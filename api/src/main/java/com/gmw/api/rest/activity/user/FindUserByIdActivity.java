@@ -9,6 +9,7 @@ import com.gmw.user.tos.ExistingUserTO;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpStatus;
 
 @RequiredArgsConstructor
 public class FindUserByIdActivity extends Activity<ExistingUserTO> {
@@ -20,6 +21,7 @@ public class FindUserByIdActivity extends Activity<ExistingUserTO> {
     protected ExistingUserTO realExecute() throws ResourceNotFoundException {
         try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
             DBUserReadService service = serviceManager.getDbUserReadService();
+            status = HttpStatus.OK;
             return service.obtainUserById(userId);
         } catch (Exception e) {
             LOGGER.error("Cannot save new user!");
