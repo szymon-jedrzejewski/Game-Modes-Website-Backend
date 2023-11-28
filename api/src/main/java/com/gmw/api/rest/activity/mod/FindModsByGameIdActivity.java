@@ -6,6 +6,7 @@ import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class FindModsByGameIdActivity extends Activity<List<ExistingModTO>> {
     @Override
     protected List<ExistingModTO> realExecute() throws ResourceNotFoundException {
         try(ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
+            status = HttpStatus.OK;
             return serviceManager.getDbModReadService().findModsByGameId(gameId);
         } catch (Exception e) {
             throw new ResourceNotFoundException(e);

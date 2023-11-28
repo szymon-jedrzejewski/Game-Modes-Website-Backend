@@ -10,6 +10,7 @@ import com.gmw.services.ServiceManagerFactoryImpl;
 import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.services.user.DBUserReadService;
 import com.gmw.user.tos.ExistingUserTO;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ public class FindModByIdActivity extends Activity<ModDTO> {
     @Override
     protected ModDTO realExecute() throws ResourceNotFoundException {
         try(ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
+            status = HttpStatus.OK;
             return prepareModDTO(serviceManager);
         } catch (Exception e) {
             throw new ResourceNotFoundException(e);
