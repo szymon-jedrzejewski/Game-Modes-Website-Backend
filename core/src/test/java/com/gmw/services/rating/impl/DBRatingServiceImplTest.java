@@ -13,7 +13,6 @@ import com.gmw.services.rating.DBRatingService;
 import com.gmw.services.testutilities.ServiceType;
 import com.gmw.services.testutilities.TestDbUtilities;
 import com.gmw.user.tos.NewUserTO;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +31,7 @@ class DBRatingServiceImplTest {
     }
 
     @Test
-    void obtainRatingForMod() throws ResourceNotFoundException {
+    void obtainRatingForMod() {
         Double rating = serviceManager.getDbRatingService().obtainRatingForMod(1L);
         assertEquals(5.0, rating);
     }
@@ -51,7 +50,7 @@ class DBRatingServiceImplTest {
     }
 
     @Test
-    void createRating() throws ResourceNotCreatedException, ResourceNotFoundException {
+    void createRating() throws ResourceNotCreatedException {
         DBRatingService service = serviceManager.getDbRatingService();
         serviceManager.getDbUserService().createUser(new NewUserTO());
 
@@ -66,7 +65,7 @@ class DBRatingServiceImplTest {
     }
 
     @Test
-    void updateRating() throws ResourceNotFoundException, ResourceNotUpdatedException {
+    void updateRating() throws ResourceNotUpdatedException {
         DBRatingService service = serviceManager.getDbRatingService();
         ExistingRatingTO rating = ExistingRatingTO
                 .builder()
@@ -86,7 +85,8 @@ class DBRatingServiceImplTest {
         DBRatingService service = serviceManager.getDbRatingService();
         service.deleteRating(1L);
 
-        Assertions.assertThrows(ResourceNotFoundException.class,
-                () -> service.obtainRatingForMod(1L), "ResourceNotDeletedException was expected");
+        Double actual = service.obtainRatingForMod(1L);
+
+        assertEquals(0, actual);
     }
 }
