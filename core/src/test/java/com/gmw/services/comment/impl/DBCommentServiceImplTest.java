@@ -15,8 +15,9 @@ import com.gmw.services.testutilities.TestDbUtilities;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class DBCommentServiceImplTest {
 
@@ -85,7 +86,7 @@ public class DBCommentServiceImplTest {
         assertEquals(expected, actual);
     }
 
-    @Test(expected = ResourceNotFoundException.class)
+    @Test
     public void deleteComment() throws ResourceNotFoundException, ResourceNotDeletedException {
         DBCommentService service = serviceManager.getDbCommentService();
 
@@ -94,6 +95,7 @@ public class DBCommentServiceImplTest {
         assertEquals(Long.valueOf(1), id);
 
         service.deleteComment(1L);
-        service.obtainCommentsByModId(1L);
+        List<ExistingCommentTO> actual = service.obtainCommentsByModId(1L);
+        assertTrue(actual.isEmpty());
     }
 }
