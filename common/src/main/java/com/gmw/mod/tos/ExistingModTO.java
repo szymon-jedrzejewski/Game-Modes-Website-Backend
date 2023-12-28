@@ -24,7 +24,15 @@ public class ExistingModTO {
     public ExistingModTO() {
     }
 
-    public ExistingModTO(Long id, String name, Long userId, Long gameId, Long categoryId, String description, String downloadLink, Date date, byte[] avatar) {
+    public ExistingModTO(Long id,
+                         String name,
+                         Long userId,
+                         Long gameId,
+                         Long categoryId,
+                         String description,
+                         String downloadLink,
+                         Date date,
+                         byte[] avatar) {
         this.id = id;
         this.name = name;
         this.userId = userId;

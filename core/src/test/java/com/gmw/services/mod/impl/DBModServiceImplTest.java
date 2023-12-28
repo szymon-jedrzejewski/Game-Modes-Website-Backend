@@ -86,18 +86,16 @@ public class DBModServiceImplTest {
     @Test
     public void updateMod() throws ResourceNotFoundException, ResourceNotUpdatedException {
         DBModService service = serviceManager.getDbModService();
-        ExistingModTO mod = ExistingModTO
-                .builder()
-                .avatar(null)
-                .name("BeatSaber")
-                .date(Date.valueOf(LocalDate.now()))
-                .gameId(1L)
-                .downloadLink("www.github.com")
-                .userId(1L)
-                .categoryId(1L)
-                .description("I wish beat saber was on ps vr2")
-                .id(1L)
-                .build();
+        ExistingModTO mod = new ExistingModTO(1L,
+                "BeatSaber",
+                1L,
+                1L,
+                1L,
+                "I wish beat saber was on ps vr2",
+                "www.github.com",
+                Date.valueOf(LocalDate.now()),
+                null);
+
 
         List<ExistingModTO> before = service.findModsByIds(List.of(1L));
         assertEquals(1, before.size());
