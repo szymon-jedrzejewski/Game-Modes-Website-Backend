@@ -13,16 +13,21 @@ import com.gmw.services.DBService;
 import com.gmw.services.ServiceUtils;
 import com.gmw.services.comment.DBCommentReadService;
 import com.gmw.services.exceptions.ResourceNotFoundException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DBCommentReadServiceImpl extends DBService implements DBCommentReadService {
+    private static final Logger LOGGER = LogManager.getLogger();
+
     public DBCommentReadServiceImpl(RepositoryManager repositoryManager) {
         super(repositoryManager);
     }
 
     @Override
-    public List<ExistingCommentTO> obtainCommentsByModId(Long modId) throws ResourceNotFoundException {
+    public List<ExistingCommentTO> obtainCommentsByModId(Long modId) {
         Repository<Comment> repository = getRepositoryManager().getCommentRepository();
 
         QuerySpec querySpec = new QuerySpec();
@@ -30,7 +35,13 @@ public class DBCommentReadServiceImpl extends DBService implements DBCommentRead
         querySpec.setClazz(Comment.class);
         querySpec.append(QueryOperator.WHERE, new SearchCondition("mod_id", Operator.EQUAL_TO, List.of(modId)));
 
-        return ServiceUtils.find(repository, new CommentConverter(), querySpec);
+        try {
+            return ServiceUtils.find(repository, new CommentConverter(), querySpec);
+        } catch (ResourceNotFoundException e) {
+            LOGGER.warn("No comments found!");
+        }
+
+        return new ArrayList<>();
     }
 
     @Override

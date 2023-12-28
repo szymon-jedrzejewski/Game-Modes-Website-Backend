@@ -13,25 +13,35 @@ import com.gmw.services.DBService;
 import com.gmw.services.ServiceUtils;
 import com.gmw.services.exceptions.ResourceNotFoundException;
 import com.gmw.services.rating.DBRatingReadService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class DBRatingReadServiceImpl extends DBService implements DBRatingReadService {
+    private static final Logger LOGGER = LogManager.getLogger();
+
     public DBRatingReadServiceImpl(RepositoryManager repositoryManager) {
         super(repositoryManager);
     }
 
     @Override
-    public Double obtainRatingForMod(Long modId) throws ResourceNotFoundException {
+    public Double obtainRatingForMod(Long modId) {
         Repository<Rating> repository = getRepositoryManager().getRatingRepository();
         QuerySpec querySpec = prepareQuerySpec(modId);
 
-        return ServiceUtils
-                .find(repository, new RatingConverter(), querySpec)
-                .stream()
-                .mapToDouble(ExistingRatingTO::getRating)
-                .average()
-                .orElseThrow(ResourceNotFoundException::new);
+        try {
+            return ServiceUtils
+                    .find(repository, new RatingConverter(), querySpec)
+                    .stream()
+                    .mapToDouble(ExistingRatingTO::getRating)
+                    .average()
+                    .orElse(0);
+        } catch (ResourceNotFoundException e) {
+            LOGGER.warn("There is no rating for this mod: " + modId);
+        }
+
+        return 0.0;
     }
 
     @Override
