@@ -12,6 +12,7 @@ import com.gmw.services.exceptions.UnauthorizedException;
 import com.gmw.services.fieldvalues.DBFieldValueService;
 import com.gmw.services.mod.DBModService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
 public class UpdateModActivity extends Activity<Void> {
@@ -38,6 +39,8 @@ public class UpdateModActivity extends Activity<Void> {
             } else {
                 throw new PermissionDeniedException();
             }
+
+            status = HttpStatus.OK;
         } catch (Exception e) {
             throw new ResourceNotUpdatedException(e);
         }

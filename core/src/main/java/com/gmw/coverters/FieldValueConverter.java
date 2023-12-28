@@ -12,7 +12,7 @@ public class FieldValueConverter implements
     public ExistingFieldValueTO convertToTO(FieldValue fieldValue) {
         return ExistingFieldValueTO
                 .builder()
-                .id(fieldValue.getFieldId())
+                .id(fieldValue.getId())
                 .fieldId(fieldValue.getFieldId())
                 .modId(fieldValue.getModId())
                 .value(fieldValue.getValue())

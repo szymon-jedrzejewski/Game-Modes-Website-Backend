@@ -10,18 +10,16 @@ public class ModConverter implements
 
     @Override
     public ExistingModTO convertToTO(Mod mod) {
-        return ExistingModTO
-                .builder()
-                .id(mod.getId())
-                .avatar(mod.getAvatar())
-                .description(mod.getDescription())
-                .categoryId(mod.getCategoryId())
-                .date(mod.getDate())
-                .userId(mod.getUserId())
-                .downloadLink(mod.getDownloadLink())
-                .gameId(mod.getGameId())
-                .name(mod.getName())
-                .build();
+
+        return new ExistingModTO(mod.getId(),
+                mod.getName(),
+                mod.getUserId(),
+                mod.getGameId(),
+                mod.getCategoryId(),
+                mod.getDescription(),
+                mod.getDownloadLink(),
+                mod.getDate(),
+                mod.getAvatar());
     }
 
     @Override
