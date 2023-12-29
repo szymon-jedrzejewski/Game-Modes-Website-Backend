@@ -2,6 +2,7 @@ package com.gmw.api.rest.activity.mod;
 
 import com.gmw.api.rest.activity.Activity;
 import com.gmw.api.rest.utils.JwtUtils;
+import com.gmw.api.rest.utils.PermissionChecker;
 import com.gmw.comment.tos.ExistingCommentTO;
 import com.gmw.services.ServiceManager;
 import com.gmw.services.ServiceManagerFactoryImpl;
@@ -37,7 +38,7 @@ public class DeleteModActivity extends Activity<Void> {
             DBModService modService = serviceManager.getDbModService();
             Long userIdFromMod = modService.findModById(modId).getUserId();
 
-            if (userIdFromMod.equals(JwtUtils.extractUserId(token))) {
+            if (userIdFromMod.equals(JwtUtils.extractUserId(token)) || PermissionChecker.isAdmin(token)) {
                 DBFieldValueService fieldValueService = serviceManager.getDbFieldValueService();
                 DBRatingService ratingService = serviceManager.getDbRatingService();
                 DBCommentService commentService = serviceManager.getDbCommentService();
