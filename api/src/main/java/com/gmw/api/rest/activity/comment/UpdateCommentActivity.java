@@ -18,7 +18,7 @@ import org.springframework.http.HttpStatus;
 public class UpdateCommentActivity extends Activity<Void> {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    private final ExistingCommentTO category;
+    private final ExistingCommentTO comment;
     private final String token;
 
     @Override
@@ -29,16 +29,16 @@ public class UpdateCommentActivity extends Activity<Void> {
 
         try (ServiceManager serviceManager = new ServiceManagerFactoryImpl().createSqlServiceManager()) {
             DBCommentService service = serviceManager.getDbCommentService();
-            Long userIdFromComment = service.obtainUserIdByCommentId(category.getId());
+            Long userIdFromComment = service.obtainUserIdByCommentId(comment.getId());
 
             if (userIdFromComment.equals(JwtUtils.extractUserId(token))) {
-                service.updateComment(category);
+                service.updateComment(comment);
                 status = HttpStatus.OK;
             } else {
                 throw new PermissionDeniedException();
             }
         } catch (Exception e) {
-            LOGGER.error("Can not update comments with id: " + category.getId());
+            LOGGER.error("Can not update comments with id: " + comment.getId());
             throw new ResourceNotUpdatedException(e);
         }
         return null;

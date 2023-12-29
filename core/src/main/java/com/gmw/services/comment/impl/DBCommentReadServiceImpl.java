@@ -53,6 +53,6 @@ public class DBCommentReadServiceImpl extends DBService implements DBCommentRead
         querySpec.setClazz(Comment.class);
         querySpec.append(QueryOperator.WHERE, new SearchCondition("id", Operator.EQUAL_TO, List.of(id)));
 
-        return ServiceUtils.find(repository, new CommentConverter(), querySpec).get(0).getId();
+        return ServiceUtils.find(repository, new CommentConverter(), querySpec).get(0).getUserId();
     }
 }
